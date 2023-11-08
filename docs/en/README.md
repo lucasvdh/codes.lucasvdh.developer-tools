@@ -17,10 +17,30 @@ Here's what you can do with Developer Tools:
 
 Ready to make your Homey development smarter? Let's get rolling with Developer Tools!
 
-| What's Cool | Description | Links                                                                         | Visuals                                                                                                                                                                                                                   |
-|-------------|-------------|-------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Homey App Store** | Need this tool? Just a click away. | [Get it here](https://homey.app/a/codes.lucasvdh.developer-tools) | ![App Store Image](../../assets/images/xlarge.png)                                                                                                                                                                        |
-| **Source Code** | Peek under the hood on Github. | [Show me the code](https://github.com/lucasvdh/codes.lucasvdh.developer-tools) | ![Source Code Image](https://socialify.git.ci/lucasvdh/codes.lucasvdh.developer-tools/image?description=1&font=Inter&forks=1&issues=1&language=1&name=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Light) |
+<table data-card-size="large" data-view="cards">
+    <thead>
+    <tr>
+        <th></th>
+        <th></th>
+        <th data-hidden data-card-target data-type="content-ref"></th>
+        <th data-hidden data-card-cover data-type="files"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><strong>Homey App Store</strong></td>
+        <td>Need this tool? Just a click away.</td>
+        <td><a href="https://homey.app/a/codes.lucasvdh.developer-tools">Get it here</a></td>
+        <td><a href="../../assets/images/xlarge.png">App Store Image</a></td>
+    </tr>
+    <tr>
+        <td><strong>Source Code</strong></td>
+        <td>Peek under the hood on Github.</td>
+        <td><a href="https://github.com/lucasvdh/codes.lucasvdh.developer-tools">Show me the code</a></td>
+        <td><a href="https://socialify.git.ci/lucasvdh/codes.lucasvdh.developer-tools/image?description=1&font=Inter&forks=1&issues=1&language=1&name=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Light">Source Code Image</a></td>
+    </tr>
+    </tbody>
+</table>
 
 ## The Fine Print
 Alright, the Developer Tools app for Homey is by devs, for devs, and it hasn't got the official Athom stamp. But hey, it's built to give you an extra edge on your Homey app development journey.
