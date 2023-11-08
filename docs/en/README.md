@@ -41,7 +41,7 @@ Ready to make your Homey development smarter? Let's get rolling with Developer T
         <td><strong>Source Code</strong></td>
         <td>Peek under the hood on Github.</td>
         <td><a href="https://github.com/lucasvdh/codes.lucasvdh.developer-tools">Show me the code</a></td>
-        <td><a href="../../assets/images/codes.lucasvdh.developer-tools.svg">Source Code Image</a></td>
+        <td><a href="../../assets/images/codes.lucasvdh.developer-tools.png">Source Code Image</a></td>
     </tr>
     </tbody>
 </table>
