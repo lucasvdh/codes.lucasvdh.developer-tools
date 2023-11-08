@@ -37,7 +37,7 @@ Ready to make your Homey development smarter? Let's get rolling with Developer T
         <td><strong>Source Code</strong></td>
         <td>Peek under the hood on Github.</td>
         <td><a href="https://github.com/lucasvdh/codes.lucasvdh.developer-tools">Show me the code</a></td>
-        <td><a href="https://socialify.git.ci/lucasvdh/codes.lucasvdh.developer-tools/image?description=1&font=Inter&forks=1&issues=1&language=1&name=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Light">Source Code Image</a></td>
+        <td><img src="https://socialify.git.ci/lucasvdh/codes.lucasvdh.developer-tools/image?description=1&font=Inter&forks=1&issues=1&language=1&name=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Light" alt="codes.lucasvdh.developer-tools" width="640" height="320" /></td>
     </tr>
     </tbody>
 </table>
