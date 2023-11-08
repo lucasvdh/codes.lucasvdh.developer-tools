@@ -1,0 +1,22 @@
+{
+  "settings": {
+    "title": "Instellingen voor Developer Tools",
+    "description": "Stel hier je OAuth token in om de Developer Tools te gebruiken.",
+    "polling_settings": "Polling instellingen",
+    "polling_frequency": "Polling frequentie (in minuten)",
+    "authorisation_settings": "Autorisatie instellingen",
+    "refresh_token": "OAuth refresh token",
+    "save": "Opslaan",
+    "saved": "Instellingen opgeslagen",
+    "need_help_finding_token": "Hulp nodig bij het vinden van je OAuth refresh token?",
+    "click_here_documentation": "Klik hier om de documentatie te bekijken."
+  },
+  "global_tokens": {
+    "total_installs": "Totale installaties",
+    "total_cloud_installs": "Totale cloud installaties",
+    "total_local_installs": "Totale lokale installaties"
+  },
+  "errors": {
+    "missing_refresh_token": "Er is nog geen refresh token geconfigureerd. Raadpleeg de documentatie voor meer informatie."
+  }
+}

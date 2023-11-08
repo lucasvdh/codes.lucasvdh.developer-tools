@@ -1,0 +1,26 @@
+{
+  "title": {
+    "en": "A review of a test version of an app has failed",
+    "nl": "Een review van een testversie van een app is mislukt"
+  },
+  "tokens": [
+    {
+      "name": "app",
+      "type": "string",
+      "title": {
+        "en": "App name",
+        "nl": "App naam"
+      },
+      "example": "Developer Tools"
+    },
+    {
+      "name": "version",
+      "type": "string",
+      "title": {
+        "en": "App version",
+        "nl": "App versie"
+      },
+      "example": "v1.2.3"
+    }
+  ]
+}

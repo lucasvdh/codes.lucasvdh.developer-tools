@@ -1,0 +1,69 @@
+{
+  "id": "codes.lucasvdh.developer-tools",
+  "version": "1.0.0",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "brandColor": "#27435c",
+  "name": {
+    "en": "Developer Tools"
+  },
+  "description": {
+    "en": "Track your Homey apps",
+    "nl": "Volg je Homey-apps",
+    "de": "Verfolge deine Homey-Apps",
+    "fr": "Suivez vos applications Homey",
+    "it": "Tieni traccia delle tue app Homey",
+    "sv": "Spåra dina Homey-appar",
+    "no": "Spor dine Homey-apper",
+    "es": "Haz seguimiento de tus aplicaciones Homey",
+    "da": "Spor dine Homey-apps",
+    "pl": "Śledź swoje aplikacje Homey"
+  },
+  "category": "internet",
+  "platforms": [
+    "local"
+  ],
+  "tags": {
+    "en": [
+      "developer",
+      "tools",
+      "apps"
+    ]
+  },
+  "images": {
+    "xlarge": "./assets/images/xlarge.png",
+    "large": "./assets/images/large.png",
+    "small": "./assets/images/small.png"
+  },
+  "author": {
+    "name": "Lucas van der Have",
+    "email": "lucasvdhave@gmail.com"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Lucas van der Have",
+        "email": "lucasvdhave@gmail.com"
+      }
+    ],
+    "translators": [
+      {
+        "name": "Lucas van der Have",
+        "email": "lucasvdhave@gmail.com"
+      }
+    ]
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "lucasvdh"
+      }
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/lucasvdh/codes.lucasvdh.developer-tools/issues"
+  },
+  "source": "https://github.com/lucasvdh/codes.lucasvdh.developer-tools",
+  "homepage": "https://homey-developer-tools.gitbook.io/en/",
+  "support": "https://homey-developer-tools.gitbook.io/en/faq"
+}

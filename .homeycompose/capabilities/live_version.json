@@ -1,0 +1,12 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Live version",
+    "nl": "Live versie"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "uiQuickAction": false,
+  "icon": "assets/capabilities/tag.svg"
+}

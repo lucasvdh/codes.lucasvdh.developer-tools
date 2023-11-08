@@ -1,0 +1,22 @@
+{
+  "settings": {
+    "title": "Ustawienia Narzędzi Deweloperskich",
+    "description": "Skonfiguruj tutaj swój token OAuth, aby używać Narzędzi Deweloperskich.",
+    "polling_settings": "Ustawienia odpytywania",
+    "polling_frequency": "Częstotliwość odpytywania (w minutach)",
+    "authorisation_settings": "Ustawienia autoryzacji",
+    "refresh_token": "Token odświeżania OAuth",
+    "save": "Zapisz",
+    "saved": "Ustawienia zapisane",
+    "need_help_finding_token": "Potrzebujesz pomocy w znalezieniu twojego tokena odświeżania OAuth?",
+    "click_here_documentation": "Kliknij tutaj, aby zobaczyć dokumentację."
+  },
+  "global_tokens": {
+    "total_installs": "Całkowita liczba instalacji",
+    "total_cloud_installs": "Całkowita liczba instalacji w chmurze",
+    "total_local_installs": "Całkowita liczba lokalnych instalacji"
+  },
+  "errors": {
+    "missing_refresh_token": "Nie skonfigurowano jeszcze tokena odświeżania. Zapoznaj się z dokumentacją, aby uzyskać więcej informacji."
+  }
+}

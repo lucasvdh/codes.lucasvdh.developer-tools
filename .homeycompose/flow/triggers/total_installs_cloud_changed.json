@@ -1,0 +1,26 @@
+{
+  "title": {
+    "en": "Total number of cloud installs across all apps changed",
+    "nl": "Totaal aantal cloud installaties over alle apps is veranderd"
+  },
+  "tokens": [
+    {
+      "name": "installs",
+      "type": "number",
+      "title": {
+        "en": "Total number of installs",
+        "nl": "Totaal aantal installaties"
+      },
+      "example": "1000"
+    },
+    {
+      "name": "installs_delta",
+      "type": "number",
+      "title": {
+        "en": "Change in number of installs",
+        "nl": "Verandering in aantal installaties"
+      },
+      "example": "10"
+    }
+  ]
+}

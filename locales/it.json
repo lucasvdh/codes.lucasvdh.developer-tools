@@ -1,0 +1,22 @@
+{
+  "settings": {
+    "title": "Impostazioni Strumenti per Sviluppatori",
+    "description": "Imposta qui il tuo token OAuth per utilizzare gli Strumenti per Sviluppatori.",
+    "polling_settings": "Impostazioni di Polling",
+    "polling_frequency": "Frequenza di Polling (in minuti)",
+    "authorisation_settings": "Impostazioni di Autorizzazione",
+    "refresh_token": "Token di Refresh OAuth",
+    "save": "Salva",
+    "saved": "Impostazioni Salvate",
+    "need_help_finding_token": "Hai bisogno di aiuto per trovare il tuo token di refresh OAuth?",
+    "click_here_documentation": "Clicca qui per visualizzare la documentazione."
+  },
+  "global_tokens": {
+    "total_installs": "Installazioni Totali",
+    "total_cloud_installs": "Installazioni Totali Cloud",
+    "total_local_installs": "Installazioni Locali Totali"
+  },
+  "errors": {
+    "missing_refresh_token": "Non è stato ancora configurato alcun token di refresh. Consultare la documentazione per maggiori informazioni."
+  }
+}

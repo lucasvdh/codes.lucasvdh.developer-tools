@@ -1,0 +1,22 @@
+{
+  "settings": {
+    "title": "Configuraciones de Herramientas para Desarrolladores",
+    "description": "Configura aquí tu token de OAuth para usar las Herramientas para Desarrolladores.",
+    "polling_settings": "Configuraciones de Sondeo",
+    "polling_frequency": "Frecuencia de Sondeo (en minutos)",
+    "authorisation_settings": "Configuraciones de Autorización",
+    "refresh_token": "Token de Actualización OAuth",
+    "save": "Guardar",
+    "saved": "Configuraciones Guardadas",
+    "need_help_finding_token": "¿Necesitas ayuda para encontrar tu token de actualización OAuth?",
+    "click_here_documentation": "Haz clic aquí para ver la documentación."
+  },
+  "global_tokens": {
+    "total_installs": "Instalaciones Totales",
+    "total_cloud_installs": "Instalaciones Totales en la Nube",
+    "total_local_installs": "Instalaciones Locales Totales"
+  },
+  "errors": {
+    "missing_refresh_token": "Todavía no se ha configurado un token de actualización. Consulta la documentación para más información."
+  }
+}

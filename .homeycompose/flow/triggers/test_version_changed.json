@@ -1,0 +1,26 @@
+{
+  "title": {
+    "en": "A new test version for an app has been released",
+    "nl": "Er is een nieuwe testversie voor een app uitgebracht"
+  },
+  "tokens": [
+    {
+      "name": "app",
+      "type": "string",
+      "title": {
+        "en": "App name",
+        "nl": "App naam"
+      },
+      "example": "Developer Tools"
+    },
+    {
+      "name": "version",
+      "type": "string",
+      "title": {
+        "en": "App version",
+        "nl": "App versie"
+      },
+      "example": "v1.2.3"
+    }
+  ]
+}

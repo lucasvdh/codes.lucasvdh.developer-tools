@@ -1,0 +1,22 @@
+{
+  "settings": {
+    "title": "Inställningar för Utvecklarverktyg",
+    "description": "Ställ in din OAuth-token här för att använda Utvecklarverktygen.",
+    "polling_settings": "Inställningar för Polling",
+    "polling_frequency": "Pollingfrekvens (i minuter)",
+    "authorisation_settings": "Auktoriseringsinställningar",
+    "refresh_token": "OAuth-uppdateringstoken",
+    "save": "Spara",
+    "saved": "Inställningar sparade",
+    "need_help_finding_token": "Behöver du hjälp att hitta din OAuth-uppdateringstoken?",
+    "click_here_documentation": "Klicka här för att se dokumentationen."
+  },
+  "global_tokens": {
+    "total_installs": "Totalt antal installationer",
+    "total_cloud_installs": "Totalt antal molninstallationer",
+    "total_local_installs": "Totalt antal lokala installationer"
+  },
+  "errors": {
+    "missing_refresh_token": "Ingen uppdateringstoken har konfigurerats än. Se dokumentationen för mer information."
+  }
+}

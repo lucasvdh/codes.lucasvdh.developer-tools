@@ -1,0 +1,35 @@
+{
+  "title": {
+    "en": "Number of local installs for an apps changed",
+    "nl": "Aantal lokale installaties voor een app is veranderd"
+  },
+  "tokens": [
+    {
+      "name": "app",
+      "type": "string",
+      "title": {
+        "en": "App name",
+        "nl": "App naam"
+      },
+      "example": "Developer Tools"
+    },
+    {
+      "name": "installs",
+      "type": "number",
+      "title": {
+        "en": "Total number of installs",
+        "nl": "Totaal aantal installaties"
+      },
+      "example": "1000"
+    },
+    {
+      "name": "installs_delta",
+      "type": "number",
+      "title": {
+        "en": "Change in number of installs",
+        "nl": "Verandering in aantal installaties"
+      },
+      "example": "10"
+    }
+  ]
+}

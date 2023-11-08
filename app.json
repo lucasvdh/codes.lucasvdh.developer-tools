@@ -1,0 +1,897 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "codes.lucasvdh.developer-tools",
+  "version": "1.0.0",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "brandColor": "#27435c",
+  "name": {
+    "en": "Developer Tools"
+  },
+  "description": {
+    "en": "Track your Homey apps",
+    "nl": "Volg je Homey-apps",
+    "de": "Verfolge deine Homey-Apps",
+    "fr": "Suivez vos applications Homey",
+    "it": "Tieni traccia delle tue app Homey",
+    "sv": "Spåra dina Homey-appar",
+    "no": "Spor dine Homey-apper",
+    "es": "Haz seguimiento de tus aplicaciones Homey",
+    "da": "Spor dine Homey-apps",
+    "pl": "Śledź swoje aplikacje Homey"
+  },
+  "category": "internet",
+  "platforms": [
+    "local"
+  ],
+  "tags": {
+    "en": [
+      "developer",
+      "tools",
+      "apps"
+    ]
+  },
+  "images": {
+    "xlarge": "./assets/images/xlarge.png",
+    "large": "./assets/images/large.png",
+    "small": "./assets/images/small.png"
+  },
+  "author": {
+    "name": "Lucas van der Have",
+    "email": "lucasvdhave@gmail.com"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Lucas van der Have",
+        "email": "lucasvdhave@gmail.com"
+      }
+    ],
+    "translators": [
+      {
+        "name": "Lucas van der Have",
+        "email": "lucasvdhave@gmail.com"
+      }
+    ]
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "lucasvdh"
+      }
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/lucasvdh/codes.lucasvdh.developer-tools/issues"
+  },
+  "source": "https://github.com/lucasvdh/codes.lucasvdh.developer-tools",
+  "homepage": "https://homey-developer-tools.gitbook.io/en/",
+  "support": "https://homey-developer-tools.gitbook.io/en/faq",
+  "flow": {
+    "triggers": [
+      {
+        "title": {
+          "en": "Number of app installs changed",
+          "nl": "Aantal app installaties is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "installs",
+            "type": "number",
+            "title": {
+              "en": "Total number of installs",
+              "nl": "Totaal aantal installaties"
+            },
+            "example": "1000"
+          },
+          {
+            "name": "installs_delta",
+            "type": "number",
+            "title": {
+              "en": "Change in number of installs",
+              "nl": "Verandering in aantal installaties"
+            },
+            "example": "10"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_installs_changed"
+      },
+      {
+        "title": {
+          "en": "Number of cloud app installs changed",
+          "nl": "Aantal cloud app installaties is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "installs",
+            "type": "number",
+            "title": {
+              "en": "Total number of installs",
+              "nl": "Totaal aantal installaties"
+            },
+            "example": "1000"
+          },
+          {
+            "name": "installs_delta",
+            "type": "number",
+            "title": {
+              "en": "Change in number of installs",
+              "nl": "Verandering in aantal installaties"
+            },
+            "example": "10"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_installs_cloud_changed"
+      },
+      {
+        "title": {
+          "en": "Number of cloud app installs changed",
+          "nl": "Aantal cloud app installaties is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "installs",
+            "type": "number",
+            "title": {
+              "en": "Total number of installs",
+              "nl": "Totaal aantal installaties"
+            },
+            "example": "1000"
+          },
+          {
+            "name": "installs_delta",
+            "type": "number",
+            "title": {
+              "en": "Change in number of installs",
+              "nl": "Verandering in aantal installaties"
+            },
+            "example": "10"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_installs_local_changed"
+      },
+      {
+        "title": {
+          "en": "The number of app crashes of the live build has changed",
+          "nl": "Het aantal app crashes van de live build is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "crashes",
+            "type": "number",
+            "title": {
+              "en": "Total number of crashes",
+              "nl": "Totaal aantal crashes"
+            },
+            "example": "1000"
+          },
+          {
+            "name": "crashes_delta",
+            "type": "number",
+            "title": {
+              "en": "Change in number of crashes",
+              "nl": "Verandering in aantal crashes"
+            },
+            "example": "10"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_live_build_crashes_changed"
+      },
+      {
+        "title": {
+          "en": "The state of the live build has changed",
+          "nl": "De status van de live build is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "state",
+            "type": "string",
+            "title": {
+              "en": "State",
+              "nl": "Status"
+            },
+            "example": "live"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_live_build_state_changed"
+      },
+      {
+        "title": {
+          "en": "A new live version has been released",
+          "nl": "Er is een nieuwe liveversie uitgebracht"
+        },
+        "tokens": [
+          {
+            "name": "version",
+            "type": "string",
+            "title": {
+              "en": "App version",
+              "nl": "App versie"
+            },
+            "example": "v1.2.3"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_live_version_changed"
+      },
+      {
+        "title": {
+          "en": "A new live version has been released",
+          "nl": "Er is een nieuwe liveversie uitgebracht"
+        },
+        "tokens": [
+          {
+            "name": "version",
+            "type": "string",
+            "title": {
+              "en": "App version",
+              "nl": "App versie"
+            },
+            "example": "v1.2.3"
+          },
+          {
+            "name": "change_log",
+            "type": "string",
+            "title": {
+              "en": "Changelog",
+              "nl": "Changelog"
+            },
+            "example": "Fixed a bug!"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_live_version_changed_with_changelog"
+      },
+      {
+        "title": {
+          "en": "A review of the test version has failed",
+          "nl": "Een review van de testversie is mislukt"
+        },
+        "tokens": [
+          {
+            "name": "version",
+            "type": "string",
+            "title": {
+              "en": "App version",
+              "nl": "App versie"
+            },
+            "example": "v1.2.3"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_review_failed"
+      },
+      {
+        "title": {
+          "en": "The number of app crashes of the test build has changed",
+          "nl": "Het aantal app crashes van de test build is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "crashes",
+            "type": "number",
+            "title": {
+              "en": "Total number of crashes",
+              "nl": "Totaal aantal crashes"
+            },
+            "example": "1000"
+          },
+          {
+            "name": "crashes_delta",
+            "type": "number",
+            "title": {
+              "en": "Change in number of crashes",
+              "nl": "Verandering in aantal crashes"
+            },
+            "example": "10"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_test_build_crashes_changed"
+      },
+      {
+        "title": {
+          "en": "The state of the test build has changed",
+          "nl": "De status van de test build is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "state",
+            "type": "string",
+            "title": {
+              "en": "State",
+              "nl": "Status"
+            },
+            "example": "test"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_test_build_state_changed"
+      },
+      {
+        "title": {
+          "en": "A new test version has been released",
+          "nl": "Er is een nieuwe testversie uitgebracht"
+        },
+        "tokens": [
+          {
+            "name": "version",
+            "type": "string",
+            "title": {
+              "en": "App version",
+              "nl": "App versie"
+            },
+            "example": "v1.2.3"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_test_version_changed"
+      },
+      {
+        "title": {
+          "en": "A new test version has been released",
+          "nl": "Er is een nieuwe testversie uitgebracht"
+        },
+        "tokens": [
+          {
+            "name": "version",
+            "type": "string",
+            "title": {
+              "en": "App version",
+              "nl": "App versie"
+            },
+            "example": "v1.2.3"
+          },
+          {
+            "name": "change_log",
+            "type": "string",
+            "title": {
+              "en": "Changelog",
+              "nl": "Changelog"
+            },
+            "example": "Fixed a bug!"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_test_version_changed_with_changelog"
+      },
+      {
+        "title": {
+          "en": "Number of installs for an app changed",
+          "nl": "Aantal installaties voor een app is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "app",
+            "type": "string",
+            "title": {
+              "en": "App name",
+              "nl": "App naam"
+            },
+            "example": "Developer Tools"
+          },
+          {
+            "name": "installs",
+            "type": "number",
+            "title": {
+              "en": "Total number of installs",
+              "nl": "Totaal aantal installaties"
+            },
+            "example": "1000"
+          },
+          {
+            "name": "installs_delta",
+            "type": "number",
+            "title": {
+              "en": "Change in number of installs",
+              "nl": "Verandering in aantal installaties"
+            },
+            "example": "10"
+          }
+        ],
+        "id": "installs_changed"
+      },
+      {
+        "title": {
+          "en": "Number of cloud installs for an apps changed",
+          "nl": "Aantal cloud installaties voor een app is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "app",
+            "type": "string",
+            "title": {
+              "en": "App name",
+              "nl": "App naam"
+            },
+            "example": "Developer Tools"
+          },
+          {
+            "name": "installs",
+            "type": "number",
+            "title": {
+              "en": "Total number of installs",
+              "nl": "Totaal aantal installaties"
+            },
+            "example": "1000"
+          },
+          {
+            "name": "installs_delta",
+            "type": "number",
+            "title": {
+              "en": "Change in number of installs",
+              "nl": "Verandering in aantal installaties"
+            },
+            "example": "10"
+          }
+        ],
+        "id": "installs_cloud_changed"
+      },
+      {
+        "title": {
+          "en": "Number of local installs for an apps changed",
+          "nl": "Aantal lokale installaties voor een app is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "app",
+            "type": "string",
+            "title": {
+              "en": "App name",
+              "nl": "App naam"
+            },
+            "example": "Developer Tools"
+          },
+          {
+            "name": "installs",
+            "type": "number",
+            "title": {
+              "en": "Total number of installs",
+              "nl": "Totaal aantal installaties"
+            },
+            "example": "1000"
+          },
+          {
+            "name": "installs_delta",
+            "type": "number",
+            "title": {
+              "en": "Change in number of installs",
+              "nl": "Verandering in aantal installaties"
+            },
+            "example": "10"
+          }
+        ],
+        "id": "installs_local_changed"
+      },
+      {
+        "title": {
+          "en": "A new live version for an app has been released",
+          "nl": "Er is een nieuwe liveversie voor een app uitgebracht"
+        },
+        "tokens": [
+          {
+            "name": "app",
+            "type": "string",
+            "title": {
+              "en": "App name",
+              "nl": "App naam"
+            },
+            "example": "Developer Tools"
+          },
+          {
+            "name": "version",
+            "type": "string",
+            "title": {
+              "en": "App version",
+              "nl": "App versie"
+            },
+            "example": "v1.2.3"
+          }
+        ],
+        "id": "live_version_changed"
+      },
+      {
+        "title": {
+          "en": "A review of a test version of an app has failed",
+          "nl": "Een review van een testversie van een app is mislukt"
+        },
+        "tokens": [
+          {
+            "name": "app",
+            "type": "string",
+            "title": {
+              "en": "App name",
+              "nl": "App naam"
+            },
+            "example": "Developer Tools"
+          },
+          {
+            "name": "version",
+            "type": "string",
+            "title": {
+              "en": "App version",
+              "nl": "App versie"
+            },
+            "example": "v1.2.3"
+          }
+        ],
+        "id": "review_failed"
+      },
+      {
+        "title": {
+          "en": "A new test version for an app has been released",
+          "nl": "Er is een nieuwe testversie voor een app uitgebracht"
+        },
+        "tokens": [
+          {
+            "name": "app",
+            "type": "string",
+            "title": {
+              "en": "App name",
+              "nl": "App naam"
+            },
+            "example": "Developer Tools"
+          },
+          {
+            "name": "version",
+            "type": "string",
+            "title": {
+              "en": "App version",
+              "nl": "App versie"
+            },
+            "example": "v1.2.3"
+          }
+        ],
+        "id": "test_version_changed"
+      },
+      {
+        "title": {
+          "en": "Total number of installs across all apps changed",
+          "nl": "Totaal aantal installaties over alle apps is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "installs",
+            "type": "number",
+            "title": {
+              "en": "Total number of installs",
+              "nl": "Totaal aantal installaties"
+            },
+            "example": "1000"
+          },
+          {
+            "name": "installs_delta",
+            "type": "number",
+            "title": {
+              "en": "Change in number of installs",
+              "nl": "Verandering in aantal installaties"
+            },
+            "example": "10"
+          }
+        ],
+        "id": "total_installs_changed"
+      },
+      {
+        "title": {
+          "en": "Total number of cloud installs across all apps changed",
+          "nl": "Totaal aantal cloud installaties over alle apps is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "installs",
+            "type": "number",
+            "title": {
+              "en": "Total number of installs",
+              "nl": "Totaal aantal installaties"
+            },
+            "example": "1000"
+          },
+          {
+            "name": "installs_delta",
+            "type": "number",
+            "title": {
+              "en": "Change in number of installs",
+              "nl": "Verandering in aantal installaties"
+            },
+            "example": "10"
+          }
+        ],
+        "id": "total_installs_cloud_changed"
+      },
+      {
+        "title": {
+          "en": "Total number of local installs across all apps changed",
+          "nl": "Totaal aantal lokale installaties over alle apps is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "installs",
+            "type": "number",
+            "title": {
+              "en": "Total number of installs",
+              "nl": "Totaal aantal installaties"
+            },
+            "example": "1000"
+          },
+          {
+            "name": "installs_delta",
+            "type": "number",
+            "title": {
+              "en": "Change in number of installs",
+              "nl": "Verandering in aantal installaties"
+            },
+            "example": "10"
+          }
+        ],
+        "id": "total_installs_local_changed"
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "Homey App"
+      },
+      "platforms": [
+        "local"
+      ],
+      "pair": [
+        {
+          "id": "loading",
+          "template": "loading"
+        },
+        {
+          "id": "not_configured"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "images": {
+        "large": "./drivers/app/assets/images/large.png",
+        "small": "./drivers/app/assets/images/small.png"
+      },
+      "class": "other",
+      "capabilities": [
+        "installs",
+        "installs_cloud",
+        "installs_local",
+        "live_version",
+        "test_version",
+        "live_build_installs",
+        "live_build_crashes",
+        "live_build_state",
+        "test_build_installs",
+        "test_build_crashes",
+        "test_build_state"
+      ],
+      "id": "app"
+    }
+  ],
+  "capabilities": {
+    "installs": {
+      "type": "number",
+      "title": {
+        "en": "Installs",
+        "nl": "Installaties"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/chart-timeline.svg",
+      "insights": true
+    },
+    "installs_cloud": {
+      "type": "number",
+      "title": {
+        "en": "Cloud installs",
+        "nl": "Cloud installaties"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/chart-timeline.svg",
+      "insights": true
+    },
+    "installs_local": {
+      "type": "number",
+      "title": {
+        "en": "Local installs",
+        "nl": "Lokale installaties"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/chart-timeline.svg",
+      "insights": true
+    },
+    "live_build_crashes": {
+      "type": "number",
+      "title": {
+        "en": "Live build crashes",
+        "nl": "Live build crashes"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/bug.svg",
+      "insights": true
+    },
+    "live_build_installs": {
+      "type": "number",
+      "title": {
+        "en": "Live build installs",
+        "nl": "Live build installaties"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/chart-timeline.svg",
+      "insights": true
+    },
+    "live_build_state": {
+      "type": "string",
+      "title": {
+        "en": "Live build state",
+        "nl": "Live build status"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/eye.svg"
+    },
+    "live_version": {
+      "type": "string",
+      "title": {
+        "en": "Live version",
+        "nl": "Live versie"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/tag.svg"
+    },
+    "test_build_crashes": {
+      "type": "number",
+      "title": {
+        "en": "Test build crashes",
+        "nl": "Test build crashes"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/bug.svg",
+      "insights": true
+    },
+    "test_build_installs": {
+      "type": "number",
+      "title": {
+        "en": "Test build installs",
+        "nl": "Test build installaties"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/chart-timeline.svg",
+      "insights": true
+    },
+    "test_build_state": {
+      "type": "string",
+      "title": {
+        "en": "Test build state",
+        "nl": "Test build status"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/eye.svg"
+    },
+    "test_version": {
+      "type": "string",
+      "title": {
+        "en": "Test version",
+        "nl": "Test versie"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/tag.svg"
+    }
+  }
+}

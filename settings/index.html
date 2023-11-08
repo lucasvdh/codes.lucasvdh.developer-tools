@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
+  <style type="text/css">
+    html, body {
+      height: 100%;
+    }
+
+    .form-wrapper {
+      min-height: calc(100% - 115px);
+    }
+
+    .form-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .footer {
+      margin-top: auto;
+      padding-top: 1.5rem;
+    }
+
+    .alert {
+      position: relative;
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 1rem;
+      border: 1px solid transparent;
+      border-radius: 0.25rem;
+    }
+
+    .help {
+      color: #383d41;
+      background-color: #f4f5f5;
+      border-color: #e4e5e7;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<header class="homey-header">
+  <h1 class="homey-title" data-i18n="settings.title"></h1>
+  <p class="homey-subtitle" data-i18n="settings.description"></p>
+</header>
+
+<div class="form-wrapper">
+  <form class="homey-form">
+    <fieldset class="homey-form-fieldset">
+      <legend class="homey-form-legend" data-i18n="settings.polling_settings">Polling settings</legend>
+
+      <div class="homey-form-group">
+        <label class="homey-form-label" for="polling_frequency" data-i18n="settings.polling_frequency">Polling
+          frequency</label>
+        <input class="homey-form-input" id="polling_frequency" type="number" min="1" value="15"/>
+      </div>
+
+      <legend class="homey-form-legend" data-i18n="settings.authorisation_settings">Authorisation settings</legend>
+
+      <div class="homey-form-group">
+        <label class="homey-form-label" for="refresh_token" data-i18n="settings.refresh_token">Refresh token</label>
+        <input class="homey-form-input" id="refresh_token" type="password"/>
+      </div>
+
+      <button id="save-button" class="homey-button-primary-full" data-i18n="settings.save"></button>
+    </fieldset>
+  </form>
+
+  <div class="footer">
+    <p class="alert help">
+      <span data-i18n="settings.need_help_finding_token">Need help finding your refresh token?</span>
+      <a href="https://homey-developer-tools.gitbook.io/en/authorisation" target="_blank"
+         data-i18n="settings.click_here_documentation">Click here to view the documentation.</a>
+    </p>
+  </div>
+</div>
+
+<script type="text/javascript">
+  const saveButtonElement = document.querySelector('#save-button')
+
+  saveButtonElement.addEventListener('click', save)
+
+  function onHomeyReady (Homey) {
+    Homey.get('refresh_token', function (err, value) {
+      if (!err && value) {
+        document.getElementById('refresh_token').value = value
+      }
+    })
+
+    Homey.get('polling_frequency', function (err, value) {
+      if (!err && value) {
+        document.getElementById('polling_frequency').value = value
+      }
+    })
+
+    Homey.ready()
+  }
+
+  function save (event) {
+    event.preventDefault()
+
+    saveButtonElement.classList.add('is-loading')
+
+    Homey.set('refresh_token', document.getElementById('refresh_token').value, function (error) {
+      if (error) {
+        console.error(error)
+        Homey.alert('Error saving data!')
+      }
+    })
+
+    Homey.set('polling_frequency', document.getElementById('polling_frequency').value, function (error) {
+      if (error) {
+        console.error(error)
+        Homey.alert('Error saving data!')
+      }
+    })
+
+    setTimeout(() => {
+      saveButtonElement.classList.remove('is-loading')
+    }, 700)
+  }
+
+</script>
+</body>
+
+</html>

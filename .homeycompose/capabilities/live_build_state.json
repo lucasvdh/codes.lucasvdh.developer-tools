@@ -1,0 +1,12 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Live build state",
+    "nl": "Live build status"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "uiQuickAction": false,
+  "icon": "assets/capabilities/eye.svg"
+}

@@ -1,0 +1,56 @@
+{
+  "name": {
+    "en": "Homey App"
+  },
+  "platforms": [
+    "local"
+  ],
+  "pair": [
+    {
+      "id": "loading",
+      "template": "loading"
+    },
+    {
+      "id": "not_configured"
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "images": {
+    "large": "./drivers/app/assets/images/large.png",
+    "small": "./drivers/app/assets/images/small.png"
+  },
+  "class": "other",
+  "capabilities": [
+    "installs",
+    "installs_cloud",
+    "installs_local",
+    "live_version",
+    "test_version",
+    "live_build_installs",
+    "live_build_crashes",
+    "live_build_state",
+    "test_build_installs",
+    "test_build_crashes",
+    "test_build_state"
+  ]
+}
+
+
+
+
+
+
+
+
+
+

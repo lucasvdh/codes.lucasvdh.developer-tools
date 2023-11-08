@@ -1,0 +1,22 @@
+{
+  "settings": {
+    "title": "Indstillinger for Udviklerværktøjer",
+    "description": "Indstil din OAuth-token her for at bruge Udviklerværktøjerne.",
+    "polling_settings": "Afstemningsindstillinger",
+    "polling_frequency": "Afstemningsfrekvens (i minutter)",
+    "authorisation_settings": "Autorisationsindstillinger",
+    "refresh_token": "OAuth opdateringstoken",
+    "save": "Gem",
+    "saved": "Indstillinger gemt",
+    "need_help_finding_token": "Brug for hjælp til at finde dit OAuth opdateringstoken?",
+    "click_here_documentation": "Klik her for at se dokumentationen."
+  },
+  "global_tokens": {
+    "total_installs": "Samlede installationer",
+    "total_cloud_installs": "Samlede cloud-installationer",
+    "total_local_installs": "Samlede lokale installationer"
+  },
+  "errors": {
+    "missing_refresh_token": "Der er endnu ikke konfigureret et opdateringstoken. Se dokumentationen for yderligere information."
+  }
+}

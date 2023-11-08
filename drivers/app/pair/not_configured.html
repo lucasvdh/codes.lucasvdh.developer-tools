@@ -1,0 +1,47 @@
+<base target="_parent"/>
+
+<div class="form-wrapper">
+  <p data-i18n="errors.missing_refresh_token">No refresh token has been configured yet. Please consult the documentation
+    for more information.</p>
+
+  <div class="footer">
+    <p class="alert help">
+      <span data-i18n="settings.need_help_finding_token">Need help finding your OAuth refresh token?</span>
+      <a href="https://homey-developer-tools.gitbook.io/en/authorisation"
+         data-i18n="pair.help.click_here_documentation">Click here to view the documentation.</a>
+    </p>
+  </div>
+</div>
+
+<style type="text/css">
+  .form-wrapper {
+    min-height: 100%;
+  }
+
+  .form-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .footer {
+    margin-top: auto;
+    padding-top: 1.5rem;
+  }
+
+  .alert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+  }
+
+  .help {
+    color: #383d41;
+    background-color: #f4f5f5;
+    border-color: #e4e5e7;
+  }
+
+</style>

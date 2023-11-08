@@ -1,0 +1,13 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Test build installs",
+    "nl": "Test build installaties"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "uiQuickAction": false,
+  "icon": "assets/capabilities/chart-timeline.svg",
+  "insights": true
+}

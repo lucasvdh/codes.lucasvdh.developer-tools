@@ -1,0 +1,22 @@
+{
+  "settings": {
+    "title": "Paramètres des outils pour développeurs",
+    "description": "Définissez ici votre jeton OAuth pour utiliser les outils pour développeurs.",
+    "polling_settings": "Paramètres de sondage",
+    "polling_frequency": "Fréquence de sondage (en minutes)",
+    "authorisation_settings": "Paramètres d'autorisation",
+    "refresh_token": "Jeton de rafraîchissement OAuth",
+    "save": "Enregistrer",
+    "saved": "Paramètres enregistrés",
+    "need_help_finding_token": "Besoin d'aide pour trouver votre jeton de rafraîchissement OAuth ?",
+    "click_here_documentation": "Cliquez ici pour consulter la documentation."
+  },
+  "global_tokens": {
+    "total_installs": "Installations totales",
+    "total_cloud_installs": "Installations totales dans le cloud",
+    "total_local_installs": "Installations locales totales"
+  },
+  "errors": {
+    "missing_refresh_token": "Aucun jeton de rafraîchissement n'a encore été configuré. Veuillez consulter la documentation pour plus d'informations."
+  }
+}

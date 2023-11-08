@@ -1,0 +1,7 @@
+/.idea
+/.vscode
+/env.json
+/node_modules/
+/.homeybuild/
+.DS_Store
+test.ts

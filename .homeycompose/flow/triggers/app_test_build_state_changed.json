@@ -1,0 +1,24 @@
+{
+  "title": {
+    "en": "The state of the test build has changed",
+    "nl": "De status van de test build is veranderd"
+  },
+  "tokens": [
+    {
+      "name": "state",
+      "type": "string",
+      "title": {
+        "en": "State",
+        "nl": "Status"
+      },
+      "example": "test"
+    }
+  ],
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    }
+  ]
+}

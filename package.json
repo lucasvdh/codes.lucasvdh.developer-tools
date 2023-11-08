@@ -1,0 +1,26 @@
+{
+  "name": "codes.lucasvdh.developer-tools",
+  "version": "1.0.0",
+  "main": "app.ts",
+  "engines": {
+    "node": "18"
+  },
+  "scripts": {
+    "homey-validate": "homey app validate --level verified",
+    "homey-build": "homey app build",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "follow-redirects": "^1.15.3",
+    "node-fetch": "^2.6.6"
+  },
+  "devDependencies": {
+    "@tsconfig/node18": "^1.0.1",
+    "@types/homey": "npm:homey-apps-sdk-v3-types@^0.3.4",
+    "@types/node": "^18.14",
+    "@types/node-fetch": "2",
+    "@types/follow-redirects": "^1.14.4",
+    "homey": "^2.30.7",
+    "typescript": "^5.1.3"
+  }
+}

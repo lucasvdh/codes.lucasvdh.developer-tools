@@ -1,0 +1,22 @@
+{
+  "settings": {
+    "title": "Einstellungen für Entwicklerwerkzeuge",
+    "description": "Stellen Sie hier Ihr OAuth-Token ein, um die Entwicklerwerkzeuge zu nutzen.",
+    "polling_settings": "Polling-Einstellungen",
+    "polling_frequency": "Polling-Frequenz (in Minuten)",
+    "authorisation_settings": "Autorisierungseinstellungen",
+    "refresh_token": "OAuth-Aktualisierungstoken",
+    "save": "Speichern",
+    "saved": "Einstellungen gespeichert",
+    "need_help_finding_token": "Benötigen Sie Hilfe beim Finden Ihres OAuth-Aktualisierungstokens?",
+    "click_here_documentation": "Klicken Sie hier, um die Dokumentation anzusehen."
+  },
+  "global_tokens": {
+    "total_installs": "Gesamtinstallationen",
+    "total_cloud_installs": "Gesamtinstallationen in der Cloud",
+    "total_local_installs": "Gesamtinstallationen lokal"
+  },
+  "errors": {
+    "missing_refresh_token": "Es wurde noch kein Aktualisierungstoken konfiguriert. Bitte konsultieren Sie die Dokumentation für weitere Informationen."
+  }
+}

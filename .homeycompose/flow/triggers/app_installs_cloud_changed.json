@@ -1,0 +1,33 @@
+{
+  "title": {
+    "en": "Number of cloud app installs changed",
+    "nl": "Aantal cloud app installaties is veranderd"
+  },
+  "tokens": [
+    {
+      "name": "installs",
+      "type": "number",
+      "title": {
+        "en": "Total number of installs",
+        "nl": "Totaal aantal installaties"
+      },
+      "example": "1000"
+    },
+    {
+      "name": "installs_delta",
+      "type": "number",
+      "title": {
+        "en": "Change in number of installs",
+        "nl": "Verandering in aantal installaties"
+      },
+      "example": "10"
+    }
+  ],
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    }
+  ]
+}

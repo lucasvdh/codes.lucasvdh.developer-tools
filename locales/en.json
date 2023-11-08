@@ -1,0 +1,22 @@
+{
+  "settings": {
+    "title": "Developer Tools Settings",
+    "description": "Set your OAuth token here to use the Developer Tools.",
+    "polling_settings": "Polling Settings",
+    "polling_frequency": "Polling Frequency (in minutes)",
+    "authorisation_settings": "Authorization Settings",
+    "refresh_token": "OAuth Refresh Token",
+    "save": "Save",
+    "saved": "Settings Saved",
+    "need_help_finding_token": "Need help finding your OAuth refresh token?",
+    "click_here_documentation": "Click here to view the documentation."
+  },
+  "global_tokens": {
+    "total_installs": "Total Installs",
+    "total_cloud_installs": "Total Cloud Installs",
+    "total_local_installs": "Total Local Installs"
+  },
+  "errors": {
+    "missing_refresh_token": "No refresh token has been configured yet. Please consult the documentation for more information."
+  }
+}
