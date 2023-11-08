@@ -1,6 +1,6 @@
 {
   "name": "codes.lucasvdh.developer-tools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "app.ts",
   "engines": {
     "node": "18"

@@ -10,5 +10,18 @@
     "es": "Primera versión",
     "da": "Første version",
     "pl": "Pierwsza wersja"
+  },
+  "1.0.1": {
+    "en": "Fix invalid value for token \"version\"",
+    "nl": "Fix ongeldige waarde voor token \"versie\"",
+    "de": "Korrigieren Sie den ungültigen Wert für Token \"Version\"",
+    "fr": "Corriger la valeur invalide pour le jeton \"version\"",
+    "it": "Correggere il valore non valido per il token \"versione\"",
+    "sv": "Åtgärda ogiltigt värde för token \"version\"",
+    "no": "Fiks ugyldig verdi for token \"versjon\"",
+    "es": "Corregir valor inválido para el token \"versión\"",
+    "da": "Ret ugyldig værdi for token \"version\"",
+    "pl": "Napraw niewłaściwą wartość tokenu \"wersja\""
   }
+
 }

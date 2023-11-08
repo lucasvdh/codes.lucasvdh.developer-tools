@@ -287,7 +287,7 @@ class AppDriver extends Driver {
         if (cachedAppData.testVersion !== appData.testVersion) {
           this.testVersionChangedTrigger?.trigger({
             app: appName,
-            version: appData.liveVersion
+            version: appData.testVersion
           })
         }
         if (cachedAppData.testBuild?.state !== appData.testBuild?.state && appData.testBuild?.state === 'reviewed_rejected') {
