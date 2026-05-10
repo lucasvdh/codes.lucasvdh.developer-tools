@@ -1,0 +1,19 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Live build age (days)",
+    "nl": "Live build leeftijd (dagen)"
+  },
+  "units": {
+    "en": "days",
+    "nl": "dagen"
+  },
+  "decimals": 0,
+  "min": 0,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "uiQuickAction": false,
+  "icon": "assets/capabilities/calendar.svg",
+  "insights": true
+}

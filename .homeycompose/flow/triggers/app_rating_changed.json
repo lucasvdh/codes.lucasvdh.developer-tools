@@ -1,0 +1,33 @@
+{
+  "title": {
+    "en": "The rating of the app has changed",
+    "nl": "De beoordeling van de app is veranderd"
+  },
+  "tokens": [
+    {
+      "name": "rating",
+      "type": "number",
+      "title": {
+        "en": "Rating",
+        "nl": "Beoordeling"
+      },
+      "example": "4.25"
+    },
+    {
+      "name": "rating_delta",
+      "type": "number",
+      "title": {
+        "en": "Change in rating",
+        "nl": "Verandering in beoordeling"
+      },
+      "example": "0.1"
+    }
+  ],
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    }
+  ]
+}

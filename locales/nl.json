@@ -1,15 +1,20 @@
 {
   "settings": {
-    "title": "Instellingen voor Developer Tools",
-    "description": "Stel hier je OAuth token in om de Developer Tools te gebruiken.",
+    "title": "Instellingen voor App Insights",
+    "description": "Stel je refresh token in om je Homey-apps te volgen.",
     "polling_settings": "Polling instellingen",
     "polling_frequency": "Polling frequentie (in minuten)",
     "authorisation_settings": "Autorisatie instellingen",
     "refresh_token": "OAuth refresh token",
     "save": "Opslaan",
     "saved": "Instellingen opgeslagen",
-    "need_help_finding_token": "Hulp nodig bij het vinden van je OAuth refresh token?",
-    "click_here_documentation": "Klik hier om de documentatie te bekijken."
+    "need_help_finding_token": "Hulp nodig bij het vinden van je refresh token?",
+    "click_here_documentation": "Bekijk de documentatie.",
+    "token_instructions_intro": "Om een refresh token te krijgen:",
+    "token_step_login": "Log in op tools.developer.homey.app met je Athom-account.",
+    "token_step_devtools": "Open de developer tools van je browser (F12) en ga naar het tabblad Application (Chrome) of Storage (Firefox).",
+    "token_step_localstorage": "Zoek onder Local Storage het item voor tools.developer.homey.app en kopieer de waarde van refreshToken.",
+    "token_step_paste": "Plak deze hierboven en klik op Opslaan."
   },
   "global_tokens": {
     "total_installs": "Totale installaties",
@@ -17,6 +22,11 @@
     "total_local_installs": "Totale lokale installaties"
   },
   "errors": {
-    "missing_refresh_token": "Er is nog geen refresh token geconfigureerd. Raadpleeg de documentatie voor meer informatie."
+    "missing_refresh_token": "Er is nog geen refresh token geconfigureerd. Open de instellingen van de app om er een toe te voegen."
+  },
+  "pair": {
+    "help": {
+      "click_here_documentation": "Bekijk de documentatie."
+    }
   }
 }

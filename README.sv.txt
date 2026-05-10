@@ -1,3 +1,7 @@
-Ge din apputveckling en boost med Developer Tools App. Spåra och analysera din apps data och använd dessa statistik som triggers i Homey-flöden för en smartare utveckling.
+Spåra dina Homey-appar direkt från Homey.
 
-Notera: Detta är ett oberoende verktyg och inte officiellt associerat med Homey/Athom.
+App Insights for Developers gör varje av dina publicerade Homey-appar till en virtuell enhet med live-statistik: antal installationer (totalt, cloud och lokalt), live- och testversionsnummer, build-status och krascher. Använd dessa värden i flöden för att få ett meddelande när installationerna växer, en ny version går live eller en review misslyckas.
+
+Konfiguration kräver ett refresh token från ditt Athom-utvecklarkonto. En steg-för-steg-guide finns i appens inställningar eller i online-dokumentationen.
+
+Detta är en oberoende community-app och är inte ansluten till Athom.

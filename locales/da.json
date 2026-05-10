@@ -1,7 +1,7 @@
 {
   "settings": {
-    "title": "Indstillinger for Udviklerværktøjer",
-    "description": "Indstil din OAuth-token her for at bruge Udviklerværktøjerne.",
+    "title": "Indstillinger for App Insights",
+    "description": "Konfigurer dit refresh token for at begynde at spore dine Homey-apps.",
     "polling_settings": "Afstemningsindstillinger",
     "polling_frequency": "Afstemningsfrekvens (i minutter)",
     "authorisation_settings": "Autorisationsindstillinger",
@@ -17,6 +17,6 @@
     "total_local_installs": "Samlede lokale installationer"
   },
   "errors": {
-    "missing_refresh_token": "Der er endnu ikke konfigureret et opdateringstoken. Se dokumentationen for yderligere information."
+    "missing_refresh_token": "Der er endnu ikke konfigureret et refresh token. Åbn appens indstillinger for at tilføje et."
   }
 }

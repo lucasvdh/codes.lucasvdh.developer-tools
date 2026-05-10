@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Rating",
+    "nl": "Beoordeling"
+  },
+  "decimals": 2,
+  "min": 0,
+  "max": 5,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "uiQuickAction": false,
+  "icon": "assets/capabilities/star.svg",
+  "insights": true
+}

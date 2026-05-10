@@ -22,6 +22,13 @@
     "es": "Corregir valor inválido para el token \"versión\"",
     "da": "Ret ugyldig værdi for token \"version\"",
     "pl": "Napraw niewłaściwą wartość tokenu \"wersja\""
+  },
+  "1.1.0": {
+    "en": "Renamed app to App Insights, new app images and various bug fixes for global flow triggers, retry handling and token caching.",
+    "nl": "App hernoemd naar App Insights, nieuwe app afbeeldingen en diverse bugfixes voor globale flow triggers, retry-afhandeling en token caching."
+  },
+  "1.2.0": {
+    "en": "New rating and live build age capabilities, review state triggers, and a set of flow conditions.",
+    "nl": "Nieuwe beoordeling- en live build-leeftijd-capabilities, review-status triggers en een set flow-condities."
   }
-
 }

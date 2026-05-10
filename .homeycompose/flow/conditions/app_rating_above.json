@@ -1,0 +1,32 @@
+{
+  "title": {
+    "en": "App rating !{{is|isn't}} above [[rating]]",
+    "nl": "App-beoordeling !{{is|is niet}} hoger dan [[rating]]"
+  },
+  "titleFormatted": {
+    "en": "App rating !{{is|isn't}} above [[rating]]",
+    "nl": "App-beoordeling !{{is|is niet}} hoger dan [[rating]]"
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    },
+    {
+      "name": "rating",
+      "type": "number",
+      "min": 0,
+      "max": 5,
+      "step": 0.1,
+      "title": {
+        "en": "Rating",
+        "nl": "Beoordeling"
+      },
+      "placeholder": {
+        "en": "Rating",
+        "nl": "Beoordeling"
+      }
+    }
+  ]
+}

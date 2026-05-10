@@ -1,0 +1,13 @@
+{
+  "title": {
+    "en": "App !{{is|isn't}} live",
+    "nl": "App !{{is|is niet}} live"
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    }
+  ]
+}

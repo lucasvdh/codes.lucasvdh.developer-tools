@@ -1,15 +1,20 @@
 {
   "settings": {
-    "title": "Developer Tools Settings",
-    "description": "Set your OAuth token here to use the Developer Tools.",
+    "title": "App Insights Settings",
+    "description": "Configure your refresh token to start tracking your Homey apps.",
     "polling_settings": "Polling Settings",
     "polling_frequency": "Polling Frequency (in minutes)",
     "authorisation_settings": "Authorization Settings",
     "refresh_token": "OAuth Refresh Token",
     "save": "Save",
     "saved": "Settings Saved",
-    "need_help_finding_token": "Need help finding your OAuth refresh token?",
-    "click_here_documentation": "Click here to view the documentation."
+    "need_help_finding_token": "Need help finding your refresh token?",
+    "click_here_documentation": "View the documentation.",
+    "token_instructions_intro": "To get a refresh token:",
+    "token_step_login": "Log in to tools.developer.homey.app with your Athom account.",
+    "token_step_devtools": "Open your browser's developer tools (F12) and go to the Application (Chrome) or Storage (Firefox) tab.",
+    "token_step_localstorage": "Under Local Storage, find the entry for tools.developer.homey.app and copy the value of refreshToken.",
+    "token_step_paste": "Paste it above and press Save."
   },
   "global_tokens": {
     "total_installs": "Total Installs",
@@ -17,6 +22,11 @@
     "total_local_installs": "Total Local Installs"
   },
   "errors": {
-    "missing_refresh_token": "No refresh token has been configured yet. Please consult the documentation for more information."
+    "missing_refresh_token": "No refresh token has been configured yet. Open the app's settings to add one."
+  },
+  "pair": {
+    "help": {
+      "click_here_documentation": "View the documentation."
+    }
   }
 }

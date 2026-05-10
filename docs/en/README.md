@@ -1,54 +1,29 @@
 ---
-description: All about the Homey Developer Tools app
-cover: .gitbook/assets/homey-dev-tools-banner.jpg
-coverY: 0
+description: Documentation for the App Insights for Developers Homey app
 ---
 
-# Hey Devs, Get More from Your Homey Apps!
+# App Insights for Developers
 
-**Say hello to the Developer Tools app for Homey — your new best friend in automating actions in your homey app
-development.**
+App Insights for Developers is a Homey app that lets you track the apps you publish on the Homey App Store directly from your Homey. Each app becomes a virtual device with live statistics - installs, versions, build state and crashes - which you can use as triggers, conditions and tokens in flows.
 
-This isn't just another app. It's your personal backstage pass to hooking up your own apps with Homey. Want to automate
-like a boss? Check out how your apps play in real-time with Homey flows, get insights on installs, handle crashes, and
-more.
+Typical things you can build:
 
-Here's what you can do with Developer Tools:
+- A notification on your phone the moment a new live version of your app is released.
+- A push alert when a test review fails.
+- A daily summary of total installs across all your apps.
+- A counter that updates when crashes go up.
 
-- Set up triggers for new app installs, sad crashes (yes, they happen) or failed reviews.
-- Create conditions in flows to keep an eye on your app's pulse.
-- Take actions based on what's up with your apps.
+This is an independent community app. It is not affiliated with or endorsed by Athom.
 
-Ready to make your Homey development smarter? Let's get rolling with Developer Tools!
+## Links
 
-<table data-card-size="large" data-view="cards">
-    <thead>
-    <tr>
-        <th></th>
-        <th></th>
-        <th data-hidden data-card-target data-type="content-ref"></th>
-        <th data-hidden data-card-cover data-type="files"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td><strong>Homey App Store</strong></td>
-        <td>Need this tool? Just a click away.</td>
-        <td><a href="https://homey.app/a/codes.lucasvdh.developer-tools">Get it here</a></td>
-        <td><a href="../../assets/images/xlarge.png">App Store Image</a></td>
-    </tr>
-    <tr>
-        <td><strong>Source Code</strong></td>
-        <td>Peek under the hood on Github.</td>
-        <td><a href="https://github.com/lucasvdh/codes.lucasvdh.developer-tools">Show me the code</a></td>
-        <td><a href="../../assets/images/codes.lucasvdh.developer-tools.png">Source Code Image</a></td>
-    </tr>
-    </tbody>
-</table>
+- [Install on the Homey App Store](https://homey.app/a/codes.lucasvdh.developer-tools)
+- [Source code on GitHub](https://github.com/lucasvdh/codes.lucasvdh.developer-tools)
+- [Report an issue](https://github.com/lucasvdh/codes.lucasvdh.developer-tools/issues)
 
-## The Fine Print
+## Getting started
 
-Alright, the Developer Tools app for Homey is by devs, for devs, and it hasn't got the official Athom stamp. But hey,
-it's built to give you an extra edge on your Homey app development journey.
-
-Got ideas or wanna squash bugs? Jump in and contribute to make it even better for all Homey devs out there!
+1. [Install the app](configuration/installation.md) on your Homey.
+2. [Get a refresh token](configuration/authorisation.md) from your Athom developer account and enter it in the app's settings.
+3. Add your published apps as devices through the pairing flow.
+4. Build flows using the new triggers and tokens - see [Features](overview/features.md) for the full list.

@@ -1,7 +1,7 @@
 {
   "settings": {
-    "title": "Paramètres des outils pour développeurs",
-    "description": "Définissez ici votre jeton OAuth pour utiliser les outils pour développeurs.",
+    "title": "Paramètres d'App Insights",
+    "description": "Configurez votre refresh token pour suivre vos applications Homey.",
     "polling_settings": "Paramètres de sondage",
     "polling_frequency": "Fréquence de sondage (en minutes)",
     "authorisation_settings": "Paramètres d'autorisation",
@@ -17,6 +17,6 @@
     "total_local_installs": "Installations locales totales"
   },
   "errors": {
-    "missing_refresh_token": "Aucun jeton de rafraîchissement n'a encore été configuré. Veuillez consulter la documentation pour plus d'informations."
+    "missing_refresh_token": "Aucun refresh token n'a encore été configuré. Ouvrez les paramètres de l'application pour en ajouter un."
   }
 }

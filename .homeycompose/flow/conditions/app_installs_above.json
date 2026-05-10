@@ -1,0 +1,30 @@
+{
+  "title": {
+    "en": "App !{{has|doesn't have}} more than [[installs]] installs",
+    "nl": "App !{{heeft|heeft niet}} meer dan [[installs]] installaties"
+  },
+  "titleFormatted": {
+    "en": "App !{{has|doesn't have}} more than [[installs]] installs",
+    "nl": "App !{{heeft|heeft niet}} meer dan [[installs]] installaties"
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    },
+    {
+      "name": "installs",
+      "type": "number",
+      "min": 0,
+      "title": {
+        "en": "Installs",
+        "nl": "Installaties"
+      },
+      "placeholder": {
+        "en": "Installs",
+        "nl": "Installaties"
+      }
+    }
+  ]
+}

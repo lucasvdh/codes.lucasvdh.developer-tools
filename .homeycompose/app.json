@@ -1,11 +1,12 @@
 {
   "id": "codes.lucasvdh.developer-tools",
-  "version": "1.0.1",
+  "version": "1.2.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#27435c",
   "name": {
-    "en": "Developer Tools"
+    "en": "App Insights for Developers",
+    "nl": "App Insights voor developers"
   },
   "description": {
     "en": "Track your Homey apps",

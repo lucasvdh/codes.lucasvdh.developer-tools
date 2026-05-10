@@ -38,6 +38,24 @@
       border-color: #e4e5e7;
     }
 
+    .token-steps {
+      margin: 0 0 1rem 1.25rem;
+      padding: 0 1rem;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: #383d41;
+    }
+
+    .token-steps li {
+      margin-bottom: 0.4rem;
+    }
+
+    .token-steps code {
+      background: #e4e5e7;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-size: 0.85em;
+    }
   </style>
 </head>
 
@@ -72,9 +90,18 @@
 
   <div class="footer">
     <p class="alert help">
+      <span data-i18n="settings.token_instructions_intro">To get a refresh token:</span>
+    </p>
+    <ol class="token-steps">
+      <li data-i18n="settings.token_step_login">Log in to <a href="https://tools.developer.homey.app" target="_blank">tools.developer.homey.app</a> with your Athom account.</li>
+      <li data-i18n="settings.token_step_devtools">Open your browser's developer tools (F12) and go to the <em>Application</em> (Chrome) or <em>Storage</em> (Firefox) tab.</li>
+      <li data-i18n="settings.token_step_localstorage">Under <em>Local Storage</em>, find the entry for <code>tools.developer.homey.app</code> and copy the value of <code>refreshToken</code>.</li>
+      <li data-i18n="settings.token_step_paste">Paste it above and press Save.</li>
+    </ol>
+    <p class="alert help">
       <span data-i18n="settings.need_help_finding_token">Need help finding your refresh token?</span>
       <a href="https://homey-developer-tools.gitbook.io/en/configuration/authorisation" target="_blank"
-         data-i18n="settings.click_here_documentation">Click here to view the documentation.</a>
+         data-i18n="settings.click_here_documentation">View the documentation.</a>
     </p>
   </div>
 </div>

@@ -1,0 +1,30 @@
+{
+  "title": {
+    "en": "Live build !{{has|doesn't have}} more than [[crashes]] crashes",
+    "nl": "Live build !{{heeft|heeft niet}} meer dan [[crashes]] crashes"
+  },
+  "titleFormatted": {
+    "en": "Live build !{{has|doesn't have}} more than [[crashes]] crashes",
+    "nl": "Live build !{{heeft|heeft niet}} meer dan [[crashes]] crashes"
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    },
+    {
+      "name": "crashes",
+      "type": "number",
+      "min": 0,
+      "title": {
+        "en": "Crashes",
+        "nl": "Crashes"
+      },
+      "placeholder": {
+        "en": "Crashes",
+        "nl": "Crashes"
+      }
+    }
+  ]
+}

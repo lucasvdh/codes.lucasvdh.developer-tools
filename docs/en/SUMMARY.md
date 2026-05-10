@@ -1,13 +1,14 @@
 # Table of contents
 
-* [Developer Tools for Homey](README.md)
+* [App Insights for Developers](README.md)
 
-## Configuration
+## Getting started
 
-* [Authorisation](configuration/authorisation.md)
+* [Installation](configuration/installation.md)
+* [Getting your refresh token](configuration/authorisation.md)
 
-## Overview
+## Reference
 
 * [Features](overview/features.md)
-* [Changelog](overview/changelog.md)
 * [FAQ](overview/faq.md)
+* [Changelog](overview/changelog.md)

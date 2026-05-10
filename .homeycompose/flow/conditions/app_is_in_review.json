@@ -1,0 +1,13 @@
+{
+  "title": {
+    "en": "Test build !{{is|isn't}} in review",
+    "nl": "Test build !{{is|is niet}} in review"
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    }
+  ]
+}

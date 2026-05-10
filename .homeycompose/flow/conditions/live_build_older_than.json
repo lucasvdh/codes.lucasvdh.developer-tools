@@ -1,0 +1,30 @@
+{
+  "title": {
+    "en": "Live build !{{is|isn't}} older than [[days]] days",
+    "nl": "Live build !{{is|is niet}} ouder dan [[days]] dagen"
+  },
+  "titleFormatted": {
+    "en": "Live build !{{is|isn't}} older than [[days]] days",
+    "nl": "Live build !{{is|is niet}} ouder dan [[days]] dagen"
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    },
+    {
+      "name": "days",
+      "type": "number",
+      "min": 1,
+      "title": {
+        "en": "Days",
+        "nl": "Dagen"
+      },
+      "placeholder": {
+        "en": "Days",
+        "nl": "Dagen"
+      }
+    }
+  ]
+}

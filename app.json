@@ -1,12 +1,13 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "codes.lucasvdh.developer-tools",
-  "version": "1.0.1",
+  "version": "1.2.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#27435c",
   "name": {
-    "en": "Developer Tools"
+    "en": "App Insights for Developers",
+    "nl": "App Insights voor developers"
   },
   "description": {
     "en": "Track your Homey apps",
@@ -69,6 +70,45 @@
   "support": "https://homey-developer-tools.gitbook.io/en/overview/faq",
   "flow": {
     "triggers": [
+      {
+        "title": {
+          "en": "The app was deleted",
+          "nl": "De app is verwijderd"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_deleted"
+      },
+      {
+        "title": {
+          "en": "The test build entered review",
+          "nl": "De test build is in review gegaan"
+        },
+        "tokens": [
+          {
+            "name": "version",
+            "type": "string",
+            "title": {
+              "en": "App version",
+              "nl": "App versie"
+            },
+            "example": "1.2.3"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_entered_review"
+      },
       {
         "title": {
           "en": "Number of app installs changed",
@@ -139,8 +179,8 @@
       },
       {
         "title": {
-          "en": "Number of cloud app installs changed",
-          "nl": "Aantal cloud app installaties is veranderd"
+          "en": "Number of local app installs changed",
+          "nl": "Aantal lokale app installaties is veranderd"
         },
         "tokens": [
           {
@@ -257,27 +297,27 @@
       },
       {
         "title": {
-          "en": "A new live version has been released",
-          "nl": "Er is een nieuwe liveversie uitgebracht"
+          "en": "The rating of the app has changed",
+          "nl": "De beoordeling van de app is veranderd"
         },
         "tokens": [
           {
-            "name": "version",
-            "type": "string",
+            "name": "rating",
+            "type": "number",
             "title": {
-              "en": "App version",
-              "nl": "App versie"
+              "en": "Rating",
+              "nl": "Beoordeling"
             },
-            "example": "v1.2.3"
+            "example": "4.25"
           },
           {
-            "name": "change_log",
-            "type": "string",
+            "name": "rating_delta",
+            "type": "number",
             "title": {
-              "en": "Changelog",
-              "nl": "Changelog"
+              "en": "Change in rating",
+              "nl": "Verandering in beoordeling"
             },
-            "example": "Fixed a bug!"
+            "example": "0.1"
           }
         ],
         "args": [
@@ -287,7 +327,32 @@
             "filter": "driver_id=app"
           }
         ],
-        "id": "app_live_version_changed_with_changelog"
+        "id": "app_rating_changed"
+      },
+      {
+        "title": {
+          "en": "The test build was approved",
+          "nl": "De test build is goedgekeurd"
+        },
+        "tokens": [
+          {
+            "name": "version",
+            "type": "string",
+            "title": {
+              "en": "App version",
+              "nl": "App versie"
+            },
+            "example": "1.2.3"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_review_approved"
       },
       {
         "title": {
@@ -400,40 +465,6 @@
       },
       {
         "title": {
-          "en": "A new test version has been released",
-          "nl": "Er is een nieuwe testversie uitgebracht"
-        },
-        "tokens": [
-          {
-            "name": "version",
-            "type": "string",
-            "title": {
-              "en": "App version",
-              "nl": "App versie"
-            },
-            "example": "v1.2.3"
-          },
-          {
-            "name": "change_log",
-            "type": "string",
-            "title": {
-              "en": "Changelog",
-              "nl": "Changelog"
-            },
-            "example": "Fixed a bug!"
-          }
-        ],
-        "args": [
-          {
-            "name": "device",
-            "type": "device",
-            "filter": "driver_id=app"
-          }
-        ],
-        "id": "app_test_version_changed_with_changelog"
-      },
-      {
-        "title": {
           "en": "Number of installs for an app changed",
           "nl": "Aantal installaties voor een app is veranderd"
         },
@@ -445,7 +476,7 @@
               "en": "App name",
               "nl": "App naam"
             },
-            "example": "Developer Tools"
+            "example": "My Homey App"
           },
           {
             "name": "installs",
@@ -481,7 +512,7 @@
               "en": "App name",
               "nl": "App naam"
             },
-            "example": "Developer Tools"
+            "example": "My Homey App"
           },
           {
             "name": "installs",
@@ -517,7 +548,7 @@
               "en": "App name",
               "nl": "App naam"
             },
-            "example": "Developer Tools"
+            "example": "My Homey App"
           },
           {
             "name": "installs",
@@ -553,7 +584,7 @@
               "en": "App name",
               "nl": "App naam"
             },
-            "example": "Developer Tools"
+            "example": "My Homey App"
           },
           {
             "name": "version",
@@ -580,7 +611,7 @@
               "en": "App name",
               "nl": "App naam"
             },
-            "example": "Developer Tools"
+            "example": "My Homey App"
           },
           {
             "name": "version",
@@ -607,7 +638,7 @@
               "en": "App name",
               "nl": "App naam"
             },
-            "example": "Developer Tools"
+            "example": "My Homey App"
           },
           {
             "name": "version",
@@ -702,6 +733,162 @@
         ],
         "id": "total_installs_local_changed"
       }
+    ],
+    "conditions": [
+      {
+        "title": {
+          "en": "Live build !{{has|doesn't have}} more than [[crashes]] crashes",
+          "nl": "Live build !{{heeft|heeft niet}} meer dan [[crashes]] crashes"
+        },
+        "titleFormatted": {
+          "en": "Live build !{{has|doesn't have}} more than [[crashes]] crashes",
+          "nl": "Live build !{{heeft|heeft niet}} meer dan [[crashes]] crashes"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          },
+          {
+            "name": "crashes",
+            "type": "number",
+            "min": 0,
+            "title": {
+              "en": "Crashes",
+              "nl": "Crashes"
+            },
+            "placeholder": {
+              "en": "Crashes",
+              "nl": "Crashes"
+            }
+          }
+        ],
+        "id": "app_has_crashes"
+      },
+      {
+        "title": {
+          "en": "App !{{has|doesn't have}} more than [[installs]] installs",
+          "nl": "App !{{heeft|heeft niet}} meer dan [[installs]] installaties"
+        },
+        "titleFormatted": {
+          "en": "App !{{has|doesn't have}} more than [[installs]] installs",
+          "nl": "App !{{heeft|heeft niet}} meer dan [[installs]] installaties"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          },
+          {
+            "name": "installs",
+            "type": "number",
+            "min": 0,
+            "title": {
+              "en": "Installs",
+              "nl": "Installaties"
+            },
+            "placeholder": {
+              "en": "Installs",
+              "nl": "Installaties"
+            }
+          }
+        ],
+        "id": "app_installs_above"
+      },
+      {
+        "title": {
+          "en": "Test build !{{is|isn't}} in review",
+          "nl": "Test build !{{is|is niet}} in review"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_is_in_review"
+      },
+      {
+        "title": {
+          "en": "App !{{is|isn't}} live",
+          "nl": "App !{{is|is niet}} live"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_is_live"
+      },
+      {
+        "title": {
+          "en": "App rating !{{is|isn't}} above [[rating]]",
+          "nl": "App-beoordeling !{{is|is niet}} hoger dan [[rating]]"
+        },
+        "titleFormatted": {
+          "en": "App rating !{{is|isn't}} above [[rating]]",
+          "nl": "App-beoordeling !{{is|is niet}} hoger dan [[rating]]"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          },
+          {
+            "name": "rating",
+            "type": "number",
+            "min": 0,
+            "max": 5,
+            "step": 0.1,
+            "title": {
+              "en": "Rating",
+              "nl": "Beoordeling"
+            },
+            "placeholder": {
+              "en": "Rating",
+              "nl": "Beoordeling"
+            }
+          }
+        ],
+        "id": "app_rating_above"
+      },
+      {
+        "title": {
+          "en": "Live build !{{is|isn't}} older than [[days]] days",
+          "nl": "Live build !{{is|is niet}} ouder dan [[days]] dagen"
+        },
+        "titleFormatted": {
+          "en": "Live build !{{is|isn't}} older than [[days]] days",
+          "nl": "Live build !{{is|is niet}} ouder dan [[days]] dagen"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          },
+          {
+            "name": "days",
+            "type": "number",
+            "min": 1,
+            "title": {
+              "en": "Days",
+              "nl": "Dagen"
+            },
+            "placeholder": {
+              "en": "Days",
+              "nl": "Dagen"
+            }
+          }
+        ],
+        "id": "live_build_older_than"
+      }
     ]
   },
   "drivers": [
@@ -711,6 +898,9 @@
       },
       "platforms": [
         "local"
+      ],
+      "connectivity": [
+        "cloud"
       ],
       "pair": [
         {
@@ -741,11 +931,13 @@
         "installs",
         "installs_cloud",
         "installs_local",
+        "rating",
         "live_version",
         "test_version",
         "live_build_installs",
         "live_build_crashes",
         "live_build_state",
+        "live_build_age_days",
         "test_build_installs",
         "test_build_crashes",
         "test_build_state"
@@ -791,6 +983,25 @@
       "uiComponent": "sensor",
       "uiQuickAction": false,
       "icon": "assets/capabilities/chart-timeline.svg",
+      "insights": true
+    },
+    "live_build_age_days": {
+      "type": "number",
+      "title": {
+        "en": "Live build age (days)",
+        "nl": "Live build leeftijd (dagen)"
+      },
+      "units": {
+        "en": "days",
+        "nl": "dagen"
+      },
+      "decimals": 0,
+      "min": 0,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/calendar.svg",
       "insights": true
     },
     "live_build_crashes": {
@@ -842,6 +1053,22 @@
       "uiComponent": "sensor",
       "uiQuickAction": false,
       "icon": "assets/capabilities/tag.svg"
+    },
+    "rating": {
+      "type": "number",
+      "title": {
+        "en": "Rating",
+        "nl": "Beoordeling"
+      },
+      "decimals": 2,
+      "min": 0,
+      "max": 5,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/star.svg",
+      "insights": true
     },
     "test_build_crashes": {
       "type": "number",

@@ -48,6 +48,7 @@ interface BuildData {
   imageSmall: string;
   name: LocalizedData;
   icon: string;
+  runtime?: string;
 }
 
 interface LocalizedData {
@@ -71,7 +72,7 @@ export class TimeoutError extends Error {
 
 export class UnexpectedResponseError extends Error {
   constructor(response: string) {
-    super("Unexpected response from inverter: " + response);
+    super("Unexpected response from Athom API: " + response);
   }
 }
 
@@ -80,6 +81,7 @@ export class AthomApi extends EventEmitter {
   private oauthAccessTokenExpiresAt?: Date;
   private oauthRefreshToken: string;
   private delegatedJWT?: string;
+  private delegatedJWTExpiresAt?: Date;
   private readonly clientCredentials: { clientId: string, clientSecret: string };
   private defaultOptions: RequestOptions = {
     method: 'POST',
@@ -146,24 +148,34 @@ export class AthomApi extends EventEmitter {
     });
 
     const body = await this.request(options);
-    this.delegatedJWT = JSON.parse(body) as string;
+    const jwt = JSON.parse(body) as string;
+    this.delegatedJWT = jwt;
+    this.delegatedJWTExpiresAt = AthomApi.parseJwtExpiry(jwt);
 
     return this.delegatedJWT;
+  }
+
+  private static parseJwtExpiry(jwt: string): Date | undefined {
+    try {
+      const payload = jwt.split('.')[1];
+      if (!payload) return undefined;
+      const json = Buffer.from(payload.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString();
+      const parsed = JSON.parse(json) as { exp?: number };
+      if (typeof parsed.exp === 'number') {
+        // refresh a minute before actual expiry
+        return new Date((parsed.exp - 60) * 1000);
+      }
+    } catch {
+      // ignore - fall back to no cache
+    }
+    return undefined;
   }
 
   private request(options: RequestOptions, requestBody?: string): Promise<string> {
     return new Promise((resolve, reject) => {
       const req = https.request(options, (res: IncomingMessage) => {
-        let chunks: any[] = [];
-
-        // Check if the status code indicates success
-        if (res.statusCode === undefined || res.statusCode < 200 || (res.statusCode >= 300 && res.statusCode < 400 ) || res.statusCode >= 500 ) {
-          return reject(new Error(`Request failed with status code ${res.statusCode}`));
-        } else if (res.statusCode >= 400) {
-          this.delegatedJWT = undefined;
-          this.oauthAccessToken = undefined;
-          this.oauthAccessTokenExpiresAt = undefined;
-        }
+        const chunks: any[] = [];
+        const status = res.statusCode;
 
         res.on('data', (chunk) => {
           chunks.push(chunk);
@@ -172,16 +184,30 @@ export class AthomApi extends EventEmitter {
         res.on('end', () => {
           const body = Buffer.concat(chunks).toString();
 
-          if (body) {
-            resolve(body);
-          } else {
-            reject(new Error('Failed read body'));
+          if (status === undefined || status < 200 || status >= 300) {
+            // Auth errors invalidate cached tokens so the next call re-fetches.
+            if (status === 401 || status === 403) {
+              this.delegatedJWT = undefined;
+              this.oauthAccessToken = undefined;
+              this.oauthAccessTokenExpiresAt = undefined;
+            }
+            return reject(new Error(`Request failed with status ${status}: ${body || '<empty body>'}`));
           }
+
+          if (!body) {
+            return reject(new Error('Empty response body'));
+          }
+
+          resolve(body);
         });
 
         res.on('error', (error) => {
           reject(error);
         });
+      });
+
+      req.on('error', (error) => {
+        reject(error);
       });
 
       if (requestBody !== undefined) {
@@ -234,7 +260,9 @@ export class AthomApi extends EventEmitter {
   }
 
   private hasCachedDelegatedJWT() {
-    return this.delegatedJWT !== undefined;
+    if (this.delegatedJWT === undefined) return false;
+    if (this.delegatedJWTExpiresAt === undefined) return true;
+    return this.delegatedJWTExpiresAt > new Date();
   }
 }
 

@@ -1,5 +1,5 @@
 "use strict";
-import {Device, Driver, env, FlowCardTrigger, FlowCardTriggerDevice, FlowToken} from "homey";
+import {Device, Driver, env, FlowCardCondition, FlowCardTrigger, FlowCardTriggerDevice, FlowToken} from "homey";
 import {Device as DeviceType} from "./types";
 import AthomApi, {AppData} from "../../lib/AthomApi";
 
@@ -17,6 +17,10 @@ class AppDriver extends Driver {
   private appTestBuildStateChangedTrigger?: FlowCardTriggerDevice;
   private appTestVersionChangedTrigger?: FlowCardTriggerDevice;
   private appReviewFailedTrigger?: FlowCardTriggerDevice;
+  private appRatingChangedTrigger?: FlowCardTriggerDevice;
+  private appEnteredReviewTrigger?: FlowCardTriggerDevice;
+  private appReviewApprovedTrigger?: FlowCardTriggerDevice;
+  private appDeletedTrigger?: FlowCardTriggerDevice;
 
   private installsChangedTrigger?: FlowCardTrigger;
   private installsCloudChangedTrigger?: FlowCardTrigger;
@@ -33,7 +37,7 @@ class AppDriver extends Driver {
   private totalLocalInstallsToken?: FlowToken;
 
   async onInit() {
-    this.log('Initializing Developer Tools App driver');
+    this.log('Initializing App Insights driver');
 
     this.initialize();
   }
@@ -44,19 +48,31 @@ class AppDriver extends Driver {
       this.initializeApi();
       await this.registerGlobalTokens();
       await this.registerFlowCards();
+      this.registerSettingsListeners();
 
-      this.setInterval();
+      this.startPolling();
 
-      this.log('Developer Tools App Driver has been initialized')
+      this.log('App Insights driver has been initialized')
     } catch (error) {
       this.log((error as Error).message)
 
-      await new Promise((resolve) => {
-        setTimeout(resolve, 10 * 1000);
-      });
-
-      this.initialize();
+      this.homey.setTimeout(() => this.initialize(), 10 * 1000);
     }
+  }
+
+  private registerSettingsListeners(): void {
+    this.homey.settings.on('set', (key: string) => {
+      if (key === 'refresh_token') {
+        try {
+          this.initializeApi();
+        } catch (e) {
+          this.error(e);
+        }
+      }
+      if (key === 'polling_frequency') {
+        this.startPolling();
+      }
+    });
   }
 
   private initializeApi(): void {
@@ -131,6 +147,10 @@ class AppDriver extends Driver {
     this.appTestBuildStateChangedTrigger = this.homey.flow.getDeviceTriggerCard('app_test_build_state_changed')
     this.appTestVersionChangedTrigger = this.homey.flow.getDeviceTriggerCard('app_test_version_changed')
     this.appReviewFailedTrigger = this.homey.flow.getDeviceTriggerCard('app_review_failed')
+    this.appRatingChangedTrigger = this.homey.flow.getDeviceTriggerCard('app_rating_changed')
+    this.appEnteredReviewTrigger = this.homey.flow.getDeviceTriggerCard('app_entered_review')
+    this.appReviewApprovedTrigger = this.homey.flow.getDeviceTriggerCard('app_review_approved')
+    this.appDeletedTrigger = this.homey.flow.getDeviceTriggerCard('app_deleted')
     // Installs per app with app as token
     this.installsChangedTrigger = this.homey.flow.getTriggerCard('installs_changed')
     this.installsCloudChangedTrigger = this.homey.flow.getTriggerCard('installs_cloud_changed')
@@ -142,10 +162,49 @@ class AppDriver extends Driver {
     this.totalInstallsChangedTrigger = this.homey.flow.getTriggerCard('total_installs_changed')
     this.totalInstallsCloudChangedTrigger = this.homey.flow.getTriggerCard('total_installs_cloud_changed')
     this.totalInstallsLocalChangedTrigger = this.homey.flow.getTriggerCard('total_installs_local_changed')
+
+    this.registerConditions();
   }
 
-  private setInterval() {
-    const pollingFrequency = this.homey.settings.get('polling_frequency') as number
+  private registerConditions(): void {
+    this.homey.flow.getConditionCard('app_is_live')
+        .registerRunListener(async (args: { device: Device }) =>
+            args.device.getCapabilityValue('live_build_state') === 'live');
+
+    this.homey.flow.getConditionCard('app_is_in_review')
+        .registerRunListener(async (args: { device: Device }) =>
+            args.device.getCapabilityValue('test_build_state') === 'in_review');
+
+    this.homey.flow.getConditionCard('app_has_crashes')
+        .registerRunListener(async (args: { device: Device, crashes: number }) =>
+            (args.device.getCapabilityValue('live_build_crashes') ?? 0) > args.crashes);
+
+    this.homey.flow.getConditionCard('app_installs_above')
+        .registerRunListener(async (args: { device: Device, installs: number }) =>
+            (args.device.getCapabilityValue('installs') ?? 0) > args.installs);
+
+    this.homey.flow.getConditionCard('app_rating_above')
+        .registerRunListener(async (args: { device: Device, rating: number }) => {
+          const rating = args.device.getCapabilityValue('rating');
+          return typeof rating === 'number' && rating > args.rating;
+        });
+
+    this.homey.flow.getConditionCard('live_build_older_than')
+        .registerRunListener(async (args: { device: Device, days: number }) => {
+          const age = args.device.getCapabilityValue('live_build_age_days');
+          return typeof age === 'number' && age > args.days;
+        });
+  }
+
+  private startPolling() {
+    if (this.interval) {
+      this.homey.clearInterval(this.interval);
+    }
+
+    const raw = this.homey.settings.get('polling_frequency');
+    const pollingFrequency = Math.max(1, parseInt(String(raw), 10) || 15);
+
+    this.updateDevices();
 
     this.interval = this.homey.setInterval(
         this.updateDevices.bind(this),
@@ -158,27 +217,20 @@ class AppDriver extends Driver {
       return;
     }
 
-    tries--;
-
     try {
       this.log('Updating app devices')
 
-      this.getApi()
-          .getApps()
-          .then((apps: AppData[]): void => {
-            this.processApps(apps);
-          });
+      const apps = await this.getApi().getApps();
+      await this.processApps(apps);
     } catch (error) {
       this.error(error);
-      await new Promise((resolve) => setTimeout(resolve, 10000));
-      await this.updateDevices(tries);
+      await new Promise((resolve) => this.homey.setTimeout(resolve, 10000));
+      await this.updateDevices(tries - 1);
     }
   }
 
-  private processApps(apps: AppData[]): void {
-    apps.forEach(async (appData: AppData): Promise<void> => {
-      await this.processAppData(appData);
-    })
+  private async processApps(apps: AppData[]): Promise<void> {
+    await Promise.all(apps.map((appData) => this.processAppData(appData)));
 
     this.runGlobalTriggers(apps);
     this.runGlobalTriggersWithApps(apps);
@@ -224,7 +276,7 @@ class AppDriver extends Driver {
 
     if (currentTotalCloudInstalls !== totalCloudInstalls) {
       this.totalInstallsCloudChangedTrigger?.trigger({
-        installs: totalInstalls,
+        installs: totalCloudInstalls,
         installs_delta: totalCloudInstalls - currentTotalCloudInstalls,
       })
     }
@@ -240,7 +292,7 @@ class AppDriver extends Driver {
 
     if (currentTotalLocalInstalls !== totalLocalInstalls) {
       this.totalInstallsLocalChangedTrigger?.trigger({
-        installs: totalInstalls,
+        installs: totalLocalInstalls,
         installs_delta: totalLocalInstalls - currentTotalLocalInstalls,
       })
     }
@@ -261,21 +313,21 @@ class AppDriver extends Driver {
           this.installsChangedTrigger?.trigger({
             app: appName,
             installs: appData.installs ?? 0,
-            installs_delta: (appData.installs ?? 0) - cachedAppData.installs,
+            installs_delta: (appData.installs ?? 0) - (cachedAppData.installs ?? 0),
           })
         }
         if (cachedAppData.installsCloud !== appData.installsCloud) {
           this.installsCloudChangedTrigger?.trigger({
             app: appName,
             installs: appData.installsCloud ?? 0,
-            installs_delta: (appData.installsCloud ?? 0) - cachedAppData.installsCloud,
+            installs_delta: (appData.installsCloud ?? 0) - (cachedAppData.installsCloud ?? 0),
           })
         }
         if (cachedAppData.installsLocal !== appData.installsLocal) {
           this.installsLocalChangedTrigger?.trigger({
             app: appName,
             installs: appData.installsLocal ?? 0,
-            installs_delta: (appData.installsLocal ?? 0) - cachedAppData.installsLocal,
+            installs_delta: (appData.installsLocal ?? 0) - (cachedAppData.installsLocal ?? 0),
           })
         }
         if (cachedAppData.liveVersion !== appData.liveVersion) {
@@ -295,6 +347,12 @@ class AppDriver extends Driver {
             app: appName,
             version: appData.testVersion
           })
+        }
+        if (cachedAppData.deleted !== true && appData.deleted === true) {
+          const device = this.getDevices().find(d => d.getData().id === appData.id);
+          if (device) {
+            this.appDeletedTrigger?.trigger(device);
+          }
         }
       }
     });
@@ -346,6 +404,13 @@ class AppDriver extends Driver {
     });
   }
 
+  private static daysSince(iso: string | undefined): number {
+    if (!iso) return 0;
+    const then = new Date(iso).getTime();
+    if (Number.isNaN(then)) return 0;
+    return Math.max(0, Math.floor((Date.now() - then) / 86400000));
+  }
+
   private async updateDeviceWithAppData(device: Device, appData: AppData): Promise<void> {
     const installs = device.getCapabilityValue('installs') ?? 0;
 
@@ -391,16 +456,6 @@ class AppDriver extends Driver {
 
     await device.setCapabilityValue('live_build_crashes', appData.liveBuild?.crashes ?? 0);
 
-    const liveBuildInstalls = device.getCapabilityValue('live_build_installs') ?? 0;
-
-    // TODO: potentially implement this trigger
-    // if (liveBuildInstalls !== appData.liveBuild?.installs) {
-    //   this.liveBuildInstallsChangedTrigger?.trigger(device, {
-    //     installs: appData.liveBuild?.installs,
-    //     installs_delta: (appData.liveBuild?.installs ?? 0) - liveBuildInstalls,
-    //   })
-    // }
-
     await device.setCapabilityValue('live_build_installs', appData.liveBuild?.installs ?? 0);
 
     const liveBuildState = device.getCapabilityValue('live_build_state') ?? 'none';
@@ -413,12 +468,16 @@ class AppDriver extends Driver {
 
     await device.setCapabilityValue('live_build_state', appData.liveBuild?.state ?? 'none');
 
+    if (device.hasCapability('live_build_age_days')) {
+      const newLiveAge = AppDriver.daysSince(appData.liveBuildUpdatedAt);
+      await device.setCapabilityValue('live_build_age_days', newLiveAge);
+    }
+
     const liveVersion = device.getCapabilityValue('live_version') ?? 'none';
 
     if (liveVersion !== appData.liveVersion) {
       this.appLiveVersionChangedTrigger?.trigger(device, {
         version: appData.liveVersion ?? 'none'
-        // change_log: appData.liveBuild?.test ?? 'none'
       })
     }
 
@@ -435,33 +494,51 @@ class AppDriver extends Driver {
 
     await device.setCapabilityValue('test_build_crashes', appData.testBuild?.crashes ?? 0);
 
-    const testBuildInstalls = device.getCapabilityValue('test_build_installs') ?? 0;
-
-    // TODO: potentially implement this trigger
-    // if (testBuildInstalls !== appData.testBuild?.installs) {
-    //   this.testBuildInstallsChangedTrigger?.trigger(device, {
-    //     installs: appData.testBuild?.installs,
-    //     installs_delta: (appData.testBuild?.installs ?? 0) - testBuildInstalls,
-    //   })
-    // }
-
     await device.setCapabilityValue('test_build_installs', appData.testBuild?.installs ?? 0);
 
     const testBuildState = device.getCapabilityValue('test_build_state') ?? 'none';
+    const newTestBuildState = appData.testBuild?.state ?? 'none';
 
-    if (testBuildState !== appData.testBuild?.state) {
+    if (testBuildState !== newTestBuildState) {
       this.appTestBuildStateChangedTrigger?.trigger(device, {
-        state: appData.testBuild?.state ?? 'none'
+        state: newTestBuildState
       })
 
-      if (appData.testBuild?.state === 'review_rejected') {
+      if (newTestBuildState === 'reviewed_rejected') {
         this.appReviewFailedTrigger?.trigger(device, {
+          version: appData.testVersion ?? 'none'
+        })
+      }
+
+      if (newTestBuildState === 'in_review') {
+        this.appEnteredReviewTrigger?.trigger(device, {
+          version: appData.testVersion ?? 'none'
+        })
+      }
+
+      if (testBuildState === 'in_review' &&
+          (newTestBuildState === 'test' || newTestBuildState === 'live' || newTestBuildState === 'reviewed_approved')) {
+        this.appReviewApprovedTrigger?.trigger(device, {
           version: appData.testVersion ?? 'none'
         })
       }
     }
 
-    await device.setCapabilityValue('test_build_state', appData.testBuild?.state ?? 'none');
+    await device.setCapabilityValue('test_build_state', newTestBuildState);
+
+    if (device.hasCapability('rating')) {
+      const currentRating = device.getCapabilityValue('rating');
+      const newRating = typeof appData.rating === 'number' ? appData.rating : null;
+
+      if (newRating !== null && currentRating !== newRating) {
+        this.appRatingChangedTrigger?.trigger(device, {
+          rating: newRating,
+          rating_delta: newRating - (typeof currentRating === 'number' ? currentRating : newRating),
+        })
+      }
+
+      await device.setCapabilityValue('rating', newRating);
+    }
 
     const testVersion = device.getCapabilityValue('test_version') ?? 'none';
 

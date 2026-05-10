@@ -1,5 +1,21 @@
-# Developer Tools for Homey
+# App Insights for Developers
 
-This repository contains the code for the Developer Tools App integration with Homey. This app provides developers with the capability to track and analyze app stats and utilize these insights as triggers within Homey flows.
+A Homey app that turns each of your published Homey apps into a virtual device, exposing live statistics (installs, version numbers, build state, crashes) as capabilities and flow tokens.
 
-Please be aware that this tool is an independent creation and is not officially associated with or endorsed by Athom.
+This is an independent community app. It is not affiliated with or endorsed by Athom.
+
+## Documentation
+
+- [User guide & token setup](https://homey-developer-tools.gitbook.io/en/)
+- [App Store page](https://homey.app/a/codes.lucasvdh.developer-tools)
+
+## Development
+
+```bash
+npm install
+npm run build           # tsc
+npx homey app run       # run the app on your Homey
+npx homey app validate  # validate the manifest
+```
+
+Contributions are welcome - feel free to open an issue or pull request.

@@ -1,7 +1,7 @@
 {
   "settings": {
-    "title": "Configuraciones de Herramientas para Desarrolladores",
-    "description": "Configura aquí tu token de OAuth para usar las Herramientas para Desarrolladores.",
+    "title": "Configuración de App Insights",
+    "description": "Configura tu refresh token para empezar a hacer seguimiento de tus apps de Homey.",
     "polling_settings": "Configuraciones de Sondeo",
     "polling_frequency": "Frecuencia de Sondeo (en minutos)",
     "authorisation_settings": "Configuraciones de Autorización",
@@ -17,6 +17,6 @@
     "total_local_installs": "Instalaciones Locales Totales"
   },
   "errors": {
-    "missing_refresh_token": "Todavía no se ha configurado un token de actualización. Consulta la documentación para más información."
+    "missing_refresh_token": "Aún no se ha configurado un refresh token. Abre la configuración de la app para añadir uno."
   }
 }

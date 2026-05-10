@@ -1,7 +1,7 @@
 {
   "settings": {
-    "title": "Ustawienia Narzędzi Deweloperskich",
-    "description": "Skonfiguruj tutaj swój token OAuth, aby używać Narzędzi Deweloperskich.",
+    "title": "Ustawienia App Insights",
+    "description": "Skonfiguruj swój refresh token, aby rozpocząć śledzenie swoich aplikacji Homey.",
     "polling_settings": "Ustawienia odpytywania",
     "polling_frequency": "Częstotliwość odpytywania (w minutach)",
     "authorisation_settings": "Ustawienia autoryzacji",
@@ -17,6 +17,6 @@
     "total_local_installs": "Całkowita liczba lokalnych instalacji"
   },
   "errors": {
-    "missing_refresh_token": "Nie skonfigurowano jeszcze tokena odświeżania. Zapoznaj się z dokumentacją, aby uzyskać więcej informacji."
+    "missing_refresh_token": "Nie skonfigurowano jeszcze refresh tokenu. Otwórz ustawienia aplikacji, aby go dodać."
   }
 }
