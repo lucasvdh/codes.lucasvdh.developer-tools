@@ -5,7 +5,7 @@
 ## Getting started
 
 * [Installation](configuration/installation.md)
-* [Getting your refresh token](configuration/authorisation.md)
+* [Getting your Personal Access Token](configuration/authorisation.md)
 
 ## Reference
 

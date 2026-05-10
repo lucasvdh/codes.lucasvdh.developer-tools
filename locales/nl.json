@@ -1,20 +1,24 @@
 {
   "settings": {
     "title": "Instellingen voor App Insights",
-    "description": "Stel je refresh token in om je Homey-apps te volgen.",
+    "description": "Stel je Personal Access Token in om je Homey-apps te volgen.",
     "polling_settings": "Polling instellingen",
     "polling_frequency": "Polling frequentie (in minuten)",
-    "authorisation_settings": "Autorisatie instellingen",
-    "refresh_token": "OAuth refresh token",
+    "authorisation_settings": "Autorisatie",
+    "personal_access_token": "Personal Access Token",
     "save": "Opslaan",
-    "saved": "Instellingen opgeslagen",
-    "need_help_finding_token": "Hulp nodig bij het vinden van je refresh token?",
+    "test": "Test",
+    "save_success": "Instellingen opgeslagen.",
+    "save_failure": "Kon instellingen niet opslaan.",
+    "test_no_token": "Vul eerst een Personal Access Token in.",
+    "test_success": "Token werkt. {{count}} app(s) gevonden.",
+    "test_failure": "Token-controle mislukt: {{error}}",
+    "need_help_finding_token": "Hulp nodig?",
     "click_here_documentation": "Bekijk de documentatie.",
-    "token_instructions_intro": "Om een refresh token te krijgen:",
-    "token_step_login": "Log in op tools.developer.homey.app met je Athom-account.",
-    "token_step_devtools": "Open de developer tools van je browser (F12) en ga naar het tabblad Application (Chrome) of Storage (Firefox).",
-    "token_step_localstorage": "Zoek onder Local Storage het item voor tools.developer.homey.app en kopieer de waarde van refreshToken.",
-    "token_step_paste": "Plak deze hierboven en klik op Opslaan."
+    "token_instructions_intro": "Om een Personal Access Token te krijgen:",
+    "token_step_open": "Open tools.developer.homey.app/me en log in met je Athom-account.",
+    "token_step_copy": "Kopieer in de sectie Personal Access Token het token (begint met pat-).",
+    "token_step_paste": "Plak hierboven en klik op Test ter controle, daarna op Opslaan."
   },
   "global_tokens": {
     "total_installs": "Totale installaties",
@@ -22,7 +26,7 @@
     "total_local_installs": "Totale lokale installaties"
   },
   "errors": {
-    "missing_refresh_token": "Er is nog geen refresh token geconfigureerd. Open de instellingen van de app om er een toe te voegen."
+    "missing_personal_access_token": "Er is nog geen Personal Access Token geconfigureerd. Open de instellingen om er een toe te voegen."
   },
   "pair": {
     "help": {

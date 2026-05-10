@@ -1,18 +1,17 @@
 <base target="_parent"/>
 
 <div class="form-wrapper">
-  <p data-i18n="errors.missing_refresh_token">No refresh token has been configured yet. Open the app's settings to add one.</p>
+  <p data-i18n="errors.missing_personal_access_token">No Personal Access Token has been configured yet. Open the app's settings to add one.</p>
 
   <ol class="token-steps">
-    <li data-i18n="settings.token_step_login">Log in to <a href="https://tools.developer.homey.app" target="_blank">tools.developer.homey.app</a> with your Athom account.</li>
-    <li data-i18n="settings.token_step_devtools">Open your browser's developer tools (F12) and go to the <em>Application</em> (Chrome) or <em>Storage</em> (Firefox) tab.</li>
-    <li data-i18n="settings.token_step_localstorage">Under <em>Local Storage</em>, find the entry for <code>tools.developer.homey.app</code> and copy the value of <code>refreshToken</code>.</li>
+    <li data-i18n="settings.token_step_open">Open tools.developer.homey.app/me and sign in with your Athom account.</li>
+    <li data-i18n="settings.token_step_copy">In the Personal Access Token section, copy the token (it starts with pat-).</li>
     <li data-i18n="settings.token_step_paste">Open this app's settings in Homey and paste the token there.</li>
   </ol>
 
   <div class="footer">
     <p class="alert help">
-      <span data-i18n="settings.need_help_finding_token">Need help finding your refresh token?</span>
+      <span data-i18n="settings.need_help_finding_token">Need help?</span>
       <a href="https://homey-developer-tools.gitbook.io/en/configuration/authorisation"
          data-i18n="pair.help.click_here_documentation">View the documentation.</a>
     </p>

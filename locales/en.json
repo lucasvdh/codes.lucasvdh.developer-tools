@@ -1,20 +1,24 @@
 {
   "settings": {
     "title": "App Insights Settings",
-    "description": "Configure your refresh token to start tracking your Homey apps.",
+    "description": "Configure your Personal Access Token to start tracking your Homey apps.",
     "polling_settings": "Polling Settings",
     "polling_frequency": "Polling Frequency (in minutes)",
-    "authorisation_settings": "Authorization Settings",
-    "refresh_token": "OAuth Refresh Token",
+    "authorisation_settings": "Authorization",
+    "personal_access_token": "Personal Access Token",
     "save": "Save",
-    "saved": "Settings Saved",
-    "need_help_finding_token": "Need help finding your refresh token?",
+    "test": "Test",
+    "save_success": "Settings saved.",
+    "save_failure": "Could not save settings.",
+    "test_no_token": "Enter a Personal Access Token first.",
+    "test_success": "Token works. Found {{count}} app(s).",
+    "test_failure": "Token check failed: {{error}}",
+    "need_help_finding_token": "Need help?",
     "click_here_documentation": "View the documentation.",
-    "token_instructions_intro": "To get a refresh token:",
-    "token_step_login": "Log in to tools.developer.homey.app with your Athom account.",
-    "token_step_devtools": "Open your browser's developer tools (F12) and go to the Application (Chrome) or Storage (Firefox) tab.",
-    "token_step_localstorage": "Under Local Storage, find the entry for tools.developer.homey.app and copy the value of refreshToken.",
-    "token_step_paste": "Paste it above and press Save."
+    "token_instructions_intro": "To get a Personal Access Token:",
+    "token_step_open": "Open tools.developer.homey.app/me and sign in with your Athom account.",
+    "token_step_copy": "In the Personal Access Token section, copy the token (it starts with pat-).",
+    "token_step_paste": "Paste it above and press Test to verify, then Save."
   },
   "global_tokens": {
     "total_installs": "Total Installs",
@@ -22,7 +26,7 @@
     "total_local_installs": "Total Local Installs"
   },
   "errors": {
-    "missing_refresh_token": "No refresh token has been configured yet. Open the app's settings to add one."
+    "missing_personal_access_token": "No Personal Access Token has been configured yet. Open the app's settings to add one."
   },
   "pair": {
     "help": {

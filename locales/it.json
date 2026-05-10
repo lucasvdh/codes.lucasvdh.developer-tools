@@ -1,15 +1,15 @@
 {
   "settings": {
     "title": "Impostazioni di App Insights",
-    "description": "Configura il tuo refresh token per iniziare a monitorare le tue app Homey.",
+    "description": "Configura il tuo Personal Access Token per iniziare a monitorare le tue app Homey.",
     "polling_settings": "Impostazioni di Polling",
     "polling_frequency": "Frequenza di Polling (in minuti)",
     "authorisation_settings": "Impostazioni di Autorizzazione",
-    "refresh_token": "Token di Refresh OAuth",
     "save": "Salva",
     "saved": "Impostazioni Salvate",
     "need_help_finding_token": "Hai bisogno di aiuto per trovare il tuo token di refresh OAuth?",
-    "click_here_documentation": "Clicca qui per visualizzare la documentazione."
+    "click_here_documentation": "Clicca qui per visualizzare la documentazione.",
+    "personal_access_token": "Personal Access Token"
   },
   "global_tokens": {
     "total_installs": "Installazioni Totali",
@@ -17,6 +17,6 @@
     "total_local_installs": "Installazioni Locali Totali"
   },
   "errors": {
-    "missing_refresh_token": "Non è ancora stato configurato alcun refresh token. Apri le impostazioni dell'app per aggiungerne uno."
+    "missing_personal_access_token": "Non è ancora stato configurato alcun Personal Access Token. Apri le impostazioni dell'app per aggiungerne uno."
   }
 }

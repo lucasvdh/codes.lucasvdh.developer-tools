@@ -1,58 +1,46 @@
 ---
-description: How to obtain the refresh token that App Insights for Developers needs
+description: How to obtain the Personal Access Token that App Insights for Developers needs
 ---
 
-# Getting your refresh token
+# Getting your Personal Access Token
 
-App Insights for Developers uses the same authentication as the official Athom Developer Tools website. To let the app read your app statistics, you supply it with the refresh token from your own logged-in session on that website.
+App Insights for Developers reads your app statistics from Athom's apps API. To do so it needs your **Personal Access Token** (PAT) — the same token Athom provides for use with the Homey CLI in CI/CD environments.
 
-The token is tied to your Athom developer account, is stored only in the app's settings on your Homey, and is only sent to Athom's own API endpoints (`api.athom.com` and `apps-api.athom.com`).
+Each Athom account has exactly one Personal Access Token. You can view it on your account page at any time, and regenerate it if you ever need to invalidate the previous value.
 
 ## Step-by-step
 
-You will need a desktop browser (Chrome, Edge, Firefox or Safari) for this. Mobile browsers do not expose the developer tools needed to copy the token.
+### 1. Open your account page
 
-### 1. Log in to the Athom Developer Tools
+Go to [tools.developer.homey.app/me](https://tools.developer.homey.app/me) and sign in with the Athom account that owns the apps you want to track.
 
-Go to [tools.developer.homey.app](https://tools.developer.homey.app) and log in with the same Athom account that owns the apps you want to track.
+### 2. Copy the token
 
-### 2. Open your browser's developer tools
+Scroll to the **Personal Access Token** section. The token is visible there — click the copy button next to it. The token starts with `pat-`.
 
-Press <kbd>F12</kbd> (Windows / Linux) or <kbd>⌥</kbd><kbd>⌘</kbd><kbd>I</kbd> (macOS). A panel opens at the side or bottom of your window.
+### 3. Paste it into the app
 
-### 3. Find the refresh token in Local Storage
+On your Homey, open **App Insights for Developers → Configure App**. Paste the token into the **Personal Access Token** field, press **Test** to verify, then **Save**.
 
-- **Chrome / Edge / Brave**: open the **Application** tab → in the left sidebar expand **Local Storage** → click **`https://tools.developer.homey.app`**.
-- **Firefox**: open the **Storage** tab → expand **Local Storage** → click **`https://tools.developer.homey.app`**.
-- **Safari**: enable the Develop menu in **Settings → Advanced**, then open **Develop → Show Web Inspector → Storage → Local Storage**.
+The Test button does a live call to Athom's API and reports how many apps the token sees. If it works, the rest of the app starts polling on the next cycle and your devices fill with data.
 
-In the table that appears, look for the row whose key is `refreshToken`. Click the value cell and copy the value (it is a long string of letters and digits).
+## Regenerating your token
 
-### 4. Paste it into the app
+If you want to invalidate the current token (for example if you suspect it leaked, or want to rotate it), press **Regenerate** in the Personal Access Token section on `tools.developer.homey.app/me`. Athom will show a new token in its place; the previous value stops working immediately.
 
-On your Homey, open **App Insights for Developers → Configure App**. Paste the value into the **OAuth Refresh Token** field and press **Save**.
+After regenerating, anything else that was using the old token — Homey CLI in CI/CD, this app, or any other tool — needs to be updated with the new value.
 
-The app will validate the token on the next polling cycle. From that point on it can fetch your app statistics, and you can start adding apps as devices.
+## Why a Personal Access Token?
 
-## How long does the token stay valid?
-
-In practice, once configured the token keeps working for a long time and you should rarely need to repeat the steps above. If the app stops receiving updates, the most reliable fix is simply to fetch a fresh token from `tools.developer.homey.app` and paste it again.
-
-There is no user-facing way to explicitly revoke the token from the Athom Developer Tools website. Signing out there clears the value from your browser, but does not invalidate the copy stored on your Homey.
-
-## Why is there no "Log in with Athom" button?
-
-Homey apps can only use OAuth login when the OAuth provider has whitelisted the Homey callback URL. Athom does not currently offer a public OAuth client for the apps API, so manually copying the refresh token is the only available option.
-
-If Athom releases a public OAuth client in the future, a one-click login will be added in a later version of this app.
+PATs are the official way Athom lets developers authenticate against their apps API. The token is scoped to the apps API only and identifies as a "Homey CLI" client to Athom, exactly like the official command-line tools.
 
 ## Troubleshooting
 
-**I do not see `refreshToken` under Local Storage.**
-Make sure you are signed in to tools.developer.homey.app - log in first and refresh the page.
+**The Test button reports "Request failed with status 401".**
+The token is no longer accepted. The most likely cause is that it was regenerated on `tools.developer.homey.app/me` (manually, or by another tool that you reset). Copy the current token from there and paste it again.
 
-**Capabilities stay at zero / "none" after pairing.**
-The app polls every 15 minutes (configurable). The first values arrive after one polling cycle. If they remain empty after 30 minutes, the token is likely invalid - repeat the steps above.
+**The Test button works but devices stay empty.**
+The first values arrive on the next polling cycle (default 15 minutes). Lower the polling frequency in settings if you want faster feedback while testing.
 
-**My token starts working but suddenly stops.**
-Refresh tokens can become invalid for various reasons (for example after an Athom account change). Log back in to `tools.developer.homey.app` to get a fresh value and repeat the steps above.
+**The Test button reports a network error.**
+Your Homey could not reach `api.athom.com`. Check that the Homey has internet access and try again.

@@ -1,5 +1,5 @@
 "use strict";
-import {Device, Driver, env, FlowCardCondition, FlowCardTrigger, FlowCardTriggerDevice, FlowToken} from "homey";
+import {Device, Driver, FlowCardTrigger, FlowCardTriggerDevice, FlowToken} from "homey";
 import {Device as DeviceType} from "./types";
 import AthomApi, {AppData} from "../../lib/AthomApi";
 
@@ -62,9 +62,10 @@ class AppDriver extends Driver {
 
   private registerSettingsListeners(): void {
     this.homey.settings.on('set', (key: string) => {
-      if (key === 'refresh_token') {
+      if (key === 'personal_access_token') {
         try {
           this.initializeApi();
+          this.updateDevices();
         } catch (e) {
           this.error(e);
         }
@@ -76,24 +77,17 @@ class AppDriver extends Driver {
   }
 
   private initializeApi(): void {
-    const refreshToken = this.homey.settings.get('refresh_token');
+    const pat = this.homey.settings.get('personal_access_token');
 
-    if (refreshToken === undefined || refreshToken === null || refreshToken === '') {
-      throw new Error('Refresh token has not yet been configured, trying again in 10 seconds');
+    if (typeof pat !== 'string' || pat === '') {
+      throw new Error('Personal access token has not yet been configured, trying again in 10 seconds');
     }
 
-    this.api = new AthomApi(refreshToken, this.getClientCredentials());
-
-    this.api.on('refresh_token_updated', (newRefreshToken: string) => {
-      this.homey.settings.set('refresh_token', newRefreshToken);
-    })
-  }
-
-  private getClientCredentials(): { clientId: string, clientSecret: string } {
-    return {
-      clientId: env.CLIENT_ID as string,
-      clientSecret: env.CLIENT_SECRET as string
-    };
+    if (this.api) {
+      this.api.setPersonalAccessToken(pat);
+    } else {
+      this.api = new AthomApi(pat);
+    }
   }
 
   private async initializeSettings() {
@@ -109,8 +103,8 @@ class AppDriver extends Driver {
     if (!this.homey.settings.get('apps')) {
       this.homey.settings.set('apps', []);
     }
-    if (!this.homey.settings.get('refresh_token')) {
-      this.homey.settings.set('refresh_token', '');
+    if (!this.homey.settings.get('personal_access_token')) {
+      this.homey.settings.set('personal_access_token', '');
     }
     if (!this.homey.settings.get('polling_frequency')) {
       this.homey.settings.set('polling_frequency', 15);

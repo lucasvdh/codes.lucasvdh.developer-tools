@@ -24,6 +24,6 @@ This is an independent community app. It is not affiliated with or endorsed by A
 ## Getting started
 
 1. [Install the app](configuration/installation.md) on your Homey.
-2. [Get a refresh token](configuration/authorisation.md) from your Athom developer account and enter it in the app's settings.
+2. [Get a Personal Access Token](configuration/authorisation.md) from your Athom developer account and enter it in the app's settings.
 3. Add your published apps as devices through the pairing flow.
 4. Build flows using the new triggers and tokens - see [Features](overview/features.md) for the full list.

@@ -1,8 +1,5 @@
-// import { InverterData } from "./types";
 import {https} from "follow-redirects";
-import qs from "querystring";
 import {IncomingMessage} from "http";
-import {EventEmitter} from "events";
 
 interface RequestOptions {
   method: string;
@@ -10,13 +7,6 @@ interface RequestOptions {
   path: string;
   headers: { [key: string]: string };
   maxRedirects: number;
-}
-
-interface OAuthTokenResponse {
-  token_type: string,
-  access_token: string,
-  expires_in: number,
-  refresh_token: string
 }
 
 export interface AppData {
@@ -64,95 +54,61 @@ interface LocalizedData {
   pl?: string;
 }
 
-export class TimeoutError extends Error {
-  constructor() {
-    super("The connection timed out");
-  }
-}
-
-export class UnexpectedResponseError extends Error {
-  constructor(response: string) {
-    super("Unexpected response from Athom API: " + response);
-  }
-}
-
-export class AthomApi extends EventEmitter {
-  private oauthAccessToken?: string;
-  private oauthAccessTokenExpiresAt?: Date;
-  private oauthRefreshToken: string;
+export class AthomApi {
+  private personalAccessToken: string;
   private delegatedJWT?: string;
   private delegatedJWTExpiresAt?: Date;
-  private readonly clientCredentials: { clientId: string, clientSecret: string };
-  private defaultOptions: RequestOptions = {
-    method: 'POST',
-    hostname: 'api.athom.com',
-    path: '',
-    headers: {
-      'content-type': 'application/x-www-form-urlencoded',
-      'origin': 'https://tools.developer.homey.app',
-      'referer': 'https://tools.developer.homey.app/',
-      'user-agent': 'Homey Developer Tools App'
-    },
-    maxRedirects: 20,
-  };
 
-  constructor(oauthRefreshToken: string, clientCredentials: { clientId: string, clientSecret: string }, options?: object) {
-    super(options);
-
-    this.oauthRefreshToken = oauthRefreshToken;
-    this.clientCredentials = clientCredentials
+  constructor(personalAccessToken: string) {
+    this.personalAccessToken = personalAccessToken;
   }
 
-  public async getToken(): Promise<string> {
-    if (this.hasCachedToken()) {
-      return this.oauthAccessToken as string;
-    }
+  public setPersonalAccessToken(personalAccessToken: string): void {
+    this.personalAccessToken = personalAccessToken;
+    this.delegatedJWT = undefined;
+    this.delegatedJWTExpiresAt = undefined;
+  }
 
-    const options = this.buildOptions('/oauth2/token', {
+  public async getApps(): Promise<AppData[]> {
+    const jwt = await this.getDelegatedJWT();
+    const body = await this.request({
+      method: 'GET',
+      hostname: 'apps-api.athom.com',
+      path: '/api/v1/app/me',
       headers: {
-        authorization: this.getBasicClientAuth(),
+        'authorization': `Bearer ${jwt}`,
       },
+      maxRedirects: 20,
     });
-
-    const requestBody = qs.stringify({
-      grant_type: 'refresh_token',
-      refresh_token: this.oauthRefreshToken,
-    });
-
-    let body = await this.request(options, requestBody);
-
-    const oauthTokenResponse = JSON.parse(body) as OAuthTokenResponse;
-    const now = new Date();
-    const expiresAt = (new Date());
-    expiresAt.setSeconds(now.getSeconds() + oauthTokenResponse.expires_in);
-
-    this.oauthAccessToken = oauthTokenResponse.access_token;
-    this.oauthAccessTokenExpiresAt = expiresAt;
-    this.oauthRefreshToken = oauthTokenResponse.refresh_token;
-    this.emit('refresh_token_updated', this.oauthRefreshToken);
-
-    return this.oauthAccessToken;
+    return JSON.parse(body) as AppData[];
   }
 
-  public async getDelegatedJWT(): Promise<string> {
+  private async getDelegatedJWT(): Promise<string> {
     if (this.hasCachedDelegatedJWT()) {
       return this.delegatedJWT as string;
     }
 
-    const accessToken = await this.getToken();
-
-    const options = this.buildOptions('/delegation/token?audience=apps', {
+    const body = await this.request({
+      method: 'POST',
+      hostname: 'api.athom.com',
+      path: '/delegation/token?audience=apps',
       headers: {
-        authorization: 'Bearer ' + accessToken,
+        'authorization': `Bearer ${this.personalAccessToken}`,
       },
+      maxRedirects: 20,
     });
 
-    const body = await this.request(options);
     const jwt = JSON.parse(body) as string;
     this.delegatedJWT = jwt;
     this.delegatedJWTExpiresAt = AthomApi.parseJwtExpiry(jwt);
 
-    return this.delegatedJWT;
+    return jwt;
+  }
+
+  private hasCachedDelegatedJWT(): boolean {
+    if (this.delegatedJWT === undefined) return false;
+    if (this.delegatedJWTExpiresAt === undefined) return true;
+    return this.delegatedJWTExpiresAt > new Date();
   }
 
   private static parseJwtExpiry(jwt: string): Date | undefined {
@@ -162,34 +118,29 @@ export class AthomApi extends EventEmitter {
       const json = Buffer.from(payload.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString();
       const parsed = JSON.parse(json) as { exp?: number };
       if (typeof parsed.exp === 'number') {
-        // refresh a minute before actual expiry
         return new Date((parsed.exp - 60) * 1000);
       }
     } catch {
-      // ignore - fall back to no cache
+      // ignore
     }
     return undefined;
   }
 
-  private request(options: RequestOptions, requestBody?: string): Promise<string> {
+  private request(options: RequestOptions): Promise<string> {
     return new Promise((resolve, reject) => {
       const req = https.request(options, (res: IncomingMessage) => {
-        const chunks: any[] = [];
+        const chunks: Buffer[] = [];
         const status = res.statusCode;
 
-        res.on('data', (chunk) => {
-          chunks.push(chunk);
-        });
+        res.on('data', (chunk) => chunks.push(chunk));
 
         res.on('end', () => {
           const body = Buffer.concat(chunks).toString();
 
           if (status === undefined || status < 200 || status >= 300) {
-            // Auth errors invalidate cached tokens so the next call re-fetches.
             if (status === 401 || status === 403) {
               this.delegatedJWT = undefined;
-              this.oauthAccessToken = undefined;
-              this.oauthAccessTokenExpiresAt = undefined;
+              this.delegatedJWTExpiresAt = undefined;
             }
             return reject(new Error(`Request failed with status ${status}: ${body || '<empty body>'}`));
           }
@@ -201,68 +152,12 @@ export class AthomApi extends EventEmitter {
           resolve(body);
         });
 
-        res.on('error', (error) => {
-          reject(error);
-        });
+        res.on('error', reject);
       });
 
-      req.on('error', (error) => {
-        reject(error);
-      });
-
-      if (requestBody !== undefined) {
-        req.write(requestBody);
-      }
-
+      req.on('error', reject);
       req.end();
     });
-  }
-
-  private getBasicClientAuth(): string {
-    const base64ClientCredentials = Buffer
-        .from(`${this.clientCredentials.clientId}:${this.clientCredentials.clientSecret}`)
-        .toString('base64');
-
-    return `Basic ${base64ClientCredentials}`;
-  }
-
-  public async getApps(): Promise<AppData[]> {
-    const jwt = await this.getDelegatedJWT();
-    const options = this.buildOptions('/api/v1/app/me', {
-      method: 'GET',
-      hostname: 'apps-api.athom.com',
-      headers: {
-        'authorization': `Bearer ${jwt}`,
-      },
-    });
-
-    return this.request(options).then((body: string) => {
-      return JSON.parse(body);
-    });
-  }
-
-  private buildOptions(path: string, customOptions: Partial<RequestOptions>): RequestOptions {
-    return {
-      ...this.defaultOptions,
-      path,
-      ...customOptions,
-      headers: {
-        ...this.defaultOptions.headers,
-        ...customOptions.headers,
-      },
-    };
-  }
-
-  private hasCachedToken() {
-    return this.oauthAccessToken !== undefined
-        && this.oauthAccessTokenExpiresAt !== undefined
-        && this.oauthAccessTokenExpiresAt > new Date();
-  }
-
-  private hasCachedDelegatedJWT() {
-    if (this.delegatedJWT === undefined) return false;
-    if (this.delegatedJWTExpiresAt === undefined) return true;
-    return this.delegatedJWTExpiresAt > new Date();
   }
 }
 
