@@ -34,5 +34,9 @@
   "1.3.0": {
     "en": "Switched authentication to Personal Access Tokens.",
     "nl": "Authenticatie omgezet naar Personal Access Tokens."
+  },
+  "1.3.1": {
+    "en": "Fix invalid value for token \"version\" in global flow triggers.",
+    "nl": "Fix ongeldige waarde voor token \"versie\" in globale flow triggers."
   }
 }

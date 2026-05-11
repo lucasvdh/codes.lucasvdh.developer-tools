@@ -327,19 +327,19 @@ class AppDriver extends Driver {
         if (cachedAppData.liveVersion !== appData.liveVersion) {
           this.liveVersionChangedTrigger?.trigger({
             app: appName,
-            version: appData.liveVersion
+            version: appData.liveVersion ?? 'none'
           })
         }
         if (cachedAppData.testVersion !== appData.testVersion) {
           this.testVersionChangedTrigger?.trigger({
             app: appName,
-            version: appData.testVersion
+            version: appData.testVersion ?? 'none'
           })
         }
         if (cachedAppData.testBuild?.state !== appData.testBuild?.state && appData.testBuild?.state === 'reviewed_rejected') {
           this.reviewFailedTrigger?.trigger({
             app: appName,
-            version: appData.testVersion
+            version: appData.testVersion ?? 'none'
           })
         }
         if (cachedAppData.deleted !== true && appData.deleted === true) {
