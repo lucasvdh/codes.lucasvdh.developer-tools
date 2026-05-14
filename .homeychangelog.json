@@ -38,5 +38,9 @@
   "1.3.1": {
     "en": "Fix invalid value for token \"version\" in global flow triggers.",
     "nl": "Fix ongeldige waarde voor token \"versie\" in globale flow triggers."
+  },
+  "1.4.0": {
+    "en": "New capabilities for open suggestions, paired devices, total crashes across all builds, submitted builds and the 7-day install trend. New Flow cards for incoming suggestions, crash reports, new builds, device count changes and declining installs. Live version triggers now include a changelog token. Removed the redundant live build state capability and trigger.",
+    "nl": "Nieuwe capabilities voor open suggesties, gekoppelde apparaten, totaal aantal crashes over alle builds, ingediende builds en de 7-daagse installatietrend. Nieuwe flowkaarten voor binnenkomende suggesties, crashrapporten, nieuwe builds, wijzigingen in apparaataantal en dalende installaties. Liveversie-triggers hebben nu een changelog-token. De overbodige live build-status capability en trigger zijn verwijderd."
   }
 }

@@ -1,0 +1,15 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Submitted builds",
+    "nl": "Ingediende builds"
+  },
+  "decimals": 0,
+  "min": 0,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "uiQuickAction": false,
+  "icon": "assets/capabilities/package.svg",
+  "insights": true
+}

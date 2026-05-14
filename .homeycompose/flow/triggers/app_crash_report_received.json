@@ -1,0 +1,51 @@
+{
+  "title": {
+    "en": "A new crash report was received",
+    "nl": "Er is een nieuw crashrapport ontvangen"
+  },
+  "tokens": [
+    {
+      "name": "error_message",
+      "type": "string",
+      "title": {
+        "en": "Error message",
+        "nl": "Foutmelding"
+      },
+      "example": "RangeError [ERR_OUT_OF_RANGE]: The value of \"value\" is out of range."
+    },
+    {
+      "name": "homey_version",
+      "type": "string",
+      "title": {
+        "en": "Homey version",
+        "nl": "Homey-versie"
+      },
+      "example": "12.4.4"
+    },
+    {
+      "name": "build_version",
+      "type": "string",
+      "title": {
+        "en": "App version",
+        "nl": "App versie"
+      },
+      "example": "1.5.1"
+    },
+    {
+      "name": "build_id",
+      "type": "number",
+      "title": {
+        "en": "Build ID",
+        "nl": "Build-ID"
+      },
+      "example": "4"
+    }
+  ],
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    }
+  ]
+}

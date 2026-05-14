@@ -1,0 +1,30 @@
+{
+  "title": {
+    "en": "App !{{has|doesn't have}} more than [[crashes]] crashes across all builds",
+    "nl": "App !{{heeft|heeft niet}} meer dan [[crashes]] crashes over alle builds"
+  },
+  "titleFormatted": {
+    "en": "App !{{has|doesn't have}} more than [[crashes]] crashes across all builds",
+    "nl": "App !{{heeft|heeft niet}} meer dan [[crashes]] crashes over alle builds"
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    },
+    {
+      "name": "crashes",
+      "type": "number",
+      "min": 0,
+      "title": {
+        "en": "Crashes",
+        "nl": "Crashes"
+      },
+      "placeholder": {
+        "en": "Crashes",
+        "nl": "Crashes"
+      }
+    }
+  ]
+}

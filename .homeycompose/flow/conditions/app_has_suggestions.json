@@ -1,0 +1,17 @@
+{
+  "title": {
+    "en": "App !{{has|doesn't have}} open suggestions",
+    "nl": "App !{{heeft|heeft geen}} open suggesties"
+  },
+  "titleFormatted": {
+    "en": "App !{{has|doesn't have}} open suggestions",
+    "nl": "App !{{heeft|heeft geen}} open suggesties"
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    }
+  ]
+}

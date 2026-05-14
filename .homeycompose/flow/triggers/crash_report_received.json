@@ -1,0 +1,44 @@
+{
+  "title": {
+    "en": "A new crash report was received for an app",
+    "nl": "Er is een nieuw crashrapport ontvangen voor een app"
+  },
+  "tokens": [
+    {
+      "name": "app",
+      "type": "string",
+      "title": {
+        "en": "App name",
+        "nl": "App naam"
+      },
+      "example": "My Homey App"
+    },
+    {
+      "name": "error_message",
+      "type": "string",
+      "title": {
+        "en": "Error message",
+        "nl": "Foutmelding"
+      },
+      "example": "RangeError [ERR_OUT_OF_RANGE]: The value of \"value\" is out of range."
+    },
+    {
+      "name": "homey_version",
+      "type": "string",
+      "title": {
+        "en": "Homey version",
+        "nl": "Homey-versie"
+      },
+      "example": "12.4.4"
+    },
+    {
+      "name": "build_version",
+      "type": "string",
+      "title": {
+        "en": "App version",
+        "nl": "App versie"
+      },
+      "example": "1.5.1"
+    }
+  ]
+}

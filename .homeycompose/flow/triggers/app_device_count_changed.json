@@ -1,0 +1,33 @@
+{
+  "title": {
+    "en": "The number of paired devices has changed",
+    "nl": "Het aantal gekoppelde apparaten is veranderd"
+  },
+  "tokens": [
+    {
+      "name": "devices",
+      "type": "number",
+      "title": {
+        "en": "Total paired devices",
+        "nl": "Totaal aantal gekoppelde apparaten"
+      },
+      "example": "120"
+    },
+    {
+      "name": "devices_delta",
+      "type": "number",
+      "title": {
+        "en": "Change in paired devices",
+        "nl": "Verandering in gekoppelde apparaten"
+      },
+      "example": "5"
+    }
+  ],
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    }
+  ]
+}

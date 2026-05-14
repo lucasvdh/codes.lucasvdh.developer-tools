@@ -1,0 +1,42 @@
+{
+  "title": {
+    "en": "A new suggestion was received",
+    "nl": "Er is een nieuwe suggestie ontvangen"
+  },
+  "tokens": [
+    {
+      "name": "suggestion_text",
+      "type": "string",
+      "title": {
+        "en": "Suggestion",
+        "nl": "Suggestie"
+      },
+      "example": "Please add support for the new model."
+    },
+    {
+      "name": "suggestion_id",
+      "type": "string",
+      "title": {
+        "en": "Suggestion ID",
+        "nl": "Suggestie-ID"
+      },
+      "example": "68c9b142069eacd74ff7dcf1"
+    },
+    {
+      "name": "suggestions_count",
+      "type": "number",
+      "title": {
+        "en": "Total open suggestions",
+        "nl": "Totaal aantal open suggesties"
+      },
+      "example": "3"
+    }
+  ],
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    }
+  ]
+}

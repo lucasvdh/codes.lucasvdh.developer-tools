@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "codes.lucasvdh.developer-tools",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#27435c",
@@ -68,6 +68,7 @@
   "source": "https://github.com/lucasvdh/codes.lucasvdh.developer-tools",
   "homepage": "https://homey-developer-tools.gitbook.io/en/",
   "support": "https://homey-developer-tools.gitbook.io/en/overview/faq",
+  "homeyCommunityTopicId": 154747,
   "api": {
     "testToken": {
       "method": "post",
@@ -77,6 +78,101 @@
   },
   "flow": {
     "triggers": [
+      {
+        "title": {
+          "en": "A new build was created",
+          "nl": "Er is een nieuwe build aangemaakt"
+        },
+        "tokens": [
+          {
+            "name": "version",
+            "type": "string",
+            "title": {
+              "en": "App version",
+              "nl": "App versie"
+            },
+            "example": "1.5.2"
+          },
+          {
+            "name": "build_id",
+            "type": "number",
+            "title": {
+              "en": "Build ID",
+              "nl": "Build-ID"
+            },
+            "example": "5"
+          },
+          {
+            "name": "state",
+            "type": "string",
+            "title": {
+              "en": "Build state",
+              "nl": "Build status"
+            },
+            "example": "test"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_build_created"
+      },
+      {
+        "title": {
+          "en": "A new crash report was received",
+          "nl": "Er is een nieuw crashrapport ontvangen"
+        },
+        "tokens": [
+          {
+            "name": "error_message",
+            "type": "string",
+            "title": {
+              "en": "Error message",
+              "nl": "Foutmelding"
+            },
+            "example": "RangeError [ERR_OUT_OF_RANGE]: The value of \"value\" is out of range."
+          },
+          {
+            "name": "homey_version",
+            "type": "string",
+            "title": {
+              "en": "Homey version",
+              "nl": "Homey-versie"
+            },
+            "example": "12.4.4"
+          },
+          {
+            "name": "build_version",
+            "type": "string",
+            "title": {
+              "en": "App version",
+              "nl": "App versie"
+            },
+            "example": "1.5.1"
+          },
+          {
+            "name": "build_id",
+            "type": "number",
+            "title": {
+              "en": "Build ID",
+              "nl": "Build-ID"
+            },
+            "example": "4"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_crash_report_received"
+      },
       {
         "title": {
           "en": "The app was deleted",
@@ -90,6 +186,40 @@
           }
         ],
         "id": "app_deleted"
+      },
+      {
+        "title": {
+          "en": "The number of paired devices has changed",
+          "nl": "Het aantal gekoppelde apparaten is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "devices",
+            "type": "number",
+            "title": {
+              "en": "Total paired devices",
+              "nl": "Totaal aantal gekoppelde apparaten"
+            },
+            "example": "120"
+          },
+          {
+            "name": "devices_delta",
+            "type": "number",
+            "title": {
+              "en": "Change in paired devices",
+              "nl": "Verandering in gekoppelde apparaten"
+            },
+            "example": "5"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_device_count_changed"
       },
       {
         "title": {
@@ -186,6 +316,40 @@
       },
       {
         "title": {
+          "en": "The app started losing installs",
+          "nl": "De app begon installaties te verliezen"
+        },
+        "tokens": [
+          {
+            "name": "installs",
+            "type": "number",
+            "title": {
+              "en": "Total number of installs",
+              "nl": "Totaal aantal installaties"
+            },
+            "example": "181"
+          },
+          {
+            "name": "trend",
+            "type": "number",
+            "title": {
+              "en": "Install trend (7 days)",
+              "nl": "Installatietrend (7 dagen)"
+            },
+            "example": "-4"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_installs_declining"
+      },
+      {
+        "title": {
           "en": "Number of local app installs changed",
           "nl": "Aantal lokale app installaties is veranderd"
         },
@@ -254,31 +418,6 @@
       },
       {
         "title": {
-          "en": "The state of the live build has changed",
-          "nl": "De status van de live build is veranderd"
-        },
-        "tokens": [
-          {
-            "name": "state",
-            "type": "string",
-            "title": {
-              "en": "State",
-              "nl": "Status"
-            },
-            "example": "live"
-          }
-        ],
-        "args": [
-          {
-            "name": "device",
-            "type": "device",
-            "filter": "driver_id=app"
-          }
-        ],
-        "id": "app_live_build_state_changed"
-      },
-      {
-        "title": {
           "en": "A new live version has been released",
           "nl": "Er is een nieuwe liveversie uitgebracht"
         },
@@ -291,6 +430,15 @@
               "nl": "App versie"
             },
             "example": "v1.2.3"
+          },
+          {
+            "name": "changelog",
+            "type": "string",
+            "title": {
+              "en": "Changelog",
+              "nl": "Wijzigingslog"
+            },
+            "example": "Pairing fix for newer firmware."
           }
         ],
         "args": [
@@ -388,6 +536,49 @@
       },
       {
         "title": {
+          "en": "A new suggestion was received",
+          "nl": "Er is een nieuwe suggestie ontvangen"
+        },
+        "tokens": [
+          {
+            "name": "suggestion_text",
+            "type": "string",
+            "title": {
+              "en": "Suggestion",
+              "nl": "Suggestie"
+            },
+            "example": "Please add support for the new model."
+          },
+          {
+            "name": "suggestion_id",
+            "type": "string",
+            "title": {
+              "en": "Suggestion ID",
+              "nl": "Suggestie-ID"
+            },
+            "example": "68c9b142069eacd74ff7dcf1"
+          },
+          {
+            "name": "suggestions_count",
+            "type": "number",
+            "title": {
+              "en": "Total open suggestions",
+              "nl": "Totaal aantal open suggesties"
+            },
+            "example": "3"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_suggestion_received"
+      },
+      {
+        "title": {
           "en": "The number of app crashes of the test build has changed",
           "nl": "Het aantal app crashes van de test build is veranderd"
         },
@@ -472,6 +663,85 @@
       },
       {
         "title": {
+          "en": "The total number of crashes across all builds has changed",
+          "nl": "Het totaal aantal crashes over alle builds is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "crashes",
+            "type": "number",
+            "title": {
+              "en": "Total number of crashes",
+              "nl": "Totaal aantal crashes"
+            },
+            "example": "342"
+          },
+          {
+            "name": "crashes_delta",
+            "type": "number",
+            "title": {
+              "en": "Change in number of crashes",
+              "nl": "Verandering in aantal crashes"
+            },
+            "example": "5"
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_total_crashes_changed"
+      },
+      {
+        "title": {
+          "en": "A new crash report was received for an app",
+          "nl": "Er is een nieuw crashrapport ontvangen voor een app"
+        },
+        "tokens": [
+          {
+            "name": "app",
+            "type": "string",
+            "title": {
+              "en": "App name",
+              "nl": "App naam"
+            },
+            "example": "My Homey App"
+          },
+          {
+            "name": "error_message",
+            "type": "string",
+            "title": {
+              "en": "Error message",
+              "nl": "Foutmelding"
+            },
+            "example": "RangeError [ERR_OUT_OF_RANGE]: The value of \"value\" is out of range."
+          },
+          {
+            "name": "homey_version",
+            "type": "string",
+            "title": {
+              "en": "Homey version",
+              "nl": "Homey-versie"
+            },
+            "example": "12.4.4"
+          },
+          {
+            "name": "build_version",
+            "type": "string",
+            "title": {
+              "en": "App version",
+              "nl": "App versie"
+            },
+            "example": "1.5.1"
+          }
+        ],
+        "id": "crash_report_received"
+      },
+      {
+        "title": {
           "en": "Number of installs for an app changed",
           "nl": "Aantal installaties voor een app is veranderd"
         },
@@ -544,6 +814,42 @@
       },
       {
         "title": {
+          "en": "An app started losing installs",
+          "nl": "Een app begon installaties te verliezen"
+        },
+        "tokens": [
+          {
+            "name": "app",
+            "type": "string",
+            "title": {
+              "en": "App name",
+              "nl": "App naam"
+            },
+            "example": "My Homey App"
+          },
+          {
+            "name": "installs",
+            "type": "number",
+            "title": {
+              "en": "Total number of installs",
+              "nl": "Totaal aantal installaties"
+            },
+            "example": "181"
+          },
+          {
+            "name": "trend",
+            "type": "number",
+            "title": {
+              "en": "Install trend (7 days)",
+              "nl": "Installatietrend (7 dagen)"
+            },
+            "example": "-4"
+          }
+        ],
+        "id": "installs_declining"
+      },
+      {
+        "title": {
           "en": "Number of local installs for an apps changed",
           "nl": "Aantal lokale installaties voor een app is veranderd"
         },
@@ -601,6 +907,15 @@
               "nl": "App versie"
             },
             "example": "v1.2.3"
+          },
+          {
+            "name": "changelog",
+            "type": "string",
+            "title": {
+              "en": "Changelog",
+              "nl": "Wijzigingslog"
+            },
+            "example": "Pairing fix for newer firmware."
           }
         ],
         "id": "live_version_changed"
@@ -631,6 +946,42 @@
           }
         ],
         "id": "review_failed"
+      },
+      {
+        "title": {
+          "en": "A new suggestion was received for an app",
+          "nl": "Er is een nieuwe suggestie ontvangen voor een app"
+        },
+        "tokens": [
+          {
+            "name": "app",
+            "type": "string",
+            "title": {
+              "en": "App name",
+              "nl": "App naam"
+            },
+            "example": "My Homey App"
+          },
+          {
+            "name": "suggestion_text",
+            "type": "string",
+            "title": {
+              "en": "Suggestion",
+              "nl": "Suggestie"
+            },
+            "example": "Please add support for the new model."
+          },
+          {
+            "name": "suggestion_id",
+            "type": "string",
+            "title": {
+              "en": "Suggestion ID",
+              "nl": "Suggestie-ID"
+            },
+            "example": "68c9b142069eacd74ff7dcf1"
+          }
+        ],
+        "id": "suggestion_received"
       },
       {
         "title": {
@@ -744,6 +1095,37 @@
     "conditions": [
       {
         "title": {
+          "en": "App !{{has|doesn't have}} more than [[devices]] paired devices",
+          "nl": "App !{{heeft|heeft niet}} meer dan [[devices]] gekoppelde apparaten"
+        },
+        "titleFormatted": {
+          "en": "App !{{has|doesn't have}} more than [[devices]] paired devices",
+          "nl": "App !{{heeft|heeft niet}} meer dan [[devices]] gekoppelde apparaten"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          },
+          {
+            "name": "devices",
+            "type": "number",
+            "min": 0,
+            "title": {
+              "en": "Devices",
+              "nl": "Apparaten"
+            },
+            "placeholder": {
+              "en": "Devices",
+              "nl": "Apparaten"
+            }
+          }
+        ],
+        "id": "app_device_count_above"
+      },
+      {
+        "title": {
           "en": "Live build !{{has|doesn't have}} more than [[crashes]] crashes",
           "nl": "Live build !{{heeft|heeft niet}} meer dan [[crashes]] crashes"
         },
@@ -772,6 +1154,24 @@
           }
         ],
         "id": "app_has_crashes"
+      },
+      {
+        "title": {
+          "en": "App !{{has|doesn't have}} open suggestions",
+          "nl": "App !{{heeft|heeft geen}} open suggesties"
+        },
+        "titleFormatted": {
+          "en": "App !{{has|doesn't have}} open suggestions",
+          "nl": "App !{{heeft|heeft geen}} open suggesties"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          }
+        ],
+        "id": "app_has_suggestions"
       },
       {
         "title": {
@@ -867,6 +1267,37 @@
       },
       {
         "title": {
+          "en": "App !{{has|doesn't have}} more than [[crashes]] crashes across all builds",
+          "nl": "App !{{heeft|heeft niet}} meer dan [[crashes]] crashes over alle builds"
+        },
+        "titleFormatted": {
+          "en": "App !{{has|doesn't have}} more than [[crashes]] crashes across all builds",
+          "nl": "App !{{heeft|heeft niet}} meer dan [[crashes]] crashes over alle builds"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=app"
+          },
+          {
+            "name": "crashes",
+            "type": "number",
+            "min": 0,
+            "title": {
+              "en": "Crashes",
+              "nl": "Crashes"
+            },
+            "placeholder": {
+              "en": "Crashes",
+              "nl": "Crashes"
+            }
+          }
+        ],
+        "id": "app_total_crashes_above"
+      },
+      {
+        "title": {
           "en": "Live build !{{is|isn't}} older than [[days]] days",
           "nl": "Live build !{{is|is niet}} ouder dan [[days]] dagen"
         },
@@ -943,16 +1374,50 @@
         "test_version",
         "live_build_installs",
         "live_build_crashes",
-        "live_build_state",
         "live_build_age_days",
         "test_build_installs",
         "test_build_crashes",
-        "test_build_state"
+        "test_build_state",
+        "suggestions_count",
+        "device_count",
+        "total_crashes",
+        "build_count",
+        "installs_trend_7d"
       ],
       "id": "app"
     }
   ],
   "capabilities": {
+    "build_count": {
+      "type": "number",
+      "title": {
+        "en": "Submitted builds",
+        "nl": "Ingediende builds"
+      },
+      "decimals": 0,
+      "min": 0,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/package.svg",
+      "insights": true
+    },
+    "device_count": {
+      "type": "number",
+      "title": {
+        "en": "Paired devices",
+        "nl": "Gekoppelde apparaten"
+      },
+      "decimals": 0,
+      "min": 0,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/devices.svg",
+      "insights": true
+    },
     "installs": {
       "type": "number",
       "title": {
@@ -990,6 +1455,20 @@
       "uiComponent": "sensor",
       "uiQuickAction": false,
       "icon": "assets/capabilities/chart-timeline.svg",
+      "insights": true
+    },
+    "installs_trend_7d": {
+      "type": "number",
+      "title": {
+        "en": "Install trend (7 days)",
+        "nl": "Installatietrend (7 dagen)"
+      },
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/trending.svg",
       "insights": true
     },
     "live_build_age_days": {
@@ -1037,18 +1516,6 @@
       "icon": "assets/capabilities/chart-timeline.svg",
       "insights": true
     },
-    "live_build_state": {
-      "type": "string",
-      "title": {
-        "en": "Live build state",
-        "nl": "Live build status"
-      },
-      "getable": true,
-      "setable": false,
-      "uiComponent": "sensor",
-      "uiQuickAction": false,
-      "icon": "assets/capabilities/eye.svg"
-    },
     "live_version": {
       "type": "string",
       "title": {
@@ -1075,6 +1542,21 @@
       "uiComponent": "sensor",
       "uiQuickAction": false,
       "icon": "assets/capabilities/star.svg",
+      "insights": true
+    },
+    "suggestions_count": {
+      "type": "number",
+      "title": {
+        "en": "Open suggestions",
+        "nl": "Open suggesties"
+      },
+      "decimals": 0,
+      "min": 0,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/lightbulb.svg",
       "insights": true
     },
     "test_build_crashes": {
@@ -1126,6 +1608,21 @@
       "uiComponent": "sensor",
       "uiQuickAction": false,
       "icon": "assets/capabilities/tag.svg"
+    },
+    "total_crashes": {
+      "type": "number",
+      "title": {
+        "en": "Total crashes (all builds)",
+        "nl": "Totaal aantal crashes (alle builds)"
+      },
+      "decimals": 0,
+      "min": 0,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": false,
+      "icon": "assets/capabilities/bug.svg",
+      "insights": true
     }
   }
 }

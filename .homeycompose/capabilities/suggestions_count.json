@@ -1,0 +1,15 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Open suggestions",
+    "nl": "Open suggesties"
+  },
+  "decimals": 0,
+  "min": 0,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "uiQuickAction": false,
+  "icon": "assets/capabilities/lightbulb.svg",
+  "insights": true
+}

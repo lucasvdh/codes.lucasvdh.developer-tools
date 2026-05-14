@@ -1,0 +1,30 @@
+{
+  "title": {
+    "en": "App !{{has|doesn't have}} more than [[devices]] paired devices",
+    "nl": "App !{{heeft|heeft niet}} meer dan [[devices]] gekoppelde apparaten"
+  },
+  "titleFormatted": {
+    "en": "App !{{has|doesn't have}} more than [[devices]] paired devices",
+    "nl": "App !{{heeft|heeft niet}} meer dan [[devices]] gekoppelde apparaten"
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    },
+    {
+      "name": "devices",
+      "type": "number",
+      "min": 0,
+      "title": {
+        "en": "Devices",
+        "nl": "Apparaten"
+      },
+      "placeholder": {
+        "en": "Devices",
+        "nl": "Apparaten"
+      }
+    }
+  ]
+}

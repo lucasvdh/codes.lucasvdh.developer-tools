@@ -30,6 +30,7 @@ interface BuildData {
   installsLocal: number;
   installsCloud: number;
   state: string;
+  version?: string;
   _id: string;
   id: number;
   stateChangedAt: string;
@@ -41,7 +42,7 @@ interface BuildData {
   runtime?: string;
 }
 
-interface LocalizedData {
+export interface LocalizedData {
   en?: string;
   nl?: string;
   de?: string;
@@ -52,6 +53,45 @@ interface LocalizedData {
   es?: string;
   da?: string;
   pl?: string;
+}
+
+export interface Suggestion {
+  id: string;
+  suggestionText: string;
+  createdAt: string;
+}
+
+export interface BuildSummary {
+  id: number;
+  crashes: number;
+  installs: number;
+  version: string;
+  state: string;
+  createdAt: string;
+  stateChangedAt: string;
+  platforms: string[];
+}
+
+export interface BuildDetail {
+  id: number;
+  version: string;
+  state: string;
+  changelog?: LocalizedData;
+  readme?: LocalizedData;
+  permissions?: string[];
+}
+
+export interface CrashReport {
+  count: number;
+  homeyVersion?: string;
+  stack: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface StatPoint {
+  date: string;
+  value: number | null;
 }
 
 export class AthomApi {
@@ -70,17 +110,44 @@ export class AthomApi {
   }
 
   public async getApps(): Promise<AppData[]> {
+    return JSON.parse(await this.authedGet('/api/v1/app/me')) as AppData[];
+  }
+
+  public async getSuggestions(appId: string): Promise<Suggestion[]> {
+    return JSON.parse(await this.authedGet(`/api/v1/app/${appId}/suggestion`)) as Suggestion[];
+  }
+
+  public async getBuilds(appId: string): Promise<BuildSummary[]> {
+    return JSON.parse(await this.authedGet(`/api/v1/app/${appId}/build`)) as BuildSummary[];
+  }
+
+  public async getBuild(appId: string, buildId: number): Promise<BuildDetail> {
+    return JSON.parse(await this.authedGet(`/api/v1/app/${appId}/build/${buildId}`)) as BuildDetail;
+  }
+
+  public async getBuildCrashes(appId: string, buildId: number): Promise<CrashReport[]> {
+    return JSON.parse(await this.authedGet(`/api/v1/app/${appId}/build/${buildId}/crash`)) as CrashReport[];
+  }
+
+  public async getDriverStats(appId: string): Promise<Record<string, StatPoint[]>> {
+    return JSON.parse(await this.authedGet(`/api/v1/app/${appId}/drivers/stats`)) as Record<string, StatPoint[]>;
+  }
+
+  public async getInstallStats(appId: string): Promise<StatPoint[]> {
+    return JSON.parse(await this.authedGet(`/api/v1/app/${appId}/install/stats`)) as StatPoint[];
+  }
+
+  private async authedGet(path: string): Promise<string> {
     const jwt = await this.getDelegatedJWT();
-    const body = await this.request({
+    return this.request({
       method: 'GET',
       hostname: 'apps-api.athom.com',
-      path: '/api/v1/app/me',
+      path,
       headers: {
         'authorization': `Bearer ${jwt}`,
       },
       maxRedirects: 20,
     });
-    return JSON.parse(body) as AppData[];
   }
 
   private async getDelegatedJWT(): Promise<string> {

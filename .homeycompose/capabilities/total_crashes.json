@@ -1,0 +1,15 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Total crashes (all builds)",
+    "nl": "Totaal aantal crashes (alle builds)"
+  },
+  "decimals": 0,
+  "min": 0,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "uiQuickAction": false,
+  "icon": "assets/capabilities/bug.svg",
+  "insights": true
+}

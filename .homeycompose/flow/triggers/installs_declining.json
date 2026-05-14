@@ -1,0 +1,35 @@
+{
+  "title": {
+    "en": "An app started losing installs",
+    "nl": "Een app begon installaties te verliezen"
+  },
+  "tokens": [
+    {
+      "name": "app",
+      "type": "string",
+      "title": {
+        "en": "App name",
+        "nl": "App naam"
+      },
+      "example": "My Homey App"
+    },
+    {
+      "name": "installs",
+      "type": "number",
+      "title": {
+        "en": "Total number of installs",
+        "nl": "Totaal aantal installaties"
+      },
+      "example": "181"
+    },
+    {
+      "name": "trend",
+      "type": "number",
+      "title": {
+        "en": "Install trend (7 days)",
+        "nl": "Installatietrend (7 dagen)"
+      },
+      "example": "-4"
+    }
+  ]
+}

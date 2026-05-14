@@ -1,6 +1,6 @@
 {
   "id": "codes.lucasvdh.developer-tools",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#27435c",
@@ -67,6 +67,7 @@
   "source": "https://github.com/lucasvdh/codes.lucasvdh.developer-tools",
   "homepage": "https://homey-developer-tools.gitbook.io/en/",
   "support": "https://homey-developer-tools.gitbook.io/en/overview/faq",
+  "homeyCommunityTopicId": 154747,
   "api": {
     "testToken": {
       "method": "post",

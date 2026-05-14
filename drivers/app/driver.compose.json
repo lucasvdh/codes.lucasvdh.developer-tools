@@ -42,11 +42,15 @@
     "test_version",
     "live_build_installs",
     "live_build_crashes",
-    "live_build_state",
     "live_build_age_days",
     "test_build_installs",
     "test_build_crashes",
-    "test_build_state"
+    "test_build_state",
+    "suggestions_count",
+    "device_count",
+    "total_crashes",
+    "build_count",
+    "installs_trend_7d"
   ]
 }
 

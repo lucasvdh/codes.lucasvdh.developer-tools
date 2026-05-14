@@ -1,0 +1,33 @@
+{
+  "title": {
+    "en": "The total number of crashes across all builds has changed",
+    "nl": "Het totaal aantal crashes over alle builds is veranderd"
+  },
+  "tokens": [
+    {
+      "name": "crashes",
+      "type": "number",
+      "title": {
+        "en": "Total number of crashes",
+        "nl": "Totaal aantal crashes"
+      },
+      "example": "342"
+    },
+    {
+      "name": "crashes_delta",
+      "type": "number",
+      "title": {
+        "en": "Change in number of crashes",
+        "nl": "Verandering in aantal crashes"
+      },
+      "example": "5"
+    }
+  ],
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=app"
+    }
+  ]
+}

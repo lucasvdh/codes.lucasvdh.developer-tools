@@ -1,0 +1,14 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Install trend (7 days)",
+    "nl": "Installatietrend (7 dagen)"
+  },
+  "decimals": 0,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "uiQuickAction": false,
+  "icon": "assets/capabilities/trending.svg",
+  "insights": true
+}
