@@ -1,0 +1,20 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Owner",
+    "nl": "Eigenaar",
+    "de": "Besitzer",
+    "fr": "Propriétaire",
+    "it": "Proprietario",
+    "sv": "Ägare",
+    "no": "Eier",
+    "es": "Propietario",
+    "da": "Ejer",
+    "pl": "Właściciel"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "uiQuickAction": false,
+  "icon": "assets/capabilities/tag.svg"
+}

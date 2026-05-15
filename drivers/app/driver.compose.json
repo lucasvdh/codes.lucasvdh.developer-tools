@@ -50,7 +50,8 @@
     "device_count",
     "total_crashes",
     "build_count",
-    "installs_trend_7d"
+    "installs_trend_7d",
+    "app_owner"
   ]
 }
 

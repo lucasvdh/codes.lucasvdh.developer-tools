@@ -9,6 +9,7 @@ import AthomApi, {
   StatPoint,
   Suggestion,
 } from "../../lib/AthomApi";
+import PatStore, {PatEntry} from "../../lib/PatStore";
 
 interface AppExtras {
   suggestions?: Suggestion[];
@@ -22,7 +23,7 @@ interface AppExtras {
 }
 
 class AppDriver extends Driver {
-  private api?: AthomApi;
+  private apis: Map<string, AthomApi> = new Map();
   private interval?: NodeJS.Timeout;
   private appInstallsChangedTrigger?: FlowCardTriggerDevice;
   private appInstallsCloudChangedTrigger?: FlowCardTriggerDevice;
@@ -70,12 +71,13 @@ class AppDriver extends Driver {
   private async initialize(): Promise<void> {
     try {
       await this.initializeSettings();
-      this.initializeApi();
+      this.rebuildApis();
       await this.registerGlobalTokens();
       await this.registerFlowCards();
       this.registerSettingsListeners();
 
       this.startPolling();
+      this.enrichTokenMetadata().catch((e) => this.error(e));
 
       this.log('App Insights driver has been initialized')
     } catch (error) {
@@ -85,11 +87,35 @@ class AppDriver extends Driver {
     }
   }
 
+  private async enrichTokenMetadata(): Promise<void> {
+    const store = this.getPatStore();
+    for (const entry of store.list()) {
+      if (entry.username) continue;
+      const api = this.apis.get(entry.id);
+      if (!api) continue;
+      try {
+        const user = await api.getUserInfo();
+        store.update(entry.id, {
+          username: user.fullname,
+          email: user.email,
+          userId: user.id,
+          avatarUrl: user.avatarUrl,
+          lastCheckOk: true,
+          lastCheckedAt: new Date().toISOString(),
+          lastError: undefined,
+        });
+        this.log(`Enriched PAT ${entry.id.slice(0, 6)} with account info`);
+      } catch (err) {
+        this.error(`Failed to enrich PAT ${entry.id.slice(0, 6)}:`, err);
+      }
+    }
+  }
+
   private registerSettingsListeners(): void {
     this.homey.settings.on('set', (key: string) => {
-      if (key === 'personal_access_token') {
+      if (key === 'personal_access_tokens') {
         try {
-          this.initializeApi();
+          this.rebuildApis();
           this.updateDevices();
         } catch (e) {
           this.error(e);
@@ -101,17 +127,32 @@ class AppDriver extends Driver {
     });
   }
 
-  private initializeApi(): void {
-    const pat = this.homey.settings.get('personal_access_token');
+  private getPatStore(): PatStore {
+    return new PatStore(this.homey.settings);
+  }
 
-    if (typeof pat !== 'string' || pat === '') {
-      throw new Error('Personal access token has not yet been configured, trying again in 10 seconds');
+  private rebuildApis(): void {
+    const tokens = this.getPatStore().list();
+    const seenIds = new Set<string>();
+
+    for (const entry of tokens) {
+      seenIds.add(entry.id);
+      const existing = this.apis.get(entry.id);
+      if (existing) {
+        existing.setPersonalAccessToken(entry.token);
+      } else {
+        this.apis.set(entry.id, new AthomApi(entry.token));
+      }
     }
 
-    if (this.api) {
-      this.api.setPersonalAccessToken(pat);
-    } else {
-      this.api = new AthomApi(pat);
+    for (const id of Array.from(this.apis.keys())) {
+      if (!seenIds.has(id)) {
+        this.apis.delete(id);
+      }
+    }
+
+    if (tokens.length === 0) {
+      throw new Error('No Personal Access Tokens configured yet, retrying in 10 seconds');
     }
   }
 
@@ -128,11 +169,24 @@ class AppDriver extends Driver {
     if (!this.homey.settings.get('apps')) {
       this.homey.settings.set('apps', []);
     }
-    if (!this.homey.settings.get('personal_access_token')) {
-      this.homey.settings.set('personal_access_token', '');
-    }
     if (!this.homey.settings.get('polling_frequency')) {
       this.homey.settings.set('polling_frequency', 15);
+    }
+
+    const store = this.getPatStore();
+    const migrated = store.migrateFromLegacy();
+    if (migrated) {
+      this.log('Migrated legacy personal_access_token into multi-token store');
+    }
+
+    const tokens = store.list();
+    if (tokens.length > 0) {
+      const fallbackPatId = tokens[0].id;
+      for (const device of this.getDevices()) {
+        if (!device.getStoreValue('pat_id')) {
+          await device.setStoreValue('pat_id', fallbackPatId);
+        }
+      }
     }
   }
 
@@ -258,11 +312,33 @@ class AppDriver extends Driver {
       return;
     }
 
+    if (this.apis.size === 0) {
+      return;
+    }
+
     try {
       this.log('Updating app devices')
 
-      const apps = await this.getApi().getApps();
-      await this.processApps(apps);
+      const allApps: AppData[] = [];
+      const appsByPatId = new Map<string, AppData[]>();
+
+      const results = await Promise.allSettled(
+          Array.from(this.apis.entries()).map(async ([patId, api]) => {
+            const apps = await api.getApps();
+            return {patId, apps};
+          }),
+      );
+
+      for (const result of results) {
+        if (result.status === 'fulfilled') {
+          appsByPatId.set(result.value.patId, result.value.apps);
+          allApps.push(...result.value.apps);
+        } else {
+          this.error('Failed to fetch apps for a PAT', result.reason);
+        }
+      }
+
+      await this.processApps(appsByPatId, allApps);
     } catch (error) {
       this.error(error);
       await new Promise((resolve) => this.homey.setTimeout(resolve, 10000));
@@ -270,28 +346,47 @@ class AppDriver extends Driver {
     }
   }
 
-  private async processApps(apps: AppData[]): Promise<void> {
+  private async processApps(
+      appsByPatId: Map<string, AppData[]>,
+      allApps: AppData[],
+  ): Promise<void> {
     const extrasMap = new Map<string, AppExtras>();
+    const patEntries = this.getPatStore().list();
+    const ownerLabelByPatId = new Map<string, string>(
+        patEntries.map((entry) => [entry.id, AppDriver.ownerLabelFor(entry)]),
+    );
 
-    await Promise.all(apps.map(async (appData) => {
-      const extras = await this.processAppData(appData);
-      if (extras) {
-        extrasMap.set(appData.id, extras);
-      }
-    }));
+    await Promise.all(Array.from(appsByPatId.entries()).flatMap(([patId, apps]) =>
+        apps.map(async (appData) => {
+          const extras = await this.processAppData(patId, appData, ownerLabelByPatId.get(patId));
+          if (extras) {
+            extrasMap.set(appData.id, extras);
+          }
+        }),
+    ));
 
-    this.runGlobalTriggers(apps);
-    this.runGlobalTriggersWithApps(apps, extrasMap);
+    this.runGlobalTriggers(allApps);
+    this.runGlobalTriggersWithApps(allApps, extrasMap);
   }
 
-  private async processAppData(appData: AppData): Promise<AppExtras | undefined> {
-    const device = this.getDevices().find(device => device.getData().id === appData.id);
+  private static ownerLabelFor(entry: PatEntry): string {
+    return entry.label || entry.username || entry.email || `Account ${entry.id.slice(0, 6)}`;
+  }
+
+  private async processAppData(
+      patId: string,
+      appData: AppData,
+      ownerLabel: string | undefined,
+  ): Promise<AppExtras | undefined> {
+    const device = this.getDevices().find((d) =>
+        d.getData().id === appData.id && d.getStoreValue('pat_id') === patId,
+    );
 
     if (!device) {
       return undefined;
     }
 
-    const extras = await this.fetchAppExtras(appData);
+    const extras = await this.fetchAppExtras(patId, appData);
 
     try {
       await this.updateDeviceWithAppData(device, appData, extras.changelog);
@@ -305,11 +400,22 @@ class AppDriver extends Driver {
       this.error(e);
     }
 
+    if (ownerLabel && device.hasCapability('app_owner')) {
+      try {
+        await device.setCapabilityValue('app_owner', ownerLabel);
+      } catch (e) {
+        this.error(e);
+      }
+    }
+
     return extras;
   }
 
-  private async fetchAppExtras(appData: AppData): Promise<AppExtras> {
-    const api = this.getApi();
+  private async fetchAppExtras(patId: string, appData: AppData): Promise<AppExtras> {
+    const api = this.apis.get(patId);
+    if (!api) {
+      return {};
+    }
     const appId = appData.id;
     const crashBuild = appData.liveBuild ?? appData.testBuild;
     const crashBuildVersion = appData.liveBuild ? appData.liveVersion : appData.testVersion;
@@ -490,11 +596,7 @@ class AppDriver extends Driver {
   }
 
   private isApiConfigured(): boolean {
-    return this.api !== undefined;
-  }
-
-  private getApi(): AthomApi {
-    return <AthomApi>this.api;
+    return this.apis.size > 0;
   }
 
   async onPair(session: any) {
@@ -513,22 +615,36 @@ class AppDriver extends Driver {
     session.setHandler("list_devices", async (): Promise<DeviceType[]> => {
       if (!this.isApiConfigured()) {
         return [];
-      } else {
-        return await this.getApi().getApps()
-            .then((apps: AppData[]) => {
-              return apps.map((appData: AppData): DeviceType => {
-                return {
-                  name: appData.liveBuild?.name?.en ?? appData.testBuild?.name?.en ?? 'App name',
-                  data: {
-                    id: appData.id,
-                  },
-                  storage: {
-                    id: appData.id,
-                  },
-                }
-              })
-            });
       }
+
+      const seenAppIds = new Set<string>();
+      const devices: DeviceType[] = [];
+
+      const results = await Promise.allSettled(
+          Array.from(this.apis.entries()).map(async ([patId, api]) => {
+            const apps = await api.getApps();
+            return {patId, apps};
+          }),
+      );
+
+      for (const result of results) {
+        if (result.status !== 'fulfilled') {
+          this.error('Failed to list apps for a PAT during pairing', result.reason);
+          continue;
+        }
+        for (const appData of result.value.apps) {
+          if (seenAppIds.has(appData.id)) continue;
+          seenAppIds.add(appData.id);
+
+          devices.push({
+            name: appData.liveBuild?.name?.en ?? appData.testBuild?.name?.en ?? 'App name',
+            data: {id: appData.id},
+            storage: {id: appData.id, pat_id: result.value.patId},
+          });
+        }
+      }
+
+      return devices;
     });
   }
 

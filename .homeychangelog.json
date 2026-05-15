@@ -42,5 +42,9 @@
   "1.4.0": {
     "en": "New capabilities for open suggestions, paired devices, total crashes across all builds, submitted builds and the 7-day install trend. New Flow cards for incoming suggestions, crash reports, new builds, device count changes and declining installs. Live version triggers now include a changelog token. Removed the redundant live build state capability and trigger.",
     "nl": "Nieuwe capabilities voor open suggesties, gekoppelde apparaten, totaal aantal crashes over alle builds, ingediende builds en de 7-daagse installatietrend. Nieuwe flowkaarten voor binnenkomende suggesties, crashrapporten, nieuwe builds, wijzigingen in apparaataantal en dalende installaties. Liveversie-triggers hebben nu een changelog-token. De overbodige live build-status capability en trigger zijn verwijderd."
+  },
+  "1.5.0": {
+    "en": "You can now configure multiple Personal Access Tokens, useful when you maintain apps under more than one Athom account. The settings page shows a card per account with the username, avatar and a working/not-working status, and lets you add or remove tokens. Each app device gets a new Owner capability so you can see which account it belongs to. Existing tokens and devices migrate automatically.",
+    "nl": "Je kunt nu meerdere Personal Access Tokens instellen, handig wanneer je apps onder meerdere Athom-accounts beheert. De instellingenpagina toont een kaart per account met gebruikersnaam, avatar en een werkt/werkt-niet status, en je kunt tokens toevoegen of verwijderen. Elk app-apparaat krijgt een nieuwe Eigenaar-capability die laat zien bij welk account het hoort. Bestaande tokens en apparaten worden automatisch gemigreerd."
   }
 }

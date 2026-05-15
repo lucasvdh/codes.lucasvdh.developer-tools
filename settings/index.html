@@ -76,18 +76,103 @@
       flex: 1;
     }
 
-    #status-message {
+    #status-message,
+    #add-status-message {
       display: none;
       margin-top: 1rem;
     }
 
-    #status-message.visible {
+    #status-message.visible,
+    #add-status-message.visible {
       display: block;
     }
 
     .homey-form-legend + .homey-form-group,
     fieldset > legend.homey-form-legend.section-spacer {
       margin-top: 2rem;
+    }
+
+    .pat-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .pat-card {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      border: 1px solid #e4e5e7;
+      border-radius: 0.5rem;
+      background: #fff;
+    }
+
+    .pat-card__avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #e4e5e7;
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+
+    .pat-card__body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pat-card__title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin: 0;
+      color: #1f2933;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .pat-card__subtitle {
+      font-size: 0.8rem;
+      color: #52606d;
+      margin: 0.1rem 0 0 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .pat-card__status {
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .pat-card__status--ok { color: #155724; }
+    .pat-card__status--fail { color: #721c24; }
+    .pat-card__status--unknown { color: #52606d; }
+
+    .pat-card__actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      flex-shrink: 0;
+    }
+
+    .pat-card__actions button {
+      min-width: 80px;
+    }
+
+    .pat-empty {
+      padding: 1rem;
+      text-align: center;
+      color: #52606d;
+      font-size: 0.9rem;
+      border: 1px dashed #e4e5e7;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
     }
   </style>
 </head>
@@ -104,17 +189,24 @@
     <fieldset class="homey-form-fieldset">
       <legend class="homey-form-legend" data-i18n="settings.authorisation_settings">Authorization</legend>
 
+      <div id="pat-cards" class="pat-cards"></div>
+      <div id="pat-empty" class="pat-empty" data-i18n="settings.no_tokens_yet" style="display: none;">
+        No Personal Access Tokens configured yet. Add one below.
+      </div>
+
+      <legend class="homey-form-legend section-spacer" data-i18n="settings.add_token">Add token</legend>
+
       <div class="homey-form-group">
-        <label class="homey-form-label" for="personal_access_token" data-i18n="settings.personal_access_token">Personal Access Token</label>
-        <input class="homey-form-input" id="personal_access_token" type="password" autocomplete="off"/>
+        <label class="homey-form-label" for="new_token" data-i18n="settings.personal_access_token">Personal Access Token</label>
+        <input class="homey-form-input" id="new_token" type="password" autocomplete="off" placeholder="pat-..."/>
       </div>
 
       <div class="button-row">
-        <button id="test-button" class="homey-button-secondary-full" type="button" data-i18n="settings.test"></button>
-        <button id="save-button" class="homey-button-primary-full" type="button" data-i18n="settings.save"></button>
+        <button id="test-new-button" class="homey-button-secondary-full" type="button" data-i18n="settings.test"></button>
+        <button id="add-new-button" class="homey-button-primary-full" type="button" data-i18n="settings.add"></button>
       </div>
 
-      <div id="status-message" class="alert"></div>
+      <div id="add-status-message" class="alert"></div>
 
       <legend class="homey-form-legend section-spacer" data-i18n="settings.polling_settings">Polling</legend>
 
@@ -122,6 +214,12 @@
         <label class="homey-form-label" for="polling_frequency" data-i18n="settings.polling_frequency">Polling frequency (in minutes)</label>
         <input class="homey-form-input" id="polling_frequency" type="number" min="1" value="15"/>
       </div>
+
+      <div class="button-row">
+        <button id="save-polling-button" class="homey-button-primary-full" type="button" data-i18n="settings.save"></button>
+      </div>
+
+      <div id="status-message" class="alert"></div>
     </fieldset>
   </form>
 
@@ -132,88 +230,225 @@
     <ol class="token-steps">
       <li data-i18n="settings.token_step_open">Open <a href="https://tools.developer.homey.app/me" target="_blank">tools.developer.homey.app/me</a> and sign in with your Athom account.</li>
       <li data-i18n="settings.token_step_copy">In the <em>Personal Access Token</em> section, copy the token (it starts with <code>pat-</code>).</li>
-      <li data-i18n="settings.token_step_paste">Paste it above and press <em>Test</em> to verify, then <em>Save</em>.</li>
+      <li data-i18n="settings.token_step_paste">Paste it above and press <em>Test</em> to verify, then <em>Add</em>.</li>
     </ol>
   </div>
 </div>
 
 <script type="text/javascript">
-  const tokenInput = document.getElementById('personal_access_token');
+  const cardsEl = document.getElementById('pat-cards');
+  const emptyEl = document.getElementById('pat-empty');
+  const newTokenInput = document.getElementById('new_token');
+  const testNewButton = document.getElementById('test-new-button');
+  const addNewButton = document.getElementById('add-new-button');
+  const addStatusEl = document.getElementById('add-status-message');
   const pollingInput = document.getElementById('polling_frequency');
-  const saveButton = document.getElementById('save-button');
-  const testButton = document.getElementById('test-button');
+  const savePollingButton = document.getElementById('save-polling-button');
   const statusEl = document.getElementById('status-message');
 
-  function showStatus(type, message) {
-    statusEl.className = 'alert visible alert-' + type;
-    statusEl.textContent = message;
+  function showStatus(target, type, message) {
+    target.className = 'alert visible alert-' + type;
+    target.textContent = message;
   }
 
-  function hideStatus() {
-    statusEl.className = 'alert';
-    statusEl.textContent = '';
+  function hideStatus(target) {
+    target.className = 'alert';
+    target.textContent = '';
+  }
+
+  function format(template, values) {
+    return Object.keys(values).reduce(function (acc, key) {
+      return acc.split('{{' + key + '}}').join(String(values[key]));
+    }, template);
+  }
+
+  function statusBadge(Homey, entry) {
+    if (entry.lastCheckOk === true) {
+      return {
+        cls: 'pat-card__status--ok',
+        text: '✓ ' + Homey.__('settings.token_status_ok'),
+      };
+    }
+    if (entry.lastCheckOk === false) {
+      return {
+        cls: 'pat-card__status--fail',
+        text: '✗ ' + (entry.lastError
+            ? format(Homey.__('settings.token_status_failed'), { error: entry.lastError })
+            : Homey.__('settings.token_status_failed_short')),
+      };
+    }
+    return {
+      cls: 'pat-card__status--unknown',
+      text: '– ' + Homey.__('settings.token_status_unknown'),
+    };
+  }
+
+  function renderCards(Homey, tokens) {
+    cardsEl.innerHTML = '';
+    if (!tokens || tokens.length === 0) {
+      emptyEl.style.display = '';
+      return;
+    }
+    emptyEl.style.display = 'none';
+
+    tokens.forEach(function (entry) {
+      const card = document.createElement('div');
+      card.className = 'pat-card';
+
+      const avatar = document.createElement(entry.avatarUrl ? 'img' : 'div');
+      avatar.className = 'pat-card__avatar';
+      if (entry.avatarUrl) {
+        avatar.src = entry.avatarUrl;
+        avatar.alt = '';
+      }
+      card.appendChild(avatar);
+
+      const body = document.createElement('div');
+      body.className = 'pat-card__body';
+
+      const title = document.createElement('p');
+      title.className = 'pat-card__title';
+      const titleText = entry.label
+          || entry.username
+          || (entry.tokenSuffix ? 'pat-...' + entry.tokenSuffix : Homey.__('settings.token_username_unknown'));
+      title.textContent = titleText;
+      body.appendChild(title);
+
+      if (entry.email && entry.email !== titleText) {
+        const sub = document.createElement('p');
+        sub.className = 'pat-card__subtitle';
+        sub.textContent = entry.email;
+        body.appendChild(sub);
+      }
+
+      const badge = statusBadge(Homey, entry);
+      const status = document.createElement('div');
+      status.className = 'pat-card__status ' + badge.cls;
+      status.textContent = badge.text;
+      body.appendChild(status);
+
+      card.appendChild(body);
+
+      const actions = document.createElement('div');
+      actions.className = 'pat-card__actions';
+
+      const testBtn = document.createElement('button');
+      testBtn.type = 'button';
+      testBtn.className = 'homey-button-secondary-full';
+      testBtn.textContent = Homey.__('settings.test');
+      testBtn.addEventListener('click', async function () {
+        testBtn.classList.add('is-loading');
+        try {
+          await Homey.api('POST', '/tokens/' + encodeURIComponent(entry.id) + '/test', {});
+          await refreshTokens(Homey);
+        } catch (err) {
+          console.error(err);
+        } finally {
+          testBtn.classList.remove('is-loading');
+        }
+      });
+      actions.appendChild(testBtn);
+
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'homey-button-danger-full';
+      removeBtn.textContent = Homey.__('settings.remove');
+      removeBtn.addEventListener('click', async function () {
+        const confirmMsg = format(Homey.__('settings.confirm_remove'), { name: titleText });
+        Homey.confirm(confirmMsg, 'warning', async function (err, ok) {
+          if (err || !ok) return;
+          removeBtn.classList.add('is-loading');
+          try {
+            await Homey.api('DELETE', '/tokens/' + encodeURIComponent(entry.id));
+            await refreshTokens(Homey);
+          } catch (e) {
+            console.error(e);
+          } finally {
+            removeBtn.classList.remove('is-loading');
+          }
+        });
+      });
+      actions.appendChild(removeBtn);
+
+      card.appendChild(actions);
+      cardsEl.appendChild(card);
+    });
+  }
+
+  async function refreshTokens(Homey) {
+    try {
+      const result = await Homey.api('GET', '/tokens');
+      renderCards(Homey, (result && result.tokens) || []);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   function onHomeyReady(Homey) {
-    Homey.get('personal_access_token', function (err, value) {
-      if (!err && value) tokenInput.value = value;
-    });
-
     Homey.get('polling_frequency', function (err, value) {
       if (!err && value) pollingInput.value = value;
     });
 
-    function format(template, values) {
-      return Object.keys(values).reduce(function (acc, key) {
-        return acc.split('{{' + key + '}}').join(String(values[key]));
-      }, template);
-    }
+    refreshTokens(Homey);
 
-    testButton.addEventListener('click', async function () {
-      hideStatus();
-      const token = tokenInput.value.trim();
+    testNewButton.addEventListener('click', async function () {
+      hideStatus(addStatusEl);
+      const token = newTokenInput.value.trim();
       if (!token) {
-        showStatus('danger', Homey.__('settings.test_no_token'));
+        showStatus(addStatusEl, 'danger', Homey.__('settings.test_no_token'));
         return;
       }
-      testButton.classList.add('is-loading');
+      testNewButton.classList.add('is-loading');
       try {
         const result = await Homey.api('POST', '/test-token', { token });
         if (result && result.ok) {
-          showStatus('success', format(Homey.__('settings.test_success'), { count: result.appCount || 0 }));
+          showStatus(addStatusEl, 'success', format(Homey.__('settings.test_success'), { count: result.appCount || 0 }));
         } else {
-          showStatus('danger', format(Homey.__('settings.test_failure'), { error: (result && result.error) || 'Unknown error' }));
+          showStatus(addStatusEl, 'danger', format(Homey.__('settings.test_failure'), { error: (result && result.error) || 'Unknown error' }));
         }
       } catch (err) {
-        showStatus('danger', format(Homey.__('settings.test_failure'), { error: (err && err.message) || String(err) }));
+        showStatus(addStatusEl, 'danger', format(Homey.__('settings.test_failure'), { error: (err && err.message) || String(err) }));
       } finally {
-        testButton.classList.remove('is-loading');
+        testNewButton.classList.remove('is-loading');
       }
     });
 
-    saveButton.addEventListener('click', function (event) {
-      event.preventDefault();
-      hideStatus();
-      saveButton.classList.add('is-loading');
-
-      Homey.set('personal_access_token', tokenInput.value.trim(), function (error) {
-        if (error) {
-          console.error(error);
-          showStatus('danger', Homey.__('settings.save_failure'));
-          saveButton.classList.remove('is-loading');
-          return;
+    addNewButton.addEventListener('click', async function () {
+      hideStatus(addStatusEl);
+      const token = newTokenInput.value.trim();
+      if (!token) {
+        showStatus(addStatusEl, 'danger', Homey.__('settings.test_no_token'));
+        return;
+      }
+      addNewButton.classList.add('is-loading');
+      try {
+        const result = await Homey.api('POST', '/tokens', { token });
+        if (result && result.ok) {
+          showStatus(addStatusEl, 'success', Homey.__('settings.add_success'));
+          newTokenInput.value = '';
+          await refreshTokens(Homey);
+        } else {
+          showStatus(addStatusEl, 'danger', format(Homey.__('settings.add_failure'), { error: (result && result.error) || 'Unknown error' }));
         }
+      } catch (err) {
+        showStatus(addStatusEl, 'danger', format(Homey.__('settings.add_failure'), { error: (err && err.message) || String(err) }));
+      } finally {
+        addNewButton.classList.remove('is-loading');
+      }
+    });
 
-        const polling = parseInt(pollingInput.value, 10);
-        Homey.set('polling_frequency', isNaN(polling) ? 15 : Math.max(1, polling), function (e2) {
-          saveButton.classList.remove('is-loading');
-          if (e2) {
-            console.error(e2);
-            showStatus('danger', Homey.__('settings.save_failure'));
-          } else {
-            showStatus('success', Homey.__('settings.save_success'));
-          }
-        });
+    savePollingButton.addEventListener('click', function () {
+      hideStatus(statusEl);
+      savePollingButton.classList.add('is-loading');
+      const polling = parseInt(pollingInput.value, 10);
+      Homey.set('polling_frequency', isNaN(polling) ? 15 : Math.max(1, polling), function (err) {
+        savePollingButton.classList.remove('is-loading');
+        if (err) {
+          console.error(err);
+          showStatus(statusEl, 'danger', Homey.__('settings.save_failure'));
+        } else {
+          showStatus(statusEl, 'success', Homey.__('settings.save_success'));
+        }
       });
     });
 

@@ -14,7 +14,8 @@ export interface DeviceSettings {
 }
 
 export interface DeviceStorage {
-  id: string
+  id: string;
+  pat_id?: string;
 }
 
 export interface Device {

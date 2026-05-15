@@ -94,6 +94,25 @@ export interface StatPoint {
   value: number | null;
 }
 
+export interface UserInfo {
+  id: string;
+  fullname?: string;
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+  avatarUrl?: string;
+}
+
+interface RawUserResponse {
+  _id?: string;
+  id?: string;
+  email?: string;
+  firstname?: string;
+  lastname?: string;
+  fullname?: string;
+  avatar?: { small?: string; medium?: string; large?: string };
+}
+
 export class AthomApi {
   private personalAccessToken: string;
   private delegatedJWT?: string;
@@ -111,6 +130,27 @@ export class AthomApi {
 
   public async getApps(): Promise<AppData[]> {
     return JSON.parse(await this.authedGet('/api/v1/app/me')) as AppData[];
+  }
+
+  public async getUserInfo(): Promise<UserInfo> {
+    const body = await this.request({
+      method: 'GET',
+      hostname: 'api.athom.com',
+      path: '/user/me',
+      headers: {
+        'authorization': `Bearer ${this.personalAccessToken}`,
+      },
+      maxRedirects: 20,
+    });
+    const raw = JSON.parse(body) as RawUserResponse;
+    return {
+      id: raw._id ?? raw.id ?? '',
+      fullname: raw.fullname,
+      firstname: raw.firstname,
+      lastname: raw.lastname,
+      email: raw.email,
+      avatarUrl: raw.avatar?.small ?? raw.avatar?.medium ?? raw.avatar?.large,
+    };
   }
 
   public async getSuggestions(appId: string): Promise<Suggestion[]> {

@@ -1,6 +1,6 @@
 {
   "id": "codes.lucasvdh.developer-tools",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#27435c",
@@ -72,6 +72,26 @@
     "testToken": {
       "method": "post",
       "path": "/test-token",
+      "public": false
+    },
+    "listTokens": {
+      "method": "get",
+      "path": "/tokens",
+      "public": false
+    },
+    "addToken": {
+      "method": "post",
+      "path": "/tokens",
+      "public": false
+    },
+    "removeToken": {
+      "method": "delete",
+      "path": "/tokens/:id",
+      "public": false
+    },
+    "testTokenById": {
+      "method": "post",
+      "path": "/tokens/:id/test",
       "public": false
     }
   }

@@ -9,7 +9,19 @@
     "saved": "Impostazioni Salvate",
     "need_help_finding_token": "Hai bisogno di aiuto per trovare il tuo token di refresh OAuth?",
     "click_here_documentation": "Clicca qui per visualizzare la documentazione.",
-    "personal_access_token": "Personal Access Token"
+    "personal_access_token": "Personal Access Token",
+    "add": "Add",
+    "add_token": "Add token",
+    "remove": "Remove",
+    "add_success": "Token added.",
+    "add_failure": "Could not add token: {{error}}",
+    "no_tokens_yet": "No Personal Access Tokens configured yet. Add one below.",
+    "token_status_ok": "Working",
+    "token_status_failed": "Not working: {{error}}",
+    "token_status_failed_short": "Not working",
+    "token_status_unknown": "Not tested yet",
+    "token_username_unknown": "Unknown account",
+    "confirm_remove": "Remove the token for {{name}}?"
   },
   "global_tokens": {
     "total_installs": "Installazioni Totali",
