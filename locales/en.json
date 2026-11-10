@@ -60,8 +60,8 @@
     "pair_intro": "Choose for each account which Developer Organizations its overview includes."
   },
   "widgets": {
-    "device_description": "{{apps}} apps · {{installs}} installs · {{devices}} devices",
-    "app_description": "{{installs}} installs · {{devices}} devices · {{version}}",
+    "device_description": "__apps__ apps · __installs__ installs · __devices__ devices",
+    "app_description": "__installs__ installs · __devices__ devices · __version__",
     "no_live_version": "no live version",
     "select_device": "Select an App overview device in the widget settings.",
     "select_app": "Select an app in the widget settings.",

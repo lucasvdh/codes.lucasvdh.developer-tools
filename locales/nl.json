@@ -60,8 +60,8 @@
     "pair_intro": "Kies per account welke Developer Organizations in het overzicht komen."
   },
   "widgets": {
-    "device_description": "{{apps}} apps · {{installs}} installaties · {{devices}} apparaten",
-    "app_description": "{{installs}} installaties · {{devices}} apparaten · {{version}}",
+    "device_description": "__apps__ apps · __installs__ installaties · __devices__ apparaten",
+    "app_description": "__installs__ installaties · __devices__ apparaten · __version__",
     "no_live_version": "geen live versie",
     "select_device": "Kies een App-overzicht-apparaat in de widgetinstellingen.",
     "select_app": "Kies een app in de widgetinstellingen.",

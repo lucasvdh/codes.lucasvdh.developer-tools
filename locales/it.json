@@ -46,8 +46,8 @@
     "pair_intro": "Scegli per ogni account quali Developer Organizations includere nella panoramica."
   },
   "widgets": {
-    "device_description": "{{apps}} app · {{installs}} installazioni · {{devices}} dispositivi",
-    "app_description": "{{installs}} installazioni · {{devices}} dispositivi · {{version}}",
+    "device_description": "__apps__ app · __installs__ installazioni · __devices__ dispositivi",
+    "app_description": "__installs__ installazioni · __devices__ dispositivi · __version__",
     "no_live_version": "nessuna versione live",
     "select_device": "Seleziona un dispositivo Panoramica app nelle impostazioni del widget.",
     "select_app": "Seleziona un'app nelle impostazioni del widget.",

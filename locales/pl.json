@@ -46,8 +46,8 @@
     "pair_intro": "Wybierz dla każdego konta, które Developer Organizations obejmuje jego przegląd."
   },
   "widgets": {
-    "device_description": "{{apps}} aplikacji · {{installs}} instalacji · {{devices}} urządzeń",
-    "app_description": "{{installs}} instalacji · {{devices}} urządzeń · {{version}}",
+    "device_description": "__apps__ aplikacji · __installs__ instalacji · __devices__ urządzeń",
+    "app_description": "__installs__ instalacji · __devices__ urządzeń · __version__",
     "no_live_version": "brak wersji live",
     "select_device": "Wybierz urządzenie Przegląd aplikacji w ustawieniach widżetu.",
     "select_app": "Wybierz aplikację w ustawieniach widżetu.",

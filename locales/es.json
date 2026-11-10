@@ -46,8 +46,8 @@
     "pair_intro": "Elige para cada cuenta qué Developer Organizations incluye su resumen."
   },
   "widgets": {
-    "device_description": "{{apps}} apps · {{installs}} instalaciones · {{devices}} dispositivos",
-    "app_description": "{{installs}} instalaciones · {{devices}} dispositivos · {{version}}",
+    "device_description": "__apps__ apps · __installs__ instalaciones · __devices__ dispositivos",
+    "app_description": "__installs__ instalaciones · __devices__ dispositivos · __version__",
     "no_live_version": "sin versión live",
     "select_device": "Selecciona un dispositivo Resumen de apps en los ajustes del widget.",
     "select_app": "Selecciona una app en los ajustes del widget.",

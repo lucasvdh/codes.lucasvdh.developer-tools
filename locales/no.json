@@ -46,8 +46,8 @@
     "pair_intro": "Velg for hver konto hvilke Developer Organizations som er med i oversikten."
   },
   "widgets": {
-    "device_description": "{{apps}} apper · {{installs}} installasjoner · {{devices}} enheter",
-    "app_description": "{{installs}} installasjoner · {{devices}} enheter · {{version}}",
+    "device_description": "__apps__ apper · __installs__ installasjoner · __devices__ enheter",
+    "app_description": "__installs__ installasjoner · __devices__ enheter · __version__",
     "no_live_version": "ingen liveversjon",
     "select_device": "Velg en App-oversikt-enhet i widgetinnstillingene.",
     "select_app": "Velg en app i widgetinnstillingene.",

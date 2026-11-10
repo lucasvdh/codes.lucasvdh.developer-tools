@@ -46,8 +46,8 @@
     "pair_intro": "Choisissez pour chaque compte les Developer Organizations incluses dans son aperçu."
   },
   "widgets": {
-    "device_description": "{{apps}} apps · {{installs}} installations · {{devices}} appareils",
-    "app_description": "{{installs}} installations · {{devices}} appareils · {{version}}",
+    "device_description": "__apps__ apps · __installs__ installations · __devices__ appareils",
+    "app_description": "__installs__ installations · __devices__ appareils · __version__",
     "no_live_version": "pas de version live",
     "select_device": "Sélectionnez un appareil Aperçu des apps dans les paramètres du widget.",
     "select_app": "Sélectionnez une app dans les paramètres du widget.",

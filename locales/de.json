@@ -46,8 +46,8 @@
     "pair_intro": "Wählen Sie für jedes Konto, welche Developer Organizations die Übersicht einbezieht."
   },
   "widgets": {
-    "device_description": "{{apps}} Apps · {{installs}} Installationen · {{devices}} Geräte",
-    "app_description": "{{installs}} Installationen · {{devices}} Geräte · {{version}}",
+    "device_description": "__apps__ Apps · __installs__ Installationen · __devices__ Geräte",
+    "app_description": "__installs__ Installationen · __devices__ Geräte · __version__",
     "no_live_version": "keine Live-Version",
     "select_device": "Wählen Sie in den Widget-Einstellungen ein App-Übersicht-Gerät.",
     "select_app": "Wählen Sie in den Widget-Einstellungen eine App.",
