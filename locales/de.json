@@ -53,6 +53,34 @@
     "select_app": "Wählen Sie in den Widget-Einstellungen eine App.",
     "device_gone": "Das ausgewählte App-Übersicht-Gerät existiert nicht mehr.",
     "app_gone": "Die ausgewählte App ist nicht in dieser App-Übersicht. Wählen Sie in den Widget-Einstellungen erneut eine App.",
-    "no_overview": "Fügen Sie zuerst ein App-Übersicht-Gerät hinzu."
+    "no_overview": "Fügen Sie zuerst ein App-Übersicht-Gerät hinzu.",
+    "install_overview": {
+      "age": "Alter des Live-Builds",
+      "age_days": "__count__ Tage",
+      "app_count": "__count__ Apps",
+      "apps": "Apps",
+      "builds": "Builds",
+      "close": "Schließen",
+      "cloud": "Cloud",
+      "details": "App-Details",
+      "device_count": "__count__ Geräte",
+      "devices": "Geräte",
+      "empty": "Keine Apps gefunden.",
+      "growth": "Wachstum 7 T.",
+      "growth_per_week": "__value__ / 7 T.",
+      "live": "Live",
+      "live_version": "Live v__version__",
+      "local": "Lokal",
+      "none": "Keine",
+      "rating": "Bewertung",
+      "review": "In Prüfung",
+      "status": "Status",
+      "suggestion_count": "__count__ Vorschläge",
+      "suggestions": "Vorschläge",
+      "summary_growth": "Wachstum 7 T. __value__",
+      "test": "Test",
+      "total": "Gesamtinstallationen",
+      "updated_at": "Aktualisiert __time__"
+    }
   }
 }

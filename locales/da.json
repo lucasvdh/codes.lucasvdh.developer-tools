@@ -53,6 +53,34 @@
     "select_app": "Vælg en app i widgetindstillingerne.",
     "device_gone": "Den valgte App-oversigt-enhed findes ikke længere.",
     "app_gone": "Den valgte app er ikke i denne App-oversigt. Vælg en app igen i widgetindstillingerne.",
-    "no_overview": "Tilføj først en App-oversigt-enhed."
+    "no_overview": "Tilføj først en App-oversigt-enhed.",
+    "install_overview": {
+      "age": "Alder på live-build",
+      "age_days": "__count__ dage",
+      "app_count": "__count__ apps",
+      "apps": "Apps",
+      "builds": "Builds",
+      "close": "Luk",
+      "cloud": "Cloud",
+      "details": "Appdetaljer",
+      "device_count": "__count__ enheder",
+      "devices": "Enheder",
+      "empty": "Ingen apps fundet.",
+      "growth": "Vækst 7 d",
+      "growth_per_week": "__value__ / 7 d",
+      "live": "Live",
+      "live_version": "Live v__version__",
+      "local": "Lokalt",
+      "none": "Ingen",
+      "rating": "Bedømmelse",
+      "review": "Under gennemgang",
+      "status": "Status",
+      "suggestion_count": "__count__ forslag",
+      "suggestions": "Forslag",
+      "summary_growth": "Vækst 7 d __value__",
+      "test": "Test",
+      "total": "Samlede installationer",
+      "updated_at": "Opdateret __time__"
+    }
   }
 }

@@ -53,6 +53,34 @@
     "select_app": "Selecciona una app en los ajustes del widget.",
     "device_gone": "El dispositivo Resumen de apps seleccionado ya no existe.",
     "app_gone": "La app seleccionada no está en este Resumen de apps. Vuelve a seleccionar una app en los ajustes del widget.",
-    "no_overview": "Añade primero un dispositivo Resumen de apps."
+    "no_overview": "Añade primero un dispositivo Resumen de apps.",
+    "install_overview": {
+      "age": "Antigüedad del build live",
+      "age_days": "__count__ días",
+      "app_count": "__count__ apps",
+      "apps": "Apps",
+      "builds": "Builds",
+      "close": "Cerrar",
+      "cloud": "Nube",
+      "details": "Detalles de la app",
+      "device_count": "__count__ dispositivos",
+      "devices": "Dispositivos",
+      "empty": "No se encontraron apps.",
+      "growth": "Crecimiento 7 d",
+      "growth_per_week": "__value__ / 7 d",
+      "live": "Live",
+      "live_version": "Live v__version__",
+      "local": "Local",
+      "none": "Ninguno",
+      "rating": "Valoración",
+      "review": "En revisión",
+      "status": "Estado",
+      "suggestion_count": "__count__ sugerencias",
+      "suggestions": "Sugerencias",
+      "summary_growth": "Crecimiento 7 d __value__",
+      "test": "Prueba",
+      "total": "Instalaciones totales",
+      "updated_at": "Actualizado a las __time__"
+    }
   }
 }

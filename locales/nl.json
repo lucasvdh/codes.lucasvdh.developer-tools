@@ -67,6 +67,34 @@
     "select_app": "Kies een app in de widgetinstellingen.",
     "device_gone": "Het gekozen App-overzicht-apparaat bestaat niet meer.",
     "app_gone": "De gekozen app zit niet in dit App-overzicht. Kies opnieuw een app in de widgetinstellingen.",
-    "no_overview": "Voeg eerst een App-overzicht-apparaat toe."
+    "no_overview": "Voeg eerst een App-overzicht-apparaat toe.",
+    "install_overview": {
+      "age": "Live build leeftijd",
+      "age_days": "__count__ dagen",
+      "app_count": "__count__ apps",
+      "apps": "Apps",
+      "builds": "Builds",
+      "close": "Sluiten",
+      "cloud": "Cloud",
+      "details": "App-details",
+      "device_count": "__count__ apparaten",
+      "devices": "Apparaten",
+      "empty": "Geen apps gevonden.",
+      "growth": "7d groei",
+      "growth_per_week": "__value__ / 7d",
+      "live": "Live",
+      "live_version": "Live v__version__",
+      "local": "Lokaal",
+      "none": "Geen",
+      "rating": "Beoordeling",
+      "review": "In review",
+      "status": "Status",
+      "suggestion_count": "__count__ suggesties",
+      "suggestions": "Suggesties",
+      "summary_growth": "7d groei __value__",
+      "test": "Test",
+      "total": "Totaal installaties",
+      "updated_at": "Bijgewerkt __time__"
+    }
   }
 }

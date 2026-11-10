@@ -53,6 +53,34 @@
     "select_app": "Wybierz aplikację w ustawieniach widżetu.",
     "device_gone": "Wybrane urządzenie Przegląd aplikacji już nie istnieje.",
     "app_gone": "Wybrana aplikacja nie należy do tego Przeglądu aplikacji. Wybierz aplikację ponownie w ustawieniach widżetu.",
-    "no_overview": "Najpierw dodaj urządzenie Przegląd aplikacji."
+    "no_overview": "Najpierw dodaj urządzenie Przegląd aplikacji.",
+    "install_overview": {
+      "age": "Wiek buildu live",
+      "age_days": "__count__ dni",
+      "app_count": "Aplikacje: __count__",
+      "apps": "Aplikacje",
+      "builds": "Buildy",
+      "close": "Zamknij",
+      "cloud": "Chmura",
+      "details": "Szczegóły aplikacji",
+      "device_count": "urządzenia: __count__",
+      "devices": "Urządzenia",
+      "empty": "Nie znaleziono aplikacji.",
+      "growth": "Wzrost 7 d",
+      "growth_per_week": "__value__ / 7 d",
+      "live": "Live",
+      "live_version": "Live v__version__",
+      "local": "Lokalnie",
+      "none": "Brak",
+      "rating": "Ocena",
+      "review": "W recenzji",
+      "status": "Status",
+      "suggestion_count": "sugestie: __count__",
+      "suggestions": "Sugestie",
+      "summary_growth": "Wzrost 7 d __value__",
+      "test": "Test",
+      "total": "Łączna liczba instalacji",
+      "updated_at": "Zaktualizowano __time__"
+    }
   }
 }

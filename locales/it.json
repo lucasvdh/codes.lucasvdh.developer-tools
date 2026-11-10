@@ -53,6 +53,34 @@
     "select_app": "Seleziona un'app nelle impostazioni del widget.",
     "device_gone": "Il dispositivo Panoramica app selezionato non esiste più.",
     "app_gone": "L'app selezionata non è in questa Panoramica app. Seleziona di nuovo un'app nelle impostazioni del widget.",
-    "no_overview": "Aggiungi prima un dispositivo Panoramica app."
+    "no_overview": "Aggiungi prima un dispositivo Panoramica app.",
+    "install_overview": {
+      "age": "Età della build live",
+      "age_days": "__count__ giorni",
+      "app_count": "__count__ app",
+      "apps": "App",
+      "builds": "Build",
+      "close": "Chiudi",
+      "cloud": "Cloud",
+      "details": "Dettagli dell'app",
+      "device_count": "__count__ dispositivi",
+      "devices": "Dispositivi",
+      "empty": "Nessuna app trovata.",
+      "growth": "Crescita 7 g",
+      "growth_per_week": "__value__ / 7 g",
+      "live": "Live",
+      "live_version": "Live v__version__",
+      "local": "Locale",
+      "none": "Nessuno",
+      "rating": "Valutazione",
+      "review": "In revisione",
+      "status": "Stato",
+      "suggestion_count": "__count__ suggerimenti",
+      "suggestions": "Suggerimenti",
+      "summary_growth": "Crescita 7 g __value__",
+      "test": "Test",
+      "total": "Installazioni totali",
+      "updated_at": "Aggiornato alle __time__"
+    }
   }
 }

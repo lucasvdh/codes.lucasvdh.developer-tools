@@ -53,6 +53,34 @@
     "select_app": "Velg en app i widgetinnstillingene.",
     "device_gone": "Den valgte App-oversikt-enheten finnes ikke lenger.",
     "app_gone": "Den valgte appen er ikke i denne App-oversikten. Velg en app på nytt i widgetinnstillingene.",
-    "no_overview": "Legg til en App-oversikt-enhet først."
+    "no_overview": "Legg til en App-oversikt-enhet først.",
+    "install_overview": {
+      "age": "Alder på livebygg",
+      "age_days": "__count__ dager",
+      "app_count": "__count__ apper",
+      "apps": "Apper",
+      "builds": "Bygg",
+      "close": "Lukk",
+      "cloud": "Sky",
+      "details": "Appdetaljer",
+      "device_count": "__count__ enheter",
+      "devices": "Enheter",
+      "empty": "Ingen apper funnet.",
+      "growth": "Vekst 7 d",
+      "growth_per_week": "__value__ / 7 d",
+      "live": "Live",
+      "live_version": "Live v__version__",
+      "local": "Lokalt",
+      "none": "Ingen",
+      "rating": "Vurdering",
+      "review": "Under gjennomgang",
+      "status": "Status",
+      "suggestion_count": "__count__ forslag",
+      "suggestions": "Forslag",
+      "summary_growth": "Vekst 7 d __value__",
+      "test": "Test",
+      "total": "Totalt antall installasjoner",
+      "updated_at": "Oppdatert __time__"
+    }
   }
 }

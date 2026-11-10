@@ -53,6 +53,34 @@
     "select_app": "Välj en app i widgetinställningarna.",
     "device_gone": "Den valda Appöversikt-enheten finns inte längre.",
     "app_gone": "Den valda appen finns inte i den här Appöversikten. Välj en app igen i widgetinställningarna.",
-    "no_overview": "Lägg först till en Appöversikt-enhet."
+    "no_overview": "Lägg först till en Appöversikt-enhet.",
+    "install_overview": {
+      "age": "Ålder på livebygge",
+      "age_days": "__count__ dagar",
+      "app_count": "__count__ appar",
+      "apps": "Appar",
+      "builds": "Byggen",
+      "close": "Stäng",
+      "cloud": "Moln",
+      "details": "Appdetaljer",
+      "device_count": "__count__ enheter",
+      "devices": "Enheter",
+      "empty": "Inga appar hittades.",
+      "growth": "Tillväxt 7 d",
+      "growth_per_week": "__value__ / 7 d",
+      "live": "Live",
+      "live_version": "Live v__version__",
+      "local": "Lokalt",
+      "none": "Ingen",
+      "rating": "Betyg",
+      "review": "Under granskning",
+      "status": "Status",
+      "suggestion_count": "__count__ förslag",
+      "suggestions": "Förslag",
+      "summary_growth": "Tillväxt 7 d __value__",
+      "test": "Test",
+      "total": "Totalt antal installationer",
+      "updated_at": "Uppdaterad __time__"
+    }
   }
 }

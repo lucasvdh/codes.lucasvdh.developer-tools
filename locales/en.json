@@ -67,6 +67,34 @@
     "select_app": "Select an app in the widget settings.",
     "device_gone": "The selected App overview device no longer exists.",
     "app_gone": "The selected app is not in this App overview. Select an app again in the widget settings.",
-    "no_overview": "Add an App overview device first."
+    "no_overview": "Add an App overview device first.",
+    "install_overview": {
+      "age": "Live build age",
+      "age_days": "__count__ days",
+      "app_count": "__count__ apps",
+      "apps": "Apps",
+      "builds": "Builds",
+      "close": "Close",
+      "cloud": "Cloud",
+      "details": "App details",
+      "device_count": "__count__ devices",
+      "devices": "Devices",
+      "empty": "No apps found.",
+      "growth": "7d growth",
+      "growth_per_week": "__value__ / 7d",
+      "live": "Live",
+      "live_version": "Live v__version__",
+      "local": "Local",
+      "none": "None",
+      "rating": "Rating",
+      "review": "In review",
+      "status": "Status",
+      "suggestion_count": "__count__ suggestions",
+      "suggestions": "Suggestions",
+      "summary_growth": "7d growth __value__",
+      "test": "Test",
+      "total": "Total installs",
+      "updated_at": "Updated __time__"
+    }
   }
 }

@@ -53,6 +53,34 @@
     "select_app": "Sélectionnez une app dans les paramètres du widget.",
     "device_gone": "L'appareil Aperçu des apps sélectionné n'existe plus.",
     "app_gone": "L'app sélectionnée n'est pas dans cet Aperçu des apps. Sélectionnez à nouveau une app dans les paramètres du widget.",
-    "no_overview": "Ajoutez d'abord un appareil Aperçu des apps."
+    "no_overview": "Ajoutez d'abord un appareil Aperçu des apps.",
+    "install_overview": {
+      "age": "Âge du build live",
+      "age_days": "__count__ jours",
+      "app_count": "__count__ apps",
+      "apps": "Apps",
+      "builds": "Builds",
+      "close": "Fermer",
+      "cloud": "Cloud",
+      "details": "Détails de l'app",
+      "device_count": "__count__ appareils",
+      "devices": "Appareils",
+      "empty": "Aucune app trouvée.",
+      "growth": "Croissance 7 j",
+      "growth_per_week": "__value__ / 7 j",
+      "live": "Live",
+      "live_version": "Live v__version__",
+      "local": "Local",
+      "none": "Aucun",
+      "rating": "Note",
+      "review": "En revue",
+      "status": "Statut",
+      "suggestion_count": "__count__ suggestions",
+      "suggestions": "Suggestions",
+      "summary_growth": "Croissance 7 j __value__",
+      "test": "Test",
+      "total": "Installations totales",
+      "updated_at": "Mis à jour à __time__"
+    }
   }
 }
