@@ -310,27 +310,39 @@ class AppDriver extends Driver {
 
       const allApps: AppData[] = [];
       const appsByPatId = new Map<string, AppData[]>();
+      const completeAppsByPatId = new Map<string, AppData[]>();
+      let complete = true;
 
       const results = await Promise.allSettled(
           this.apis.entries().map(async ([patId, api]) => {
-            const apps = await api.getApps();
-            return {patId, apps};
+            const {apps, failures} = await api.getAppsWithFailures();
+            return {patId, apps, failures};
           }),
       );
 
       for (const result of results) {
         if (result.status === 'fulfilled') {
-          appsByPatId.set(result.value.patId, result.value.apps);
-          allApps.push(...result.value.apps);
+          const {patId, apps, failures} = result.value;
+          appsByPatId.set(patId, apps);
+          allApps.push(...apps);
+          if (failures.length > 0) {
+            complete = false;
+            this.error(`Incomplete app list for PAT ${patId.slice(0, 6)}:`, failures.join('; '));
+          } else {
+            completeAppsByPatId.set(patId, apps);
+          }
         } else {
+          complete = false;
           this.error('Failed to fetch apps for a PAT', result.reason);
         }
       }
 
-      await this.processApps(appsByPatId, allApps);
+      await this.processApps(appsByPatId, allApps, complete);
 
-      // Other drivers (App overview) use the same app lists instead of polling themselves.
-      services(this.homey).feed.publish(appsByPatId);
+      // Other drivers (App overview) use the same app lists instead of polling
+      // themselves. Partial lists are left out, so apps that failed to load
+      // are not mistaken for removed apps.
+      services(this.homey).feed.publish(completeAppsByPatId);
     } catch (error) {
       this.error(error);
       await new Promise((resolve) => this.homey.setTimeout(resolve, 10000));
@@ -341,6 +353,7 @@ class AppDriver extends Driver {
   private async processApps(
       appsByPatId: Map<string, AppData[]>,
       allApps: AppData[],
+      complete: boolean,
   ): Promise<void> {
     await this.assignTokens(appsByPatId);
 
@@ -358,6 +371,12 @@ class AppDriver extends Driver {
           }
         }),
     ));
+
+    // Totals over a partial list would drop and jump back on the next poll.
+    if (!complete) {
+      this.log('Skipping global totals and triggers: not every app list could be loaded');
+      return;
+    }
 
     this.runGlobalTriggers(allApps);
     this.runGlobalTriggersWithApps(allApps, extrasMap);
