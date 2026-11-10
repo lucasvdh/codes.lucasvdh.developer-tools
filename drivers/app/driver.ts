@@ -386,7 +386,13 @@ class AppDriver extends Driver {
     const includeOrganizationApps = this.homey.settings.get('include_organization_apps') !== false;
     const isGlobal = (app: AppData) => includeOrganizationApps || !app.organization;
 
-    this.runGlobalTriggers(allApps.filter(isGlobal));
+    // When organization apps enter or leave the totals (after updating, or
+    // when the setting changes) the totals jump; that is not a change in installs.
+    const scopeChanged = this.homey.settings.get('totals_include_organization_apps') !== includeOrganizationApps;
+    const silent = scopeChanged && allApps.some((app) => app.organization);
+    this.homey.settings.set('totals_include_organization_apps', includeOrganizationApps);
+
+    this.runGlobalTriggers(allApps.filter(isGlobal), silent);
     this.runGlobalTriggersWithApps(allApps, extrasMap, isGlobal);
   }
 
@@ -506,7 +512,7 @@ class AppDriver extends Driver {
     return (data as Record<string, string | undefined>)[language] ?? data.en ?? '';
   }
 
-  private runGlobalTriggers(apps: AppData[]): void {
+  private runGlobalTriggers(apps: AppData[], silent: boolean = false): void {
     // Total installs across all apps
     const totalInstalls = apps.reduce((count: number, appData: AppData): number => {
       return count + (appData.installs ?? 0)
@@ -516,7 +522,7 @@ class AppDriver extends Driver {
     this.totalInstallsToken?.setValue(totalInstalls)
     this.homey.settings.set('total_installs', totalInstalls)
 
-    if (currentTotalInstalls !== totalInstalls) {
+    if (!silent && currentTotalInstalls !== totalInstalls) {
       this.totalInstallsChangedTrigger?.trigger({
         installs: totalInstalls,
         installs_delta: totalInstalls - currentTotalInstalls,
@@ -532,7 +538,7 @@ class AppDriver extends Driver {
     this.totalCloudInstallsToken?.setValue(totalCloudInstalls)
     this.homey.settings.set('total_cloud_installs', totalCloudInstalls);
 
-    if (currentTotalCloudInstalls !== totalCloudInstalls) {
+    if (!silent && currentTotalCloudInstalls !== totalCloudInstalls) {
       this.totalInstallsCloudChangedTrigger?.trigger({
         installs: totalCloudInstalls,
         installs_delta: totalCloudInstalls - currentTotalCloudInstalls,
@@ -548,7 +554,7 @@ class AppDriver extends Driver {
     this.totalLocalInstallsToken?.setValue(totalLocalInstalls)
     this.homey.settings.set('total_local_installs', totalLocalInstalls);
 
-    if (currentTotalLocalInstalls !== totalLocalInstalls) {
+    if (!silent && currentTotalLocalInstalls !== totalLocalInstalls) {
       this.totalInstallsLocalChangedTrigger?.trigger({
         installs: totalLocalInstalls,
         installs_delta: totalLocalInstalls - currentTotalLocalInstalls,
