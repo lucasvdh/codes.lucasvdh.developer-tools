@@ -161,6 +161,9 @@ class AppDriver extends Driver {
     if (!this.homey.settings.get('polling_frequency')) {
       this.homey.settings.set('polling_frequency', 15);
     }
+    if (typeof this.homey.settings.get('include_organization_apps') !== 'boolean') {
+      this.homey.settings.set('include_organization_apps', true);
+    }
 
     const store = this.getPatStore();
     const migrated = store.migrateFromLegacy();
@@ -379,8 +382,12 @@ class AppDriver extends Driver {
       return;
     }
 
-    this.runGlobalTriggers(allApps);
-    this.runGlobalTriggersWithApps(allApps, extrasMap);
+    // Users can leave organization apps out of the app-wide totals and Flows.
+    const includeOrganizationApps = this.homey.settings.get('include_organization_apps') !== false;
+    const isGlobal = (app: AppData) => includeOrganizationApps || !app.organization;
+
+    this.runGlobalTriggers(allApps.filter(isGlobal));
+    this.runGlobalTriggersWithApps(allApps, extrasMap, isGlobal);
   }
 
   private async processAppData(
@@ -566,7 +573,11 @@ class AppDriver extends Driver {
     }
   }
 
-  private runGlobalTriggersWithApps(apps: AppData[], extrasMap: Map<string, AppExtras>): void {
+  private runGlobalTriggersWithApps(
+      apps: AppData[],
+      extrasMap: Map<string, AppExtras>,
+      isGlobal: (app: AppData) => boolean,
+  ): void {
     // Get the cached apps value from settings store
     const cachedApps = this.homey.settings.get('apps') as AppData[];
 
@@ -576,7 +587,7 @@ class AppDriver extends Driver {
       const cachedAppData = cachedApps.find((cachedAppData: AppData) => cachedAppData.id === appData.id) as AppData | undefined
 
       // Compare cache data to latest data and trigger on changes
-      if (cachedAppData) {
+      if (cachedAppData && isGlobal(appData)) {
         if (cachedAppData.installs !== appData.installs) {
           this.installsChangedTrigger?.trigger({
             app: name,
@@ -617,11 +628,13 @@ class AppDriver extends Driver {
             version: appData.testVersion ?? 'none'
           })
         }
-        if (cachedAppData.deleted !== true && appData.deleted === true) {
-          const device = this.getDevices().find(d => d.getData().id === appData.id);
-          if (device) {
-            this.appDeletedTrigger?.trigger(device);
-          }
+      }
+
+      // A device trigger, so it fires for organization apps as well.
+      if (cachedAppData && cachedAppData.deleted !== true && appData.deleted === true) {
+        const device = this.getDevices().find(d => d.getData().id === appData.id);
+        if (device) {
+          this.appDeletedTrigger?.trigger(device);
         }
       }
     });

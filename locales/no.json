@@ -4,6 +4,7 @@
     "description": "Konfigurer din Personal Access Token for å begynne å spore Homey-appene dine.",
     "polling_settings": "Pollinginnstillinger",
     "polling_frequency": "Pollingfrekvens (i minutter)",
+    "include_organization_apps": "Ta med apper fra Developer Organizations i totalene og de appomfattende Flow-kortene",
     "authorisation_settings": "Autorisasjonsinnstillinger",
     "save": "Lagre",
     "saved": "Innstillinger lagret",

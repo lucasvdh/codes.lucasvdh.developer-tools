@@ -4,6 +4,7 @@
     "description": "Skonfiguruj swój Personal Access Token, aby rozpocząć śledzenie aplikacji Homey.",
     "polling_settings": "Ustawienia odpytywania",
     "polling_frequency": "Częstotliwość odpytywania (w minutach)",
+    "include_organization_apps": "Uwzględniaj aplikacje z Developer Organizations w sumach i globalnych kartach Flow",
     "authorisation_settings": "Ustawienia autoryzacji",
     "save": "Zapisz",
     "saved": "Ustawienia zapisane",

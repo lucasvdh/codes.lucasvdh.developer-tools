@@ -4,6 +4,7 @@
     "description": "Configure one or more Personal Access Tokens to track your Homey apps.",
     "polling_settings": "Polling Settings",
     "polling_frequency": "Polling Frequency (in minutes)",
+    "include_organization_apps": "Include Developer Organization apps in the totals and app-wide Flow cards",
     "authorisation_settings": "Personal Access Tokens",
     "personal_access_token": "Personal Access Token",
     "save": "Save",

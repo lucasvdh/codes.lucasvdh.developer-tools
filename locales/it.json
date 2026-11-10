@@ -4,6 +4,7 @@
     "description": "Configura il tuo Personal Access Token per iniziare a monitorare le tue app Homey.",
     "polling_settings": "Impostazioni di Polling",
     "polling_frequency": "Frequenza di Polling (in minuti)",
+    "include_organization_apps": "Includi le app delle Developer Organization nei totali e nelle schede Flow globali",
     "authorisation_settings": "Impostazioni di Autorizzazione",
     "save": "Salva",
     "saved": "Impostazioni Salvate",

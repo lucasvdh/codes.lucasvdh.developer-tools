@@ -4,6 +4,7 @@
     "description": "Stel een of meer Personal Access Tokens in om je Homey-apps te volgen.",
     "polling_settings": "Polling instellingen",
     "polling_frequency": "Polling frequentie (in minuten)",
+    "include_organization_apps": "Apps van Developer Organizations meenemen in de totalen en app-brede Flow-kaarten",
     "authorisation_settings": "Personal Access Tokens",
     "personal_access_token": "Personal Access Token",
     "save": "Opslaan",
