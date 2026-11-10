@@ -67,8 +67,8 @@ class OverviewDevice extends Device {
 
   /**
    * The token this device uses. When the token was replaced in the settings,
-   * the device moves to the token of the same account. The account comes from
-   * the store, or from the device id (`overview-<account or token id>`).
+   * the device moves to a token of the same account (matched on user id).
+   * It never moves to a token of another account.
    */
   private async resolvePatId(): Promise<string | undefined> {
     const store = services(this.homey).apis.store;
@@ -76,9 +76,7 @@ class OverviewDevice extends Device {
     if (patId && store.get(patId)) return patId;
 
     const accountId = this.getStoreValue('id') ?? String(this.getData().id ?? '').replace(/^overview-/, '');
-    const entries = store.list();
-    const entry = entries.find((candidate) => candidate.id === accountId || (candidate.userId && candidate.userId === accountId))
-        ?? (entries.length === 1 ? entries[0] : undefined);
+    const entry = store.list().find((candidate) => candidate.id === accountId || candidate.userId === accountId);
     if (!entry) return undefined;
 
     await this.setStoreValue('pat_id', entry.id);
