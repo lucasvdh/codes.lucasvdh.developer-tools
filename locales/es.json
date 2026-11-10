@@ -123,6 +123,17 @@
       "days_count": "__count__ días",
       "none": "Ninguno",
       "close": "Cerrar"
+    },
+    "organization_overview": {
+      "empty": "Todavía no hay apps de organizaciones en tus Resúmenes de apps.",
+      "organizations": "Organizaciones",
+      "apps": "Apps",
+      "installs": "Instalaciones",
+      "growth": "Crecimiento",
+      "apps_count": "__count__ apps",
+      "devices_count": "__count__ dispositivos",
+      "suggestions_count": "__count__ sugerencias",
+      "review_count": "__count__ en revisión"
     }
   }
 }

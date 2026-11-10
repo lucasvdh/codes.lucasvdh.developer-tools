@@ -123,6 +123,17 @@
       "days_count": "__count__ dager",
       "none": "Ingen",
       "close": "Lukk"
+    },
+    "organization_overview": {
+      "empty": "Ingen organisasjonsapper i App-oversiktene dine ennå.",
+      "organizations": "Organisasjoner",
+      "apps": "Apper",
+      "installs": "Installasjoner",
+      "growth": "Vekst",
+      "apps_count": "__count__ apper",
+      "devices_count": "__count__ enheter",
+      "suggestions_count": "__count__ forslag",
+      "review_count": "__count__ under gjennomgang"
     }
   }
 }

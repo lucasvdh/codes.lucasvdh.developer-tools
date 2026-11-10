@@ -1,0 +1,135 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* The list scrolls inside the widget frame without a visible scrollbar. */
+#content {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+#content::-webkit-scrollbar {
+  display: none;
+}
+
+.truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.state {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  text-align: center;
+  color: var(--homey-text-color-light);
+}
+
+.state.error {
+  color: var(--homey-text-color-danger);
+}
+
+.positive {
+  color: var(--homey-text-color-success);
+}
+
+.negative {
+  color: var(--homey-text-color-danger);
+}
+
+.unknown {
+  color: var(--homey-text-color-light);
+}
+
+/* Totals across all organizations */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--homey-su-2);
+  margin-bottom: var(--homey-su-1);
+}
+
+.stat {
+  min-width: 0;
+  padding: var(--homey-su-2);
+  border: var(--homey-line-light);
+  border-radius: var(--homey-border-radius-small);
+  background-color: var(--homey-color-mono-050);
+}
+
+.stat span {
+  display: block;
+}
+
+.stat strong {
+  display: block;
+  font-size: var(--homey-font-size-large);
+  line-height: var(--homey-line-height-large);
+  font-weight: var(--homey-font-weight-bold);
+}
+
+/* Organization list */
+.row {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  gap: var(--homey-su-2);
+  align-items: center;
+  padding: var(--homey-su-2) 0;
+  border-bottom: var(--homey-line-light);
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.rank {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--homey-border-radius-small);
+  background-color: var(--homey-color-mono-050);
+  font-weight: var(--homey-font-weight-bold);
+}
+
+.meta {
+  min-width: 0;
+}
+
+.name {
+  font-size: var(--homey-font-size-default);
+  line-height: var(--homey-line-height-default);
+  font-weight: var(--homey-font-weight-bold);
+}
+
+.sub {
+  font-size: var(--homey-font-size-small);
+  line-height: var(--homey-line-height-small);
+  color: var(--homey-text-color-light);
+}
+
+.numbers {
+  text-align: right;
+}
+
+.numbers strong {
+  display: block;
+  font-size: var(--homey-font-size-default);
+  line-height: var(--homey-line-height-default);
+  font-weight: var(--homey-font-weight-bold);
+}
+
+.numbers span {
+  display: block;
+  font-size: var(--homey-font-size-small);
+  line-height: var(--homey-line-height-small);
+}

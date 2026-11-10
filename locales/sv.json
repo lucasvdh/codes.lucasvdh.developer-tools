@@ -123,6 +123,17 @@
       "days_count": "__count__ dagar",
       "none": "Ingen",
       "close": "Stäng"
+    },
+    "organization_overview": {
+      "empty": "Inga organisationsappar i dina Appöversikter än.",
+      "organizations": "Organisationer",
+      "apps": "Appar",
+      "installs": "Installationer",
+      "growth": "Tillväxt",
+      "apps_count": "__count__ appar",
+      "devices_count": "__count__ enheter",
+      "suggestions_count": "__count__ förslag",
+      "review_count": "__count__ under granskning"
     }
   }
 }

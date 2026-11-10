@@ -123,6 +123,17 @@
       "days_count": "__count__ giorni",
       "none": "Nessuno",
       "close": "Chiudi"
+    },
+    "organization_overview": {
+      "empty": "Ancora nessuna app di organizzazione nelle tue Panoramiche app.",
+      "organizations": "Organizzazioni",
+      "apps": "App",
+      "installs": "Installazioni",
+      "growth": "Crescita",
+      "apps_count": "__count__ app",
+      "devices_count": "__count__ dispositivi",
+      "suggestions_count": "__count__ suggerimenti",
+      "review_count": "__count__ in revisione"
     }
   }
 }
