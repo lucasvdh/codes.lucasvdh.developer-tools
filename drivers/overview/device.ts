@@ -1,7 +1,10 @@
 "use strict";
 
-import {Device} from "homey";
+import {Device, FlowCardTriggerDevice} from "homey";
 import {AppData} from "../../lib/AthomApi";
+import {AppsByPatId} from "../../lib/AppsFeed";
+import {appName} from "../../lib/appUtils";
+import {services} from "../../lib/services";
 
 interface OverviewApp {
   id: string;
@@ -15,26 +18,45 @@ interface OverviewApp {
 const APP_CAPABILITY_PREFIX = 'installs.';
 
 class OverviewDevice extends Device {
+  private unsubscribe?: () => void;
+  private installsIncreasedTrigger?: FlowCardTriggerDevice;
+  private installsDecreasedTrigger?: FlowCardTriggerDevice;
 
   async onInit(): Promise<void> {
     this.log('App overview device has been initialized');
 
+    this.installsIncreasedTrigger = this.homey.flow.getDeviceTriggerCard('overview_installs_increased');
+    this.installsDecreasedTrigger = this.homey.flow.getDeviceTriggerCard('overview_installs_decreased');
+
+    const {apis, feed} = services(this.homey);
+    this.unsubscribe = feed.onApps((appsByPatId) => {
+      this.onAppsUpdated(appsByPatId).catch((e) => this.error(e));
+    });
+
     // Show data right away instead of waiting for the next poll.
     try {
-      const patId = this.resolvePatId();
+      const patId = await this.resolvePatId();
       if (!patId) {
         await this.setUnavailable(this.homey.__('overview.no_token'));
         return;
       }
-      const apps = await (this.driver as any).getApps(patId);
+      const apps = await feed.getOrFetch(patId, apis);
       if (apps) await this.updateApps(apps);
     } catch (e) {
       this.error(e);
     }
   }
 
-  async onAppsUpdated(appsByPatId: Map<string, AppData[]>): Promise<void> {
-    const patId = this.resolvePatId();
+  async onUninit(): Promise<void> {
+    this.unsubscribe?.();
+  }
+
+  async onDeleted(): Promise<void> {
+    this.unsubscribe?.();
+  }
+
+  private async onAppsUpdated(appsByPatId: AppsByPatId): Promise<void> {
+    const patId = await this.resolvePatId();
     if (!patId) {
       await this.setUnavailable(this.homey.__('overview.no_token'));
       return;
@@ -48,22 +70,19 @@ class OverviewDevice extends Device {
    * the device moves to the token of the same account. The account comes from
    * the store, or from the device id (`overview-<account or token id>`).
    */
-  private resolvePatId(): string | undefined {
-    const store = (this.driver as any).getPatStore();
+  private async resolvePatId(): Promise<string | undefined> {
+    const store = services(this.homey).apis.store;
     const patId = this.getStoreValue('pat_id');
     if (patId && store.get(patId)) return patId;
 
     const accountId = this.getStoreValue('id') ?? String(this.getData().id ?? '').replace(/^overview-/, '');
     const entries = store.list();
-    const entry = entries.find((candidate: any) => candidate.id === accountId || (candidate.userId && candidate.userId === accountId))
+    const entry = entries.find((candidate) => candidate.id === accountId || (candidate.userId && candidate.userId === accountId))
         ?? (entries.length === 1 ? entries[0] : undefined);
     if (!entry) return undefined;
-    this.setStoreValue('pat_id', entry.id).catch(this.error);
-    return entry.id;
-  }
 
-  private static appName(appData: AppData): string {
-    return appData.liveBuild?.name?.en ?? appData.testBuild?.name?.en ?? appData.id;
+    await this.setStoreValue('pat_id', entry.id);
+    return entry.id;
   }
 
   async updateApps(appsData: AppData[]): Promise<void> {
@@ -71,7 +90,7 @@ class OverviewDevice extends Device {
         .filter((appData) => appData && appData.id && !appData.deleted)
         .map((appData) => ({
           id: appData.id,
-          name: OverviewDevice.appName(appData),
+          name: appName(appData, appData.id),
           installs: appData.installs ?? 0,
           cloud: appData.installsCloud ?? 0,
           local: appData.installsLocal ?? 0,
@@ -115,7 +134,6 @@ class OverviewDevice extends Device {
     if (!Array.isArray(previous)) return;
 
     const previousById = new Map<string, OverviewApp>(previous.map((app: OverviewApp) => [app.id, app]));
-    const driver = this.driver as any;
 
     for (const app of apps) {
       const old = previousById.get(app.id);
@@ -124,7 +142,7 @@ class OverviewDevice extends Device {
       const diff = app.installs - old.installs;
       if (diff === 0) continue;
 
-      const trigger = diff > 0 ? driver.installsIncreasedTrigger : driver.installsDecreasedTrigger;
+      const trigger = diff > 0 ? this.installsIncreasedTrigger : this.installsDecreasedTrigger;
       await trigger?.trigger(this, {
         app: app.name,
         id: app.id,
@@ -133,7 +151,7 @@ class OverviewDevice extends Device {
         local: app.local,
         rating: app.rating,
         diff,
-      }).catch(this.error);
+      }).catch((e) => this.error(e));
     }
   }
 }
