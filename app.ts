@@ -2,6 +2,20 @@ import Homey from "homey";
 import ApiRegistry from "./lib/ApiRegistry";
 import AppsFeed from "./lib/AppsFeed";
 import {Services} from "./lib/services";
+import {OverviewWidgetSource} from "./drivers/overview/types";
+
+interface SpotlightSettings {
+  device?: string | { id?: string };
+}
+
+interface DashboardsManager {
+  getWidget(id: string): {
+    registerSettingAutocompleteListener(
+      settingId: string,
+      listener: (query: string, settings: SpotlightSettings) => Promise<object[]>,
+    ): void;
+  };
+}
 
 class DeveloperTools extends Homey.App implements Services {
   private apiRegistry?: ApiRegistry;
@@ -25,17 +39,28 @@ class DeveloperTools extends Homey.App implements Services {
     return this.appsFeed;
   }
 
-  private getOverviewDevices(): any[] {
+  getOverviewDevices(): OverviewWidgetSource[] {
     try {
-      return this.homey.drivers.getDriver('overview').getDevices();
+      return this.homey.drivers.getDriver('overview').getDevices() as unknown as OverviewWidgetSource[];
     } catch {
       return [];
     }
   }
 
+  /**
+   * The App overview device a widget shows. Without an id only when there is
+   * exactly one, so a widget never shows another account by accident.
+   */
+  getOverviewDevice(id?: string): OverviewWidgetSource | undefined {
+    const devices = this.getOverviewDevices();
+    if (id) return devices.find((device) => device.getId() === String(id));
+    return devices.length === 1 ? devices[0] : undefined;
+  }
+
   /** The App Spotlight widget lets you pick an App overview device and then one of its apps. */
   private registerWidgetAutocomplete(): void {
-    const dashboards = (this.homey as any).dashboards;
+    // ManagerDashboards is missing from the SDK typings used here.
+    const dashboards = (this.homey as unknown as { dashboards?: DashboardsManager }).dashboards;
     if (!dashboards || typeof dashboards.getWidget !== 'function') return;
     try {
       const widget = dashboards.getWidget('app-spotlight');
@@ -58,30 +83,28 @@ class DeveloperTools extends Homey.App implements Services {
             .filter((item) => !q || item.name.toLowerCase().includes(q));
       });
 
-      widget.registerSettingAutocompleteListener('app', async (query: string, settings: any) => {
-        const selected = settings && settings.device;
-        const selectedDeviceId = typeof selected === 'string' ? selected : selected && selected.id;
+      widget.registerSettingAutocompleteListener('app', async (query: string, settings: SpotlightSettings) => {
+        const selected = settings?.device;
+        const selectedDeviceId = typeof selected === 'string' ? selected : selected?.id;
         if (!selectedDeviceId) return [];
 
-        const device = this.getOverviewDevices().find((item) => item.getId() === String(selectedDeviceId));
+        const device = this.getOverviewDevice(String(selectedDeviceId));
         if (!device) return [];
 
         const q = String(query || '').trim().toLowerCase();
-        const data = device.getWidgetData();
-        return (Array.isArray(data.apps) ? data.apps : [])
-            .slice()
-            .sort((a: any, b: any) => (Number(b.installs) || 0) - (Number(a.installs) || 0) || String(a.name || a.id).localeCompare(String(b.name || b.id)))
-            .map((app: any) => ({
-              name: String(app.name || app.id || ''),
+        return device.getWidgetData().apps
+            .sort((a, b) => b.installs - a.installs || a.name.localeCompare(b.name))
+            .map((app) => ({
+              name: app.name,
               description: this.homey.__('widgets.app_description', {
-                installs: Number(app.installs) || 0,
-                devices: Number(app.deviceCount) || 0,
+                installs: app.installs,
+                devices: app.deviceCount,
                 version: app.liveVersion ? `v${app.liveVersion}` : this.homey.__('widgets.no_live_version'),
               }),
-              id: String(app.id || ''),
+              id: app.id,
               deviceId: String(selectedDeviceId),
             }))
-            .filter((item: any) => !q || item.name.toLowerCase().includes(q) || item.id.toLowerCase().includes(q));
+            .filter((item) => !q || item.name.toLowerCase().includes(q) || item.id.toLowerCase().includes(q));
       });
     } catch (error) {
       this.error('[Widgets] Failed to register App Spotlight autocomplete', error);

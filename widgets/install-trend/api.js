@@ -14,8 +14,7 @@ function sampleHistory(points, maxPoints = 320) {
 }
 
 function getDevice(homey, id) {
-    const devices = homey.drivers.getDriver('overview').getDevices();
-    return devices.find((candidate) => candidate.getId() === id) || devices[0] || null;
+    return homey.app.getOverviewDevice(id) || null;
 }
 
 module.exports = {

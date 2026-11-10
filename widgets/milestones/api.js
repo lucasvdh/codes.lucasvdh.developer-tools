@@ -4,8 +4,7 @@ const DAY = 24 * 60 * 60 * 1000;
 const MILESTONES = [100, 500, 1000, 5000, 10000, 25000, 50000, 100000, 250000, 500000, 1000000];
 
 function getDevice(homey, id) {
-    const devices = homey.drivers.getDriver('overview').getDevices();
-    return devices.find((candidate) => candidate.getId() === id) || devices[0] || null;
+    return homey.app.getOverviewDevice(id) || null;
 }
 
 function nextMilestone(installs) {

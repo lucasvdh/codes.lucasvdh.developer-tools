@@ -13,7 +13,7 @@ module.exports = {
         // Organizations are not devices here: their apps live in the App overview
         // devices. Collect them per organization, each app once.
         const byOrganization = new Map();
-        for (const device of homey.drivers.getDriver('overview').getDevices()) {
+        for (const device of homey.app.getOverviewDevices()) {
             const data = device.getWidgetData();
             for (const app of Array.isArray(data.apps) ? data.apps : []) {
                 if (!app || !app.organization || !app.organization.id) continue;
