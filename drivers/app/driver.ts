@@ -1,7 +1,7 @@
 "use strict";
 import {Device, Driver, FlowCardTrigger, FlowCardTriggerDevice, FlowToken} from "homey";
 import {Device as DeviceType} from "./types";
-import AthomApi, {
+import {
   AppData,
   BuildSummary,
   CrashReport,
@@ -9,7 +9,10 @@ import AthomApi, {
   StatPoint,
   Suggestion,
 } from "../../lib/AthomApi";
-import PatStore, {PatEntry} from "../../lib/PatStore";
+import PatStore from "../../lib/PatStore";
+import ApiRegistry from "../../lib/ApiRegistry";
+import {appName, ownerLabelFor} from "../../lib/appUtils";
+import {services} from "../../lib/services";
 
 interface AppExtras {
   suggestions?: Suggestion[];
@@ -23,7 +26,6 @@ interface AppExtras {
 }
 
 class AppDriver extends Driver {
-  private apis: Map<string, AthomApi> = new Map();
   private interval?: NodeJS.Timeout;
   private appInstallsChangedTrigger?: FlowCardTriggerDevice;
   private appInstallsCloudChangedTrigger?: FlowCardTriggerDevice;
@@ -131,27 +133,14 @@ class AppDriver extends Driver {
     return new PatStore(this.homey.settings);
   }
 
+  private get apis(): ApiRegistry {
+    return services(this.homey).apis;
+  }
+
   private rebuildApis(): void {
-    const tokens = this.getPatStore().list();
-    const seenIds = new Set<string>();
+    this.apis.sync();
 
-    for (const entry of tokens) {
-      seenIds.add(entry.id);
-      const existing = this.apis.get(entry.id);
-      if (existing) {
-        existing.setPersonalAccessToken(entry.token);
-      } else {
-        this.apis.set(entry.id, new AthomApi(entry.token));
-      }
-    }
-
-    for (const id of Array.from(this.apis.keys())) {
-      if (!seenIds.has(id)) {
-        this.apis.delete(id);
-      }
-    }
-
-    if (tokens.length === 0) {
+    if (this.apis.size === 0) {
       throw new Error('No Personal Access Tokens configured yet, retrying in 10 seconds');
     }
   }
@@ -171,6 +160,9 @@ class AppDriver extends Driver {
     }
     if (!this.homey.settings.get('polling_frequency')) {
       this.homey.settings.set('polling_frequency', 15);
+    }
+    if (typeof this.homey.settings.get('include_organization_apps') !== 'boolean') {
+      this.homey.settings.set('include_organization_apps', true);
     }
 
     const store = this.getPatStore();
@@ -321,26 +313,40 @@ class AppDriver extends Driver {
 
       const allApps: AppData[] = [];
       const appsByPatId = new Map<string, AppData[]>();
+      const completeAppsByPatId = new Map<string, AppData[]>();
+      let complete = true;
 
       const results = await Promise.allSettled(
-          Array.from(this.apis.entries()).map(async ([patId, api]) => {
-            const apps = await api.getApps();
-            return {patId, apps};
+          this.apis.entries().map(async ([patId, api]) => {
+            const {apps, failures} = await api.getAppsWithFailures();
+            return {patId, apps, failures};
           }),
       );
 
       for (const result of results) {
         if (result.status === 'fulfilled') {
-          appsByPatId.set(result.value.patId, result.value.apps);
-          allApps.push(...result.value.apps);
+          const {patId, apps, failures} = result.value;
+          appsByPatId.set(patId, apps);
+          // Organization apps show up under every token that is a member.
+          allApps.push(...apps.filter((app) => !allApps.some((known) => known.id === app.id)));
+          if (failures.length > 0) {
+            complete = false;
+            this.error(`Incomplete app list for PAT ${patId.slice(0, 6)}:`, failures.join('; '));
+          } else {
+            completeAppsByPatId.set(patId, apps);
+          }
         } else {
+          complete = false;
           this.error('Failed to fetch apps for a PAT', result.reason);
         }
       }
 
-      this.notifyOverviewDevices(appsByPatId);
+      await this.processApps(appsByPatId, allApps, complete);
 
-      await this.processApps(appsByPatId, allApps);
+      // Other drivers (App overview) use the same app lists instead of polling
+      // themselves. Partial lists are left out, so apps that failed to load
+      // are not mistaken for removed apps.
+      services(this.homey).feed.publish(completeAppsByPatId);
     } catch (error) {
       this.error(error);
       await new Promise((resolve) => this.homey.setTimeout(resolve, 10000));
@@ -351,13 +357,14 @@ class AppDriver extends Driver {
   private async processApps(
       appsByPatId: Map<string, AppData[]>,
       allApps: AppData[],
+      complete: boolean,
   ): Promise<void> {
     await this.assignTokens(appsByPatId);
 
     const extrasMap = new Map<string, AppExtras>();
     const patEntries = this.getPatStore().list();
     const ownerLabelByPatId = new Map<string, string>(
-        patEntries.map((entry) => [entry.id, AppDriver.ownerLabelFor(entry)]),
+        patEntries.map((entry) => [entry.id, ownerLabelFor(entry)]),
     );
 
     await Promise.all(Array.from(appsByPatId.entries()).flatMap(([patId, apps]) =>
@@ -369,22 +376,18 @@ class AppDriver extends Driver {
         }),
     ));
 
-    this.runGlobalTriggers(allApps);
-    this.runGlobalTriggersWithApps(allApps, extrasMap);
-  }
-
-  // The App overview devices use the same app lists, so they need no API calls of their own.
-  private notifyOverviewDevices(appsByPatId: Map<string, AppData[]>): void {
-    try {
-      const overviewDriver = this.homey.drivers.getDriver('overview') as any;
-      overviewDriver.onAppsUpdated(appsByPatId).catch((e: Error) => this.error(e));
-    } catch (e) {
-      this.error(e);
+    // Totals over a partial list would drop and jump back on the next poll.
+    if (!complete) {
+      this.log('Skipping global totals and triggers: not every app list could be loaded');
+      return;
     }
-  }
 
-  private static ownerLabelFor(entry: PatEntry): string {
-    return entry.label || entry.username || entry.email || `Account ${entry.id.slice(0, 6)}`;
+    // Users can leave organization apps out of the app-wide totals and Flows.
+    const includeOrganizationApps = this.homey.settings.get('include_organization_apps') !== false;
+    const isGlobal = (app: AppData) => includeOrganizationApps || !app.organization;
+
+    this.runGlobalTriggers(allApps.filter(isGlobal));
+    this.runGlobalTriggersWithApps(allApps, extrasMap, isGlobal);
   }
 
   private async processAppData(
@@ -570,62 +573,68 @@ class AppDriver extends Driver {
     }
   }
 
-  private runGlobalTriggersWithApps(apps: AppData[], extrasMap: Map<string, AppExtras>): void {
+  private runGlobalTriggersWithApps(
+      apps: AppData[],
+      extrasMap: Map<string, AppExtras>,
+      isGlobal: (app: AppData) => boolean,
+  ): void {
     // Get the cached apps value from settings store
     const cachedApps = this.homey.settings.get('apps') as AppData[];
 
     // For each app check if the data is different from the cached values
     apps.forEach((appData: AppData) => {
-      const appName = appData.liveBuild?.name?.en ?? appData.testBuild?.name?.en ?? 'Unknown';
+      const name = appName(appData);
       const cachedAppData = cachedApps.find((cachedAppData: AppData) => cachedAppData.id === appData.id) as AppData | undefined
 
       // Compare cache data to latest data and trigger on changes
-      if (cachedAppData) {
+      if (cachedAppData && isGlobal(appData)) {
         if (cachedAppData.installs !== appData.installs) {
           this.installsChangedTrigger?.trigger({
-            app: appName,
+            app: name,
             installs: appData.installs ?? 0,
             installs_delta: (appData.installs ?? 0) - (cachedAppData.installs ?? 0),
           })
         }
         if (cachedAppData.installsCloud !== appData.installsCloud) {
           this.installsCloudChangedTrigger?.trigger({
-            app: appName,
+            app: name,
             installs: appData.installsCloud ?? 0,
             installs_delta: (appData.installsCloud ?? 0) - (cachedAppData.installsCloud ?? 0),
           })
         }
         if (cachedAppData.installsLocal !== appData.installsLocal) {
           this.installsLocalChangedTrigger?.trigger({
-            app: appName,
+            app: name,
             installs: appData.installsLocal ?? 0,
             installs_delta: (appData.installsLocal ?? 0) - (cachedAppData.installsLocal ?? 0),
           })
         }
         if (cachedAppData.liveVersion !== appData.liveVersion) {
           this.liveVersionChangedTrigger?.trigger({
-            app: appName,
+            app: name,
             version: appData.liveVersion ?? 'none',
             changelog: extrasMap.get(appData.id)?.changelog ?? '',
           })
         }
         if (cachedAppData.testVersion !== appData.testVersion) {
           this.testVersionChangedTrigger?.trigger({
-            app: appName,
+            app: name,
             version: appData.testVersion ?? 'none'
           })
         }
         if (cachedAppData.testBuild?.state !== appData.testBuild?.state && appData.testBuild?.state === 'reviewed_rejected') {
           this.reviewFailedTrigger?.trigger({
-            app: appName,
+            app: name,
             version: appData.testVersion ?? 'none'
           })
         }
-        if (cachedAppData.deleted !== true && appData.deleted === true) {
-          const device = this.getDevices().find(d => d.getData().id === appData.id);
-          if (device) {
-            this.appDeletedTrigger?.trigger(device);
-          }
+      }
+
+      // A device trigger, so it fires for organization apps as well.
+      if (cachedAppData && cachedAppData.deleted !== true && appData.deleted === true) {
+        const device = this.getDevices().find(d => d.getData().id === appData.id);
+        if (device) {
+          this.appDeletedTrigger?.trigger(device);
         }
       }
     });
@@ -660,7 +669,7 @@ class AppDriver extends Driver {
       const devices: DeviceType[] = [];
 
       const results = await Promise.allSettled(
-          Array.from(this.apis.entries()).map(async ([patId, api]) => {
+          this.apis.entries().map(async ([patId, api]) => {
             const apps = await api.getApps();
             return {patId, apps};
           }),
@@ -676,7 +685,7 @@ class AppDriver extends Driver {
           seenAppIds.add(appData.id);
 
           devices.push({
-            name: appData.liveBuild?.name?.en ?? appData.testBuild?.name?.en ?? 'App name',
+            name: appName(appData, 'App name'),
             data: {id: appData.id},
             store: {id: appData.id, pat_id: result.value.patId},
           });
@@ -722,7 +731,7 @@ class AppDriver extends Driver {
   }
 
   private async updateDeviceExtras(device: Device, appData: AppData, extras: AppExtras): Promise<void> {
-    const appName = appData.liveBuild?.name?.en ?? appData.testBuild?.name?.en ?? 'Unknown';
+    const name = appName(appData);
 
     // Suggestions
     if (extras.suggestions) {
@@ -747,7 +756,7 @@ class AppDriver extends Driver {
               suggestions_count: suggestions.length,
             }).catch((e) => this.error(e));
             this.suggestionReceivedTrigger?.trigger({
-              app: appName,
+              app: name,
               suggestion_text: suggestion.suggestionText,
               suggestion_id: suggestion.id,
             }).catch((e) => this.error(e));
@@ -829,7 +838,7 @@ class AppDriver extends Driver {
             trend: trend,
           }).catch((e) => this.error(e));
           this.installsDecliningTrigger?.trigger({
-            app: appName,
+            app: name,
             installs: appData.installs ?? 0,
             trend: trend,
           }).catch((e) => this.error(e));
@@ -859,7 +868,7 @@ class AppDriver extends Driver {
               build_id: extras.crashBuildId,
             }).catch((e) => this.error(e));
             this.crashReportReceivedTrigger?.trigger({
-              app: appName,
+              app: name,
               error_message: errorMessage,
               homey_version: crash.homeyVersion ?? 'unknown',
               build_version: extras.crashBuildVersion ?? 'unknown',

@@ -1,8 +1,12 @@
 "use strict";
 
-import {Device} from "homey";
+import {Device, FlowCardTriggerDevice} from "homey";
 import {AppData} from "../../lib/AthomApi";
-import WidgetData from "./widget-data";
+import {AppsByPatId} from "../../lib/AppsFeed";
+import {appName, ownerLabelFor} from "../../lib/appUtils";
+import {services} from "../../lib/services";
+import {OrganizationScope} from "./types";
+import WidgetData, {WidgetHost} from "./widget-data";
 
 interface OverviewApp {
   id: string;
@@ -15,34 +19,54 @@ interface OverviewApp {
 
 const APP_CAPABILITY_PREFIX = 'installs.';
 
-class OverviewDevice extends Device {
+class OverviewDevice extends Device implements OrganizationScope {
+  private unsubscribe?: () => void;
+  private installsIncreasedTrigger?: FlowCardTriggerDevice;
+  private installsDecreasedTrigger?: FlowCardTriggerDevice;
   // Data for the dashboard widgets, kept in the device store.
-  widgetData = new WidgetData(this as any);
+  // getId() is used by the widgets but missing from the SDK typings.
+  readonly widgetData = new WidgetData(this as unknown as WidgetHost);
 
   async onInit(): Promise<void> {
     this.log('App overview device has been initialized');
 
     // Added with the widgets; the widgets pick overview devices by this capability.
     if (!this.hasCapability('app_count')) {
-      await this.addCapability('app_count').catch(this.error);
+      await this.addCapability('app_count').catch((e) => this.error(e));
     }
+
+    this.installsIncreasedTrigger = this.homey.flow.getDeviceTriggerCard('overview_installs_increased');
+    this.installsDecreasedTrigger = this.homey.flow.getDeviceTriggerCard('overview_installs_decreased');
+
+    const {apis, feed} = services(this.homey);
+    this.unsubscribe = feed.onApps((appsByPatId) => {
+      this.onAppsUpdated(appsByPatId).catch((e) => this.error(e));
+    });
 
     // Show data right away instead of waiting for the next poll.
     try {
-      const patId = this.resolvePatId();
+      const patId = await this.resolvePatId();
       if (!patId) {
         await this.setUnavailable(this.homey.__('overview.no_token'));
         return;
       }
-      const apps = await (this.driver as any).getApps(patId);
+      const apps = await feed.getOrFetch(patId, apis);
       if (apps) await this.updateApps(apps);
     } catch (e) {
       this.error(e);
     }
   }
 
-  async onAppsUpdated(appsByPatId: Map<string, AppData[]>): Promise<void> {
-    const patId = this.resolvePatId();
+  async onUninit(): Promise<void> {
+    this.unsubscribe?.();
+  }
+
+  async onDeleted(): Promise<void> {
+    this.unsubscribe?.();
+  }
+
+  private async onAppsUpdated(appsByPatId: AppsByPatId): Promise<void> {
+    const patId = await this.resolvePatId();
     if (!patId) {
       await this.setUnavailable(this.homey.__('overview.no_token'));
       return;
@@ -53,25 +77,20 @@ class OverviewDevice extends Device {
 
   /**
    * The token this device uses. When the token was replaced in the settings,
-   * the device moves to the token of the same account. The account comes from
-   * the store, or from the device id (`overview-<account or token id>`).
+   * the device moves to a token of the same account (matched on user id).
+   * It never moves to a token of another account.
    */
-  private resolvePatId(): string | undefined {
-    const store = (this.driver as any).getPatStore();
+  private async resolvePatId(): Promise<string | undefined> {
+    const store = services(this.homey).apis.store;
     const patId = this.getStoreValue('pat_id');
     if (patId && store.get(patId)) return patId;
 
     const accountId = this.getStoreValue('id') ?? String(this.getData().id ?? '').replace(/^overview-/, '');
-    const entries = store.list();
-    const entry = entries.find((candidate: any) => candidate.id === accountId || (candidate.userId && candidate.userId === accountId))
-        ?? (entries.length === 1 ? entries[0] : undefined);
+    const entry = store.list().find((candidate) => candidate.id === accountId || candidate.userId === accountId);
     if (!entry) return undefined;
-    this.setStoreValue('pat_id', entry.id).catch(this.error);
-    return entry.id;
-  }
 
-  private static appName(appData: AppData): string {
-    return appData.liveBuild?.name?.en ?? appData.testBuild?.name?.en ?? appData.id;
+    await this.setStoreValue('pat_id', entry.id);
+    return entry.id;
   }
 
   /**
@@ -86,8 +105,9 @@ class OverviewDevice extends Device {
 
   async setOrganizationIds(organizationIds: string[]): Promise<void> {
     await this.setStoreValue('organization_ids', organizationIds);
-    const patId = this.resolvePatId();
-    const apps = patId ? await (this.driver as any).getApps(patId) : undefined;
+    const patId = await this.resolvePatId();
+    const {apis, feed} = services(this.homey);
+    const apps = patId ? await feed.getOrFetch(patId, apis) : undefined;
     if (apps) await this.updateApps(apps);
   }
 
@@ -102,7 +122,7 @@ class OverviewDevice extends Device {
     const apps: OverviewApp[] = scoped
         .map((appData) => ({
           id: appData.id,
-          name: OverviewDevice.appName(appData),
+          name: appName(appData, appData.id),
           installs: appData.installs ?? 0,
           cloud: appData.installsCloud ?? 0,
           local: appData.installsLocal ?? 0,
@@ -116,7 +136,7 @@ class OverviewDevice extends Device {
       if (!this.hasCapability(capability)) {
         await this.addCapability(capability);
       }
-      await this.setCapabilityOptions(capability, {title: {en: app.name}});
+      await this.setCapabilityTitle(capability, app.name);
       await this.setCapabilityValue(capability, app.installs);
     }
 
@@ -141,10 +161,10 @@ class OverviewDevice extends Device {
     if (!this.getAvailable()) await this.setAvailable();
 
     try {
-      const driver = this.driver as any;
+      const {apis} = services(this.homey);
       const patId = this.getStoreValue('pat_id');
-      const entry = driver.getPatStore().get(patId);
-      await this.widgetData.update(scoped, driver.getApi(patId), entry ? driver.constructor.ownerLabelFor(entry) : this.getName());
+      const entry = apis.store.get(patId);
+      await this.widgetData.update(scoped, apis.get(patId), entry ? ownerLabelFor(entry) : this.getName());
     } catch (e) {
       this.error('Updating the widget data failed', e);
     }
@@ -160,22 +180,34 @@ class OverviewDevice extends Device {
   getAppGrowth(appId: string, rangeMs: number) { return this.widgetData.getAppGrowth(appId, rangeMs); }
   getRecentChanges(rangeMs: number, limit: number) { return this.widgetData.getRecentChanges(rangeMs, limit); }
 
+  /** setCapabilityOptions is expensive, so only call it when the title changed. */
+  private async setCapabilityTitle(capability: string, title: string): Promise<void> {
+    let current: unknown;
+    try {
+      current = this.getCapabilityOptions(capability)?.title?.en;
+    } catch {
+      current = undefined;
+    }
+    if (current !== title) {
+      await this.setCapabilityOptions(capability, {title: {en: title}});
+    }
+  }
+
   /** "App installs increased/decreased" for every app whose installs changed since the last poll. */
   private async triggerInstallChanges(apps: OverviewApp[]): Promise<void> {
     const previous = this.getStoreValue('apps');
     if (!Array.isArray(previous)) return;
 
     const previousById = new Map<string, OverviewApp>(previous.map((app: OverviewApp) => [app.id, app]));
-    const driver = this.driver as any;
 
     for (const app of apps) {
       const old = previousById.get(app.id);
       if (!old) continue;
 
-      const diff = app.installs - old.installs;
-      if (diff === 0) continue;
+      const delta = app.installs - old.installs;
+      if (delta === 0) continue;
 
-      const trigger = diff > 0 ? driver.installsIncreasedTrigger : driver.installsDecreasedTrigger;
+      const trigger = delta > 0 ? this.installsIncreasedTrigger : this.installsDecreasedTrigger;
       await trigger?.trigger(this, {
         app: app.name,
         id: app.id,
@@ -183,8 +215,8 @@ class OverviewDevice extends Device {
         cloud: app.cloud,
         local: app.local,
         rating: app.rating,
-        diff,
-      }).catch(this.error);
+        installs_delta: delta,
+      }).catch((e) => this.error(e));
     }
   }
 }
