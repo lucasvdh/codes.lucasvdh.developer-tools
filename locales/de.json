@@ -81,6 +81,17 @@
       "test": "Test",
       "total": "Gesamtinstallationen",
       "updated_at": "Aktualisiert __time__"
+    },
+    "install_trend": {
+      "actual": "Tatsächlich",
+      "building": "Noch nicht genug Verlauf.",
+      "change": "Änderung",
+      "current": "Jetzt",
+      "per_day": "Trend / Tag",
+      "percent": "Wachstum %",
+      "source_athom": "Athom-Verlauf",
+      "source_local": "Lokaler Verlauf",
+      "trend": "Trendlinie"
     }
   }
 }

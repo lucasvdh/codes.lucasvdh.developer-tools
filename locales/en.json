@@ -95,6 +95,17 @@
       "test": "Test",
       "total": "Total installs",
       "updated_at": "Updated __time__"
+    },
+    "install_trend": {
+      "actual": "Actual",
+      "building": "Not enough history yet.",
+      "change": "Change",
+      "current": "Now",
+      "per_day": "Trend / day",
+      "percent": "Growth %",
+      "source_athom": "Athom history",
+      "source_local": "Local fallback",
+      "trend": "Trendline"
     }
   }
 }

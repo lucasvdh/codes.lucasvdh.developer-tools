@@ -81,6 +81,17 @@
       "test": "Test",
       "total": "Totalt antall installasjoner",
       "updated_at": "Oppdatert __time__"
+    },
+    "install_trend": {
+      "actual": "Faktisk",
+      "building": "Ikke nok historikk ennå.",
+      "change": "Endring",
+      "current": "Nå",
+      "per_day": "Trend / dag",
+      "percent": "Vekst %",
+      "source_athom": "Athom-historikk",
+      "source_local": "Lokal historikk",
+      "trend": "Trendlinje"
     }
   }
 }

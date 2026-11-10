@@ -1,0 +1,167 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+#content {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: var(--homey-su-2);
+  height: 100%;
+  min-height: 0;
+}
+
+.ellipsis {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.positive {
+  color: var(--homey-text-color-success);
+}
+
+.negative {
+  color: var(--homey-text-color-danger);
+}
+
+.tile {
+  min-width: 0;
+  border: var(--homey-line-light);
+  border-radius: var(--homey-border-radius-default);
+}
+
+/* Stats row */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--homey-su-2);
+}
+
+.stats .tile {
+  padding: var(--homey-su-2);
+}
+
+/* Chart */
+
+.chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--homey-su-1);
+  min-height: 0;
+  padding: var(--homey-su-2);
+}
+
+.chart-head,
+.x-axis {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--homey-su-2);
+}
+
+.legend {
+  display: flex;
+  gap: var(--homey-su-3);
+  white-space: nowrap;
+}
+
+.legend .actual-label {
+  color: var(--homey-color-blue);
+}
+
+.plot {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+/* The SVG is stretched to the plot box; strokes keep their pixel width. */
+.plot svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.grid {
+  stroke: var(--homey-line-color-light);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.actual {
+  fill: none;
+  stroke: var(--homey-color-blue);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.trend {
+  fill: none;
+  stroke: var(--homey-text-color-light);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 5;
+  vector-effect: non-scaling-stroke;
+}
+
+.area {
+  fill: var(--homey-color-blue);
+  opacity: 0.08;
+}
+
+/* Rendered in HTML so it stays round while the SVG is stretched. */
+.dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: var(--homey-color-blue);
+}
+
+.y-label {
+  position: absolute;
+  left: 0;
+  padding-right: var(--homey-su-1);
+  background: var(--homey-background-color);
+}
+
+.y-label.max {
+  top: 0;
+}
+
+.y-label.min {
+  bottom: 0;
+}
+
+.hint {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* Empty and error states */
+
+.state {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: var(--homey-su-5);
+  text-align: center;
+}
+
+.error {
+  color: var(--homey-text-color-danger);
+}

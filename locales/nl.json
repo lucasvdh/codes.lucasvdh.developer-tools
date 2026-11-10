@@ -95,6 +95,17 @@
       "test": "Test",
       "total": "Totaal installaties",
       "updated_at": "Bijgewerkt __time__"
+    },
+    "install_trend": {
+      "actual": "Werkelijk",
+      "building": "Nog niet genoeg historie.",
+      "change": "Verschil",
+      "current": "Nu",
+      "per_day": "Trend / dag",
+      "percent": "Groei %",
+      "source_athom": "Athom-historie",
+      "source_local": "Lokale fallback",
+      "trend": "Trendlijn"
     }
   }
 }
