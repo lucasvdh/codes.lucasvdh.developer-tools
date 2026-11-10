@@ -106,6 +106,37 @@
       "source_athom": "Athom-historie",
       "source_local": "Lokale fallback",
       "trend": "Trendlijn"
+    },
+    "recent_changes": {
+      "empty": "Nog geen activiteiten vastgelegd.",
+      "summary_count": "__count__ activiteiten",
+      "install_change": "__from__ naar __to__ installaties",
+      "rating_change": "Beoordeling __from__ naar __to__",
+      "live_change": "Live versie __from__ naar __to__",
+      "test_change": "Testversie __from__ naar __to__",
+      "review_change": "Reviewstatus __from__ naar __to__",
+      "devices_change": "Apparaten __from__ naar __to__",
+      "suggestion": "Nieuwe suggestie",
+      "build": "Nieuwe build",
+      "added": "App toegevoegd",
+      "deleted": "App verwijderd",
+      "change": "Wijziging",
+      "current": "Huidige appgegevens",
+      "installs": "installaties",
+      "growth": "7d groei",
+      "cloud": "Cloud",
+      "local": "Lokaal",
+      "devices": "Apparaten",
+      "rating": "Beoordeling",
+      "suggestions": "Suggesties",
+      "builds": "Builds",
+      "live": "Live versie",
+      "test": "Testversie",
+      "review": "Reviewstatus",
+      "age": "Live build leeftijd",
+      "days_count": "__count__ dagen",
+      "none": "Geen",
+      "close": "Sluiten"
     }
   }
 }

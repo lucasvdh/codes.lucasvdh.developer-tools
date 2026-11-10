@@ -92,6 +92,37 @@
       "source_athom": "Historique Athom",
       "source_local": "Historique local",
       "trend": "Ligne de tendance"
+    },
+    "recent_changes": {
+      "empty": "Aucune activité enregistrée pour le moment.",
+      "summary_count": "__count__ activités",
+      "install_change": "__from__ à __to__ installations",
+      "rating_change": "Note __from__ à __to__",
+      "live_change": "Version live __from__ à __to__",
+      "test_change": "Version test __from__ à __to__",
+      "review_change": "État de la revue __from__ à __to__",
+      "devices_change": "Appareils __from__ à __to__",
+      "suggestion": "Nouvelle suggestion",
+      "build": "Nouveau build",
+      "added": "App ajoutée",
+      "deleted": "App supprimée",
+      "change": "Changement",
+      "current": "Détails actuels de l'app",
+      "installs": "installations",
+      "growth": "Croissance 7 j",
+      "cloud": "Cloud",
+      "local": "Local",
+      "devices": "Appareils",
+      "rating": "Note",
+      "suggestions": "Suggestions",
+      "builds": "Builds",
+      "live": "Version live",
+      "test": "Version test",
+      "review": "État de la revue",
+      "age": "Âge du build live",
+      "days_count": "__count__ jours",
+      "none": "Aucun",
+      "close": "Fermer"
     }
   }
 }

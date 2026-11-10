@@ -92,6 +92,37 @@
       "source_athom": "Athom-historik",
       "source_local": "Lokal historik",
       "trend": "Trendlinje"
+    },
+    "recent_changes": {
+      "empty": "Ingen aktivitet registreret endnu.",
+      "summary_count": "__count__ aktiviteter",
+      "install_change": "__from__ til __to__ installationer",
+      "rating_change": "Bedømmelse __from__ til __to__",
+      "live_change": "Liveversion __from__ til __to__",
+      "test_change": "Testversion __from__ til __to__",
+      "review_change": "Gennemgangsstatus __from__ til __to__",
+      "devices_change": "Enheder __from__ til __to__",
+      "suggestion": "Nyt forslag",
+      "build": "Ny build",
+      "added": "App tilføjet",
+      "deleted": "App fjernet",
+      "change": "Ændring",
+      "current": "Aktuelle appdetaljer",
+      "installs": "installationer",
+      "growth": "Vækst 7 d",
+      "cloud": "Cloud",
+      "local": "Lokalt",
+      "devices": "Enheder",
+      "rating": "Bedømmelse",
+      "suggestions": "Forslag",
+      "builds": "Builds",
+      "live": "Liveversion",
+      "test": "Testversion",
+      "review": "Gennemgangsstatus",
+      "age": "Alder på live-build",
+      "days_count": "__count__ dage",
+      "none": "Ingen",
+      "close": "Luk"
     }
   }
 }
