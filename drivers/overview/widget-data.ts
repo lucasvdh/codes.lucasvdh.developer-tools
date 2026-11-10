@@ -16,6 +16,10 @@ import {AppDetailKey, AppDetails} from "../../lib/AppDetailsCache";
 const DAY = 24 * 60 * 60 * 1000;
 const RETENTION_MS = 35 * DAY;
 export const DEVELOPER_DATA_INTERVAL = 15 * 60 * 1000;
+// The device store is rewritten on every poll, so keep the local history
+// coarse: the widgets need at most 30 days and at least a 24 hour range.
+const TOTAL_HISTORY_BUCKET = 60 * 60 * 1000;
+const APP_HISTORY_BUCKET = 3 * 60 * 60 * 1000;
 
 const STORE = {
   apps: 'widget_apps_v1',
@@ -234,7 +238,7 @@ export class WidgetData {
     });
 
     return {
-      installStats: statPoints(values.installStats),
+      installStats: statPoints(values.installStats).filter((point) => point.t >= Date.now() - RETENTION_MS),
       driverCounts,
       deviceCount: Object.values(driverCounts).reduce((sum, value) => sum + value, 0),
       buildCount: builds.length,
@@ -334,11 +338,11 @@ export class WidgetData {
 
     await this.recordActivity(apps, Array.isArray(previous) ? previous : []);
     await this.store.set(STORE.apps, apps);
-    await this.store.set(STORE.history, addPoint(this.store.get(STORE.history), 15 * 60 * 1000, apps.reduce((sum, app) => sum + app.installs, 0)));
+    await this.store.set(STORE.history, addPoint(this.store.get(STORE.history), TOTAL_HISTORY_BUCKET, apps.reduce((sum, app) => sum + app.installs, 0)));
 
     const appHistory = this.store.get(STORE.appHistory) || {};
     const nextAppHistory: Record<string, Point[]> = {};
-    for (const app of apps) nextAppHistory[app.id] = addPoint(appHistory[app.id], 30 * 60 * 1000, app.installs);
+    for (const app of apps) nextAppHistory[app.id] = addPoint(appHistory[app.id], APP_HISTORY_BUCKET, app.installs);
     await this.store.set(STORE.appHistory, nextAppHistory);
 
     await this.store.set(STORE.lastSync, Date.now());
