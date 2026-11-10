@@ -1,6 +1,7 @@
 import Homey from "homey";
 import ApiRegistry from "./lib/ApiRegistry";
 import AppsFeed from "./lib/AppsFeed";
+import AppDetailsCache from "./lib/AppDetailsCache";
 import {Services} from "./lib/services";
 import {OverviewWidgetSource} from "./drivers/overview/types";
 
@@ -20,6 +21,7 @@ interface DashboardsManager {
 class DeveloperTools extends Homey.App implements Services {
   private apiRegistry?: ApiRegistry;
   private appsFeed?: AppsFeed;
+  private appDetails?: AppDetailsCache;
 
   /**
    * onInit is called when the app is initialized.
@@ -37,6 +39,11 @@ class DeveloperTools extends Homey.App implements Services {
   get feed(): AppsFeed {
     this.appsFeed ??= new AppsFeed();
     return this.appsFeed;
+  }
+
+  get details(): AppDetailsCache {
+    this.appDetails ??= new AppDetailsCache();
+    return this.appDetails;
   }
 
   getOverviewDevices(): OverviewWidgetSource[] {

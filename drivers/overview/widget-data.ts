@@ -1,19 +1,21 @@
 "use strict";
 
-import AthomApi, {AppData, BuildSummary, LocalizedData, StatPoint, Suggestion} from "../../lib/AthomApi";
+import {AppData, BuildSummary, LocalizedData, StatPoint, Suggestion} from "../../lib/AthomApi";
+import {AppDetailKey, AppDetails} from "../../lib/AppDetailsCache";
 
 /**
  * Data for the dashboard widgets of one App overview device. Everything is
  * kept in the device store; capabilities and Flow cards are not touched.
  *
  * On every poll it stores the apps, an install history and a list of
- * changes. Every 15 minutes it also fetches builds, Athom's install history,
- * paired devices per driver, suggestions and the live changelog per app.
+ * changes. Every 15 minutes it also reads builds, Athom's install history,
+ * paired devices per driver, suggestions and the live changelog per app from
+ * the shared app details cache (fresh for apps that have an app device).
  */
 
 const DAY = 24 * 60 * 60 * 1000;
 const RETENTION_MS = 35 * DAY;
-const DEVELOPER_DATA_INTERVAL = 15 * 60 * 1000;
+export const DEVELOPER_DATA_INTERVAL = 15 * 60 * 1000;
 
 const STORE = {
   apps: 'widget_apps_v1',
@@ -190,23 +192,16 @@ export class WidgetData {
   }
 
   /** Builds, install history, devices per driver, suggestions and changelog of one app. */
-  static async fetchDeveloperData(api: AthomApi, app: AppData, language: string): Promise<DeveloperData> {
-    const liveBuildId = app.liveBuild?.id;
-    const calls: Record<string, Promise<unknown>> = {
-      builds: api.getBuilds(app.id),
-      installStats: api.getInstallStats(app.id),
-      driverStats: api.getDriverStats(app.id),
-      suggestions: api.getSuggestions(app.id),
-      liveBuildDetail: liveBuildId === undefined || liveBuildId === null ? Promise.resolve(null) : api.getBuild(app.id, liveBuildId),
+  static fromDetails(details: AppDetails, app: AppData, language: string): DeveloperData {
+    const values: Record<string, any> = {
+      builds: details.builds ?? null,
+      installStats: details.installStats ?? null,
+      driverStats: details.driverStats ?? null,
+      suggestions: details.suggestions ?? null,
+      liveBuildDetail: details.liveBuild ?? null,
     };
-    const keys = Object.keys(calls);
-    const settled = await Promise.allSettled(keys.map((key) => calls[key]));
-    const values: Record<string, any> = {};
-    const failed: string[] = [];
-    settled.forEach((result, index) => {
-      values[keys[index]] = result.status === 'fulfilled' ? result.value : null;
-      if (result.status === 'rejected') failed.push(keys[index]);
-    });
+    const failed = (Object.keys(details.errors) as AppDetailKey[])
+        .map((key) => (key === 'liveBuild' ? 'liveBuildDetail' : key));
 
     const builds: BuildSummary[] = Array.isArray(values.builds) ? values.builds : [];
     const suggestions: Suggestion[] = Array.isArray(values.suggestions) ? values.suggestions : [];
@@ -309,19 +304,24 @@ export class WidgetData {
 
   /**
    * Called after every poll with the apps of this device (already filtered on
-   * the chosen organizations). `api` is only used when developer data is due.
+   * the chosen organizations). `loadDetails` is only used when developer data is due.
    */
-  async update(appsData: AppData[], api: AthomApi | undefined, ownerName: string): Promise<void> {
+  async update(
+      appsData: AppData[],
+      loadDetails: ((app: AppData) => Promise<AppDetails>) | undefined,
+      ownerName: string,
+  ): Promise<void> {
     const rawApps = appsData.filter((app) => app && app.id && !app.deleted);
     const stored = this.store.get(STORE.developerData) || {};
     let developerData: Record<string, DeveloperData> = stored.apps && typeof stored.apps === 'object' ? stored.apps : {};
 
-    if (api && this.shouldFetchDeveloperData()) {
+    if (loadDetails && this.shouldFetchDeveloperData()) {
       const language = this.device.homey.i18n.getLanguage();
       const next: Record<string, DeveloperData> = {};
       // One app at a time; the calls of one app run in parallel.
       for (const app of rawApps) {
-        next[app.id] = WidgetData.mergeDeveloperData(developerData[app.id], await WidgetData.fetchDeveloperData(api, app, language));
+        const details = await loadDetails(app);
+        next[app.id] = WidgetData.mergeDeveloperData(developerData[app.id], WidgetData.fromDetails(details, app, language));
       }
       developerData = next;
       await this.store.set(STORE.developerData, {updatedAt: Date.now(), apps: developerData});

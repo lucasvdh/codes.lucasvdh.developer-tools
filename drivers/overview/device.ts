@@ -6,7 +6,7 @@ import {AppsByPatId} from "../../lib/AppsFeed";
 import {appName, ownerLabelFor} from "../../lib/appUtils";
 import {services} from "../../lib/services";
 import {OrganizationScope} from "./types";
-import WidgetData, {WidgetHost} from "./widget-data";
+import WidgetData, {DEVELOPER_DATA_INTERVAL, WidgetHost} from "./widget-data";
 
 interface OverviewApp {
   id: string;
@@ -161,10 +161,13 @@ class OverviewDevice extends Device implements OrganizationScope {
     if (!this.getAvailable()) await this.setAvailable();
 
     try {
-      const {apis} = services(this.homey);
+      const {apis, details} = services(this.homey);
       const patId = this.getStoreValue('pat_id');
       const entry = apis.store.get(patId);
-      await this.widgetData.update(scoped, apis.get(patId), entry ? ownerLabelFor(entry) : this.getName());
+      const api = apis.get(patId);
+      // Reuses what the app driver fetched this poll for apps with an app device.
+      const loadDetails = api ? (app: AppData) => details.get(api, app, DEVELOPER_DATA_INTERVAL) : undefined;
+      await this.widgetData.update(scoped, loadDetails, entry ? ownerLabelFor(entry) : this.getName());
     } catch (e) {
       this.error('Updating the widget data failed', e);
     }

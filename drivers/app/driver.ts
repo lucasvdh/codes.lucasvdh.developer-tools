@@ -461,42 +461,25 @@ class AppDriver extends Driver {
     const appId = appData.id;
     const crashBuild = appData.liveBuild ?? appData.testBuild;
     const crashBuildVersion = appData.liveBuild ? appData.liveVersion : appData.testVersion;
-    const liveBuildId = appData.liveBuild?.id;
 
-    const [suggestions, builds, installStats, driverStats, crashes, liveBuild] = await Promise.allSettled([
-      api.getSuggestions(appId),
-      api.getBuilds(appId),
-      api.getInstallStats(appId),
-      api.getDriverStats(appId),
-      crashBuild ? api.getBuildCrashes(appId, crashBuild.id) : Promise.resolve([]),
-      liveBuildId !== undefined ? api.getBuild(appId, liveBuildId) : Promise.resolve(undefined),
+    // Shared with the dashboard widgets, so they don't fetch the same data again.
+    const [details, crashes] = await Promise.all([
+      services(this.homey).details.fetch(api, appData),
+      Promise.allSettled([crashBuild ? api.getBuildCrashes(appId, crashBuild.id) : Promise.resolve([])])
+          .then(([result]) => result),
     ]);
 
-    const extras: AppExtras = {};
+    const extras: AppExtras = {
+      suggestions: details.suggestions,
+      builds: details.builds,
+      installStats: details.installStats,
+      driverStats: details.driverStats,
+    };
 
-    if (suggestions.status === 'fulfilled') {
-      extras.suggestions = suggestions.value;
-    } else {
-      this.error('Failed to fetch suggestions', suggestions.reason);
-    }
-
-    if (builds.status === 'fulfilled') {
-      extras.builds = builds.value;
-    } else {
-      this.error('Failed to fetch builds', builds.reason);
-    }
-
-    if (installStats.status === 'fulfilled') {
-      extras.installStats = installStats.value;
-    } else {
-      this.error('Failed to fetch install stats', installStats.reason);
-    }
-
-    if (driverStats.status === 'fulfilled') {
-      extras.driverStats = driverStats.value;
-    } else {
-      this.error('Failed to fetch driver stats', driverStats.reason);
-    }
+    if (details.errors.suggestions) this.error('Failed to fetch suggestions', details.errors.suggestions);
+    if (details.errors.builds) this.error('Failed to fetch builds', details.errors.builds);
+    if (details.errors.installStats) this.error('Failed to fetch install stats', details.errors.installStats);
+    if (details.errors.driverStats) this.error('Failed to fetch driver stats', details.errors.driverStats);
 
     if (crashes.status === 'fulfilled') {
       extras.crashes = crashes.value;
@@ -506,10 +489,10 @@ class AppDriver extends Driver {
       this.error('Failed to fetch crash reports', crashes.reason);
     }
 
-    if (liveBuild.status === 'fulfilled') {
-      extras.changelog = this.localized(liveBuild.value?.changelog);
+    if (details.errors.liveBuild) {
+      this.error('Failed to fetch live build detail', details.errors.liveBuild);
     } else {
-      this.error('Failed to fetch live build detail', liveBuild.reason);
+      extras.changelog = this.localized(details.liveBuild?.changelog ?? undefined);
     }
 
     return extras;
