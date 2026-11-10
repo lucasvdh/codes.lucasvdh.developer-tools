@@ -324,7 +324,8 @@ class AppDriver extends Driver {
         if (result.status === 'fulfilled') {
           const {patId, apps, failures} = result.value;
           appsByPatId.set(patId, apps);
-          allApps.push(...apps);
+          // Organization apps show up under every token that is a member.
+          allApps.push(...apps.filter((app) => !allApps.some((known) => known.id === app.id)));
           if (failures.length > 0) {
             complete = false;
             this.error(`Incomplete app list for PAT ${patId.slice(0, 6)}:`, failures.join('; '));
