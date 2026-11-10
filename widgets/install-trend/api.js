@@ -40,8 +40,6 @@ module.exports = {
         return {
             deviceId: data.deviceId,
             name: data.name,
-            accountType: data.accountType,
-            organization: data.organization,
             totalInstalls: Number(data.totalInstalls) || 0,
             appCount: Number(data.appCount) || 0,
             updatedAt: Number(data.updatedAt) || Date.now(),

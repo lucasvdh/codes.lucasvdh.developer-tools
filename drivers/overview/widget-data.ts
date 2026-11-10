@@ -390,10 +390,6 @@ export class WidgetData {
     return {
       deviceId: this.device.getId(),
       name: this.device.getName(),
-      accountType: 'personal',
-      organization: '',
-      organizationRole: '',
-      organizationVerified: false,
       totalInstalls: sum('installs'),
       totalCloud: sum('cloud'),
       totalLocal: sum('local'),

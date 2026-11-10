@@ -57,8 +57,6 @@ module.exports = {
         return {
             deviceId: data.deviceId,
             name: data.name,
-            accountType: data.accountType,
-            organization: data.organization,
             totalInstalls: Number(data.totalInstalls) || 0,
             totalCloud: Number(data.totalCloud) || 0,
             totalLocal: Number(data.totalLocal) || 0,

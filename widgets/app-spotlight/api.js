@@ -59,7 +59,7 @@ module.exports = {
 
         return {
             deviceId: data.deviceId,
-            deviceName: data.accountType === 'organization' ? (data.organization || data.name) : data.name,
+            deviceName: data.name,
             app: compactApp(app),
             growth24h: device.getAppGrowth(app.id, DAY),
             growth7d: device.getAppGrowth(app.id, 7 * DAY),

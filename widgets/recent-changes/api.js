@@ -84,8 +84,6 @@ module.exports = {
         return {
             deviceId: data.deviceId,
             name: data.name,
-            accountType: data.accountType,
-            organization: data.organization,
             changes,
             totalAvailable: filtered.length,
             range,

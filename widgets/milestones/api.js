@@ -63,7 +63,7 @@ module.exports = {
 
         return {
             deviceId: data.deviceId,
-            name: data.accountType === 'organization' ? (data.organization || data.name) : data.name,
+            name: data.name,
             apps,
             updatedAt: Number(data.updatedAt) || Date.now(),
             locale: homey.i18n.getLanguage(),
