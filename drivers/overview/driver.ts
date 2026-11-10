@@ -1,14 +1,9 @@
 "use strict";
-import {Driver, FlowCardTriggerDevice} from "homey";
-import AthomApi, {AppData} from "../../lib/AthomApi";
-import PatStore, {PatEntry} from "../../lib/PatStore";
+import {Device, Driver} from "homey";
+import {ownerLabelFor} from "../../lib/appUtils";
+import {services} from "../../lib/services";
+import {OrganizationScope} from "./types";
 
-/**
- * One device per account (Personal Access Token) with the total installs and
- * the installs of every app of that account. The app driver already fetches
- * the apps of every token on each poll and hands them over through
- * onAppsUpdated, so this driver does not poll the API itself.
- */
 interface OrganizationChoice {
   id: string;
   name: string;
@@ -21,47 +16,16 @@ interface AccountChoice {
   organizations: OrganizationChoice[];
 }
 
+/**
+ * One device per account (Personal Access Token) with the total installs and
+ * the installs of every app of that account. The app driver already fetches
+ * the apps of every token on each poll and publishes them on the apps feed,
+ * so this driver does not poll the API itself.
+ */
 class OverviewDriver extends Driver {
-  private latestAppsByPatId: Map<string, AppData[]> = new Map();
-  installsIncreasedTrigger?: FlowCardTriggerDevice;
-  installsDecreasedTrigger?: FlowCardTriggerDevice;
 
   async onInit() {
-    this.installsIncreasedTrigger = this.homey.flow.getDeviceTriggerCard('overview_installs_increased');
-    this.installsDecreasedTrigger = this.homey.flow.getDeviceTriggerCard('overview_installs_decreased');
     this.log('App overview driver has been initialized');
-  }
-
-  getPatStore(): PatStore {
-    return new PatStore(this.homey.settings);
-  }
-
-  static ownerLabelFor(entry: PatEntry): string {
-    return entry.label || entry.username || entry.email || `Account ${entry.id.slice(0, 6)}`;
-  }
-
-  /** Called by the app driver after every poll. */
-  async onAppsUpdated(appsByPatId: Map<string, AppData[]>): Promise<void> {
-    this.latestAppsByPatId = new Map(appsByPatId);
-    for (const device of this.getDevices()) {
-      try {
-        await (device as any).onAppsUpdated(appsByPatId);
-      } catch (e) {
-        this.error(e);
-      }
-    }
-  }
-
-  /** Apps of one token: from the last poll, or fetched once if there is none yet (e.g. right after pairing). */
-  async getApps(patId: string): Promise<AppData[] | undefined> {
-    const cached = this.latestAppsByPatId.get(patId);
-    if (cached) return cached;
-
-    const entry = this.getPatStore().get(patId);
-    if (!entry) return undefined;
-    const apps = await new AthomApi(entry.token).getApps();
-    this.latestAppsByPatId.set(patId, apps);
-    return apps;
   }
 
   /**
@@ -69,9 +33,10 @@ class OverviewDriver extends Driver {
    * to, for the selection screen in pairing and repair.
    */
   private async listAccounts(patIds?: string[]): Promise<AccountChoice[]> {
+    const apis = services(this.homey).apis;
     const accounts: AccountChoice[] = [];
     const seen = new Set<string>();
-    for (const entry of this.getPatStore().list()) {
+    for (const entry of apis.store.list()) {
       if (patIds && !patIds.includes(entry.id)) continue;
       // The account id survives replacing the token; the token id is the fallback.
       const accountId = entry.userId || entry.id;
@@ -80,13 +45,13 @@ class OverviewDriver extends Driver {
 
       let organizations: OrganizationChoice[] = [];
       try {
-        organizations = (await new AthomApi(entry.token).getOrganizations())
+        organizations = (await apis.get(entry.id)?.getOrganizations() ?? [])
             .filter((organization) => organization?.id)
             .map((organization) => ({id: organization.id, name: organization.name || organization.id}));
       } catch (e) {
         this.error(`Could not list the organizations of token ${entry.id.slice(0, 6)}`, e);
       }
-      accounts.push({patId: entry.id, accountId, name: OverviewDriver.ownerLabelFor(entry), organizations});
+      accounts.push({patId: entry.id, accountId, name: ownerLabelFor(entry), organizations});
     }
     return accounts;
   }
@@ -102,11 +67,12 @@ class OverviewDriver extends Driver {
   }
 
   async onPair(session: any) {
+    const store = services(this.homey).apis.store;
     let selection: Array<{data: {id: string}, store: {pat_id: string}}> = [];
 
     session.setHandler('showView', async (view: string) => {
       if (view === 'loading') {
-        await session.showView(this.getPatStore().list().length > 0 ? 'list_devices' : 'not_configured');
+        await session.showView(store.list().length > 0 ? 'list_devices' : 'not_configured');
       }
     });
 
@@ -117,7 +83,6 @@ class OverviewDriver extends Driver {
       return accounts.map((account) => ({
         name: `${this.homey.__('overview.device_name')} - ${account.name}`,
         data: {id: `overview-${account.accountId}`},
-        // Homey reads `store` (not `storage`) when the device is added.
         store: {id: account.accountId, pat_id: account.patId, organization_ids: []},
       }));
     });
@@ -145,15 +110,17 @@ class OverviewDriver extends Driver {
     });
   }
 
-  async onRepair(session: any, device: any) {
+  async onRepair(session: any, device: Device) {
+    const scoped = device as unknown as OrganizationScope;
+
     session.setHandler('get_accounts', async () => {
       const patId = device.getStoreValue('pat_id');
       const accounts = await this.listAccounts(patId ? [patId] : undefined);
-      return {accounts: accounts.slice(0, 1), selected: device.getOrganizationIds()};
+      return {accounts: accounts.slice(0, 1), selected: scoped.getOrganizationIds()};
     });
 
     session.setHandler('save_organizations', async (organizationIds: string[]) => {
-      await device.setOrganizationIds(Array.isArray(organizationIds) ? organizationIds : []);
+      await scoped.setOrganizationIds(Array.isArray(organizationIds) ? organizationIds : []);
       return true;
     });
   }
