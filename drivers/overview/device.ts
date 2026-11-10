@@ -150,10 +150,10 @@ class OverviewDevice extends Device {
       const old = previousById.get(app.id);
       if (!old) continue;
 
-      const diff = app.installs - old.installs;
-      if (diff === 0) continue;
+      const delta = app.installs - old.installs;
+      if (delta === 0) continue;
 
-      const trigger = diff > 0 ? this.installsIncreasedTrigger : this.installsDecreasedTrigger;
+      const trigger = delta > 0 ? this.installsIncreasedTrigger : this.installsDecreasedTrigger;
       await trigger?.trigger(this, {
         app: app.name,
         id: app.id,
@@ -161,7 +161,7 @@ class OverviewDevice extends Device {
         cloud: app.cloud,
         local: app.local,
         rating: app.rating,
-        diff,
+        installs_delta: delta,
       }).catch((e) => this.error(e));
     }
   }
