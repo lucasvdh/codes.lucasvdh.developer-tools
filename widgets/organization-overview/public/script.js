@@ -130,7 +130,6 @@ function onHomeyReady(Homey) {
       if (item.totalSuggestions) sub.push(t('suggestions_count', { count: fmt(item.totalSuggestions, l) }));
       if (item.inReviewCount) sub.push(t('review_count', { count: fmt(item.inReviewCount, l) }));
       if (item.averageRating > 0) sub.push(`★ ${fmt(item.averageRating, l, 2)}`);
-      if (item.role) sub.push(item.role);
 
       const percent = item.growthPercent === null ? '' : ` · ${sign(item.growthPercent, l, 1)}%`;
 
@@ -138,7 +137,7 @@ function onHomeyReady(Homey) {
         <article class="row">
           <div class="rank">${i + 1}</div>
           <div class="meta">
-            <div class="name truncate">${esc(item.name)}${item.verified ? ' ✓' : ''}</div>
+            <div class="name truncate">${esc(item.name)}</div>
             <div class="sub truncate">${esc(sub.join(' · '))}</div>
           </div>
           <div class="numbers">

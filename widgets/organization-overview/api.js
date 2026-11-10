@@ -37,8 +37,6 @@ module.exports = {
             return {
                 deviceId: entry.id,
                 name: entry.name,
-                role: '',
-                verified: false,
                 appCount: apps.length,
                 totalInstalls,
                 totalDevices: apps.reduce((sum, app) => sum + (Number(app.deviceCount) || 0), 0),
