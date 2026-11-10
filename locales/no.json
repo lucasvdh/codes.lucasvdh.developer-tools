@@ -134,6 +134,25 @@
       "devices_count": "__count__ enheter",
       "suggestions_count": "__count__ forslag",
       "review_count": "__count__ under gjennomgang"
+    },
+    "app_spotlight": {
+      "installs": "installasjoner",
+      "cloud": "Sky",
+      "local": "Lokalt",
+      "rating": "Vurdering",
+      "devices": "Enheter",
+      "live": "Live",
+      "test": "Test",
+      "suggestions": "Forslag",
+      "builds": "Bygg",
+      "age": "__days__ dager gammel",
+      "history_athom": "Athom-historikk",
+      "history_local": "Lokal historikk",
+      "not_enough_history": "Ikke nok historikk ennå.",
+      "g24": "24 t",
+      "g7": "7 d",
+      "g30": "30 d",
+      "review": "Under gjennomgang"
     }
   }
 }

@@ -134,6 +134,25 @@
       "devices_count": "__count__ urządzenia",
       "suggestions_count": "__count__ sugestii",
       "review_count": "__count__ w recenzji"
+    },
+    "app_spotlight": {
+      "installs": "instalacji",
+      "cloud": "Chmura",
+      "local": "Lokalnie",
+      "rating": "Ocena",
+      "devices": "Urządzenia",
+      "live": "Live",
+      "test": "Test",
+      "suggestions": "Sugestie",
+      "builds": "Buildy",
+      "age": "__days__ dni",
+      "history_athom": "Historia Athom",
+      "history_local": "Historia lokalna",
+      "not_enough_history": "Za mało historii.",
+      "g24": "24 h",
+      "g7": "7 d",
+      "g30": "30 d",
+      "review": "W recenzji"
     }
   }
 }

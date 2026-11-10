@@ -134,6 +134,25 @@
       "devices_count": "__count__ dispositivos",
       "suggestions_count": "__count__ sugerencias",
       "review_count": "__count__ en revisión"
+    },
+    "app_spotlight": {
+      "installs": "instalaciones",
+      "cloud": "Nube",
+      "local": "Local",
+      "rating": "Valoración",
+      "devices": "Dispositivos",
+      "live": "Live",
+      "test": "Prueba",
+      "suggestions": "Sugerencias",
+      "builds": "Builds",
+      "age": "__days__ días",
+      "history_athom": "Historial de Athom",
+      "history_local": "Historial local",
+      "not_enough_history": "Todavía no hay suficiente historial.",
+      "g24": "24 h",
+      "g7": "7 d",
+      "g30": "30 d",
+      "review": "En revisión"
     }
   }
 }

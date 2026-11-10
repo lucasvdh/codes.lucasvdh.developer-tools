@@ -148,6 +148,25 @@
       "devices_count": "__count__ devices",
       "suggestions_count": "__count__ suggestions",
       "review_count": "__count__ review"
+    },
+    "app_spotlight": {
+      "installs": "installs",
+      "cloud": "Cloud",
+      "local": "Local",
+      "rating": "Rating",
+      "devices": "Devices",
+      "live": "Live",
+      "test": "Test",
+      "suggestions": "Suggestions",
+      "builds": "Builds",
+      "age": "__days__ days old",
+      "history_athom": "Athom history",
+      "history_local": "Local fallback",
+      "not_enough_history": "Not enough history yet.",
+      "g24": "24h",
+      "g7": "7d",
+      "g30": "30d",
+      "review": "In review"
     }
   }
 }

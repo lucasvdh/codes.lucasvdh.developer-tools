@@ -134,6 +134,25 @@
       "devices_count": "__count__ enheter",
       "suggestions_count": "__count__ förslag",
       "review_count": "__count__ under granskning"
+    },
+    "app_spotlight": {
+      "installs": "installationer",
+      "cloud": "Moln",
+      "local": "Lokalt",
+      "rating": "Betyg",
+      "devices": "Enheter",
+      "live": "Live",
+      "test": "Test",
+      "suggestions": "Förslag",
+      "builds": "Byggen",
+      "age": "__days__ dagar gammal",
+      "history_athom": "Athom-historik",
+      "history_local": "Lokal historik",
+      "not_enough_history": "Inte tillräckligt med historik än.",
+      "g24": "24 h",
+      "g7": "7 d",
+      "g30": "30 d",
+      "review": "Under granskning"
     }
   }
 }
