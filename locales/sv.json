@@ -153,6 +153,13 @@
       "g7": "7 d",
       "g30": "30 d",
       "review": "Under granskning"
+    },
+    "milestones": {
+      "empty": "Inga appar hittades.",
+      "updated": "Uppdaterad __time__",
+      "growth_7d": "Tillväxt 7 d",
+      "eta": "Beräknat __days__ dagar",
+      "remaining": "__count__ kvar"
     }
   }
 }

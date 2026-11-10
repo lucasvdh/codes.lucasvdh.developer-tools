@@ -153,6 +153,13 @@
       "g7": "7 d",
       "g30": "30 d",
       "review": "Under gjennomgang"
+    },
+    "milestones": {
+      "empty": "Ingen apper funnet.",
+      "updated": "Oppdatert __time__",
+      "growth_7d": "Vekst 7 d",
+      "eta": "Estimert __days__ dager",
+      "remaining": "__count__ igjen"
     }
   }
 }

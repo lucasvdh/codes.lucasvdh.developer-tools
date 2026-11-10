@@ -167,6 +167,13 @@
       "g7": "7d",
       "g30": "30d",
       "review": "In review"
+    },
+    "milestones": {
+      "empty": "No apps found.",
+      "updated": "Updated __time__",
+      "growth_7d": "7d growth",
+      "eta": "ETA __days__ days",
+      "remaining": "__count__ to go"
     }
   }
 }

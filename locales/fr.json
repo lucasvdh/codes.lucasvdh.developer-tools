@@ -153,6 +153,13 @@
       "g7": "7 j",
       "g30": "30 j",
       "review": "En revue"
+    },
+    "milestones": {
+      "empty": "Aucune app trouvée.",
+      "updated": "Mis à jour __time__",
+      "growth_7d": "Croissance 7 j",
+      "eta": "Estimation __days__ jours",
+      "remaining": "__count__ restantes"
     }
   }
 }

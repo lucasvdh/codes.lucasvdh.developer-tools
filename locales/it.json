@@ -153,6 +153,13 @@
       "g7": "7 g",
       "g30": "30 g",
       "review": "In revisione"
+    },
+    "milestones": {
+      "empty": "Nessuna app trovata.",
+      "updated": "Aggiornato __time__",
+      "growth_7d": "Crescita 7 g",
+      "eta": "Stima __days__ giorni",
+      "remaining": "__count__ mancanti"
     }
   }
 }
