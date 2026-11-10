@@ -102,7 +102,7 @@ class OverviewDevice extends Device {
       if (!this.hasCapability(capability)) {
         await this.addCapability(capability);
       }
-      await this.setCapabilityOptions(capability, {title: {en: app.name}});
+      await this.setCapabilityTitle(capability, app.name);
       await this.setCapabilityValue(capability, app.installs);
     }
 
@@ -124,6 +124,19 @@ class OverviewDevice extends Device {
     await this.setStoreValue('apps', apps);
 
     if (!this.getAvailable()) await this.setAvailable();
+  }
+
+  /** setCapabilityOptions is expensive, so only call it when the title changed. */
+  private async setCapabilityTitle(capability: string, title: string): Promise<void> {
+    let current: unknown;
+    try {
+      current = this.getCapabilityOptions(capability)?.title?.en;
+    } catch {
+      current = undefined;
+    }
+    if (current !== title) {
+      await this.setCapabilityOptions(capability, {title: {en: title}});
+    }
   }
 
   /** "App installs increased/decreased" for every app whose installs changed since the last poll. */
