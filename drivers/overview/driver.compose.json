@@ -1,0 +1,99 @@
+{
+  "name": {
+    "en": "App overview",
+    "nl": "App-overzicht",
+    "de": "App-Übersicht",
+    "fr": "Aperçu des apps",
+    "it": "Panoramica app",
+    "sv": "Appöversikt",
+    "no": "App-oversikt",
+    "es": "Resumen de apps",
+    "da": "App-oversigt",
+    "pl": "Przegląd aplikacji"
+  },
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [
+    "cloud"
+  ],
+  "pair": [
+    {
+      "id": "loading",
+      "template": "loading"
+    },
+    {
+      "id": "not_configured"
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "select_organizations"
+      }
+    },
+    {
+      "id": "select_organizations"
+    }
+  ],
+  "images": {
+    "large": "./drivers/overview/assets/images/large.png",
+    "small": "./drivers/overview/assets/images/small.png"
+  },
+  "class": "other",
+  "capabilities": [
+    "installs",
+    "installs_cloud",
+    "installs_local",
+    "app_count"
+  ],
+  "capabilitiesOptions": {
+    "installs": {
+      "title": {
+        "en": "Total Installs",
+        "nl": "Totale installaties",
+        "de": "Gesamtinstallationen",
+        "fr": "Installations totales",
+        "it": "Installazioni Totali",
+        "sv": "Totalt antal installationer",
+        "no": "Totalt antall installasjoner",
+        "es": "Instalaciones Totales",
+        "da": "Samlede installationer",
+        "pl": "Całkowita liczba instalacji"
+      }
+    },
+    "installs_cloud": {
+      "title": {
+        "en": "Total Cloud Installs",
+        "nl": "Totale cloud installaties",
+        "de": "Gesamtinstallationen in der Cloud",
+        "fr": "Installations totales dans le cloud",
+        "it": "Installazioni Totali Cloud",
+        "sv": "Totalt antal molninstallationer",
+        "no": "Totalt antall skyinstallasjoner",
+        "es": "Instalaciones Totales en la Nube",
+        "da": "Samlede cloud-installationer",
+        "pl": "Całkowita liczba instalacji w chmurze"
+      }
+    },
+    "installs_local": {
+      "title": {
+        "en": "Total Local Installs",
+        "nl": "Totale lokale installaties",
+        "de": "Gesamtinstallationen lokal",
+        "fr": "Installations locales totales",
+        "it": "Installazioni Locali Totali",
+        "sv": "Totalt antal lokala installationer",
+        "no": "Totalt antall lokale installasjoner",
+        "es": "Instalaciones Locales Totales",
+        "da": "Samlede lokale installationer",
+        "pl": "Całkowita liczba lokalnych instalacji"
+      }
+    }
+  },
+  "repair": [
+    {
+      "id": "select_organizations"
+    }
+  ]
+}

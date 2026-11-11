@@ -1,0 +1,151 @@
+{
+  "name": {
+    "en": "Organization Overview",
+    "nl": "Organisatieoverzicht",
+    "de": "Organisationsübersicht",
+    "fr": "Aperçu des organisations",
+    "it": "Panoramica organizzazioni",
+    "sv": "Organisationsöversikt",
+    "no": "Organisasjonsoversikt",
+    "es": "Resumen de organizaciones",
+    "da": "Organisationsoversigt",
+    "pl": "Przegląd organizacji"
+  },
+  "height": 380,
+  "api": {
+    "getData": {
+      "method": "GET",
+      "path": "/"
+    }
+  },
+  "settings": [
+    {
+      "id": "range",
+      "type": "dropdown",
+      "title": {
+        "en": "Growth period",
+        "nl": "Groeiperiode",
+        "de": "Wachstumszeitraum",
+        "fr": "Période de croissance",
+        "it": "Periodo di crescita",
+        "sv": "Tillväxtperiod",
+        "no": "Vekstperiode",
+        "es": "Periodo de crecimiento",
+        "da": "Vækstperiode",
+        "pl": "Okres wzrostu"
+      },
+      "value": "7d",
+      "values": [
+        {
+          "id": "24h",
+          "title": {
+            "en": "24 hours",
+            "nl": "24 uur",
+            "de": "24 Stunden",
+            "fr": "24 heures",
+            "it": "24 ore",
+            "sv": "24 timmar",
+            "no": "24 timer",
+            "es": "24 horas",
+            "da": "24 timer",
+            "pl": "24 godziny"
+          }
+        },
+        {
+          "id": "7d",
+          "title": {
+            "en": "7 days",
+            "nl": "7 dagen",
+            "de": "7 Tage",
+            "fr": "7 jours",
+            "it": "7 giorni",
+            "sv": "7 dagar",
+            "no": "7 dager",
+            "es": "7 días",
+            "da": "7 dage",
+            "pl": "7 dni"
+          }
+        },
+        {
+          "id": "30d",
+          "title": {
+            "en": "30 days",
+            "nl": "30 dagen",
+            "de": "30 Tage",
+            "fr": "30 jours",
+            "it": "30 giorni",
+            "sv": "30 dagar",
+            "no": "30 dager",
+            "es": "30 días",
+            "da": "30 dage",
+            "pl": "30 dni"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sort",
+      "type": "dropdown",
+      "title": {
+        "en": "Sort organizations by",
+        "nl": "Sorteer organisaties op",
+        "de": "Organisationen sortieren nach",
+        "fr": "Trier les organisations par",
+        "it": "Ordina le organizzazioni per",
+        "sv": "Sortera organisationer efter",
+        "no": "Sorter organisasjoner etter",
+        "es": "Ordenar organizaciones por",
+        "da": "Sortér organisationer efter",
+        "pl": "Sortuj organizacje według"
+      },
+      "value": "installs",
+      "values": [
+        {
+          "id": "installs",
+          "title": {
+            "en": "Installs",
+            "nl": "Installaties",
+            "de": "Installationen",
+            "fr": "Installations",
+            "it": "Installazioni",
+            "sv": "Installationer",
+            "no": "Installasjoner",
+            "es": "Instalaciones",
+            "da": "Installationer",
+            "pl": "Instalacje"
+          }
+        },
+        {
+          "id": "growth",
+          "title": {
+            "en": "Growth",
+            "nl": "Groei",
+            "de": "Wachstum",
+            "fr": "Croissance",
+            "it": "Crescita",
+            "sv": "Tillväxt",
+            "no": "Vekst",
+            "es": "Crecimiento",
+            "da": "Vækst",
+            "pl": "Wzrost"
+          }
+        },
+        {
+          "id": "name",
+          "title": {
+            "en": "Name",
+            "nl": "Naam",
+            "de": "Name",
+            "fr": "Nom",
+            "it": "Nome",
+            "sv": "Namn",
+            "no": "Navn",
+            "es": "Nombre",
+            "da": "Navn",
+            "pl": "Nazwa"
+          }
+        }
+      ]
+    }
+  ]
+}

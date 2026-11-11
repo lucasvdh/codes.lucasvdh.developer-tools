@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="homey-widget-full">
+  <main id="content" class="homey-widget">
+    <div class="state">…</div>
+  </main>
+
+  <div id="modal" class="modal" aria-hidden="true">
+    <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetName">
+      <div class="sheet-head">
+        <img id="sheetIcon" class="sheet-icon" src="icon.svg" alt="">
+        <div class="sheet-title">
+          <div id="sheetName" class="sheet-name truncate"></div>
+          <div id="sheetId" class="homey-text-small-light truncate"></div>
+        </div>
+        <button id="closeModal" class="close" type="button">×</button>
+      </div>
+      <div id="sheetBody" class="sheet-body"></div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

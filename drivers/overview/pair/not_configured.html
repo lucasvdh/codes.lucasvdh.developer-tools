@@ -1,0 +1,68 @@
+<base target="_parent"/>
+
+<div class="form-wrapper">
+  <p data-i18n="errors.missing_personal_access_token">No Personal Access Token has been configured yet. Open the app's settings to add one.</p>
+
+  <ol class="token-steps">
+    <li data-i18n="settings.token_step_open">Open tools.developer.homey.app/me and sign in with your Athom account.</li>
+    <li data-i18n="settings.token_step_copy">In the Personal Access Token section, copy the token (it starts with pat-).</li>
+    <li data-i18n="settings.token_step_paste">Open this app's settings in Homey and paste the token there.</li>
+  </ol>
+
+  <div class="footer">
+    <p class="alert help">
+      <span data-i18n="settings.need_help_finding_token">Need help?</span>
+      <a href="https://homey-developer-tools.gitbook.io/en/configuration/authorisation"
+         data-i18n="pair.help.click_here_documentation">View the documentation.</a>
+    </p>
+  </div>
+</div>
+
+<style type="text/css">
+  .form-wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 1rem;
+  }
+
+  .footer {
+    margin-top: auto;
+    padding-top: 1.5rem;
+  }
+
+  .alert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+  }
+
+  .help {
+    color: #383d41;
+    background-color: #f4f5f5;
+    border-color: #e4e5e7;
+  }
+
+  .token-steps {
+    margin: 0 0 1rem 1.25rem;
+    padding: 0 1rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #383d41;
+  }
+
+  .token-steps li {
+    margin-bottom: 0.4rem;
+  }
+
+  .token-steps code {
+    background: #e4e5e7;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 0.85em;
+  }
+</style>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body class="homey-widget-full">
+    <main id="content" class="homey-widget">
+      <div class="skeleton">
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+      </div>
+    </main>
+
+    <div id="modal" class="modal" aria-hidden="true">
+      <section class="sheet" role="dialog" aria-modal="true">
+        <header class="sheet-head homey-border-bottom">
+          <img id="sheetIcon" class="sheet-icon" src="icon.svg" alt="">
+          <div class="sheet-title">
+            <div id="sheetName" class="homey-text-bold ellipsis"></div>
+            <div id="sheetId" class="homey-text-small-light ellipsis"></div>
+          </div>
+          <button id="closeModal" class="close" type="button">×</button>
+        </header>
+        <div id="sheetBody" class="sheet-body"></div>
+      </section>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

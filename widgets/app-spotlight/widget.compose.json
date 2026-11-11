@@ -1,0 +1,55 @@
+{
+  "name": {
+    "en": "App Spotlight",
+    "nl": "App Spotlight",
+    "de": "App im Fokus",
+    "fr": "App en vedette",
+    "it": "App in evidenza",
+    "sv": "App i fokus",
+    "no": "App i fokus",
+    "es": "App destacada",
+    "da": "App i fokus",
+    "pl": "Aplikacja w centrum"
+  },
+  "height": 420,
+  "api": {
+    "getData": {
+      "method": "GET",
+      "path": "/"
+    }
+  },
+  "settings": [
+    {
+      "id": "device",
+      "type": "autocomplete",
+      "title": {
+        "en": "App overview",
+        "nl": "App-overzicht",
+        "de": "App-Übersicht",
+        "fr": "Aperçu des apps",
+        "it": "Panoramica app",
+        "sv": "Appöversikt",
+        "no": "App-oversikt",
+        "es": "Resumen de apps",
+        "da": "App-oversigt",
+        "pl": "Przegląd aplikacji"
+      }
+    },
+    {
+      "id": "app",
+      "type": "autocomplete",
+      "title": {
+        "en": "App from this overview",
+        "nl": "App uit dit overzicht",
+        "de": "App aus dieser Übersicht",
+        "fr": "App de cet aperçu",
+        "it": "App di questa panoramica",
+        "sv": "App från den här översikten",
+        "no": "App fra denne oversikten",
+        "es": "App de este resumen",
+        "da": "App fra denne oversigt",
+        "pl": "Aplikacja z tego przeglądu"
+      }
+    }
+  ]
+}

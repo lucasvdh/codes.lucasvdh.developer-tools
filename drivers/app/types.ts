@@ -21,6 +21,7 @@ export interface DeviceStorage {
 export interface Device {
   name: string;
   data: DeviceData;
-  storage: DeviceStorage;
+  // Homey reads `store` when the device is added during pairing.
+  store: DeviceStorage;
   settings?: DeviceSettings;
 }

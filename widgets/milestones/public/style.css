@@ -1,0 +1,108 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+#content {
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+#content::-webkit-scrollbar {
+  display: none;
+}
+
+.truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Overview name and last update time */
+.summary {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--homey-su-2);
+  margin-bottom: var(--homey-su-1);
+}
+
+/* One row per app, separated by a light line */
+.row {
+  padding: var(--homey-su-2) 0;
+  border-top: 1px solid var(--homey-line-color-light);
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  gap: var(--homey-su-2);
+  align-items: center;
+}
+
+.app-icon {
+  display: block;
+  width: 36px;
+  height: 36px;
+  padding: 2px;
+  border-radius: var(--homey-border-radius-small);
+  background-color: var(--homey-color-mono-050);
+  object-fit: contain;
+}
+
+.goal {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.sub {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--homey-su-2);
+}
+
+.positive {
+  color: var(--homey-text-color-success);
+}
+
+.negative {
+  color: var(--homey-text-color-danger);
+}
+
+/* Progress within the current milestone stage */
+.bar {
+  height: var(--homey-su-2);
+  margin-top: var(--homey-su-1);
+  border-radius: var(--homey-border-radius-small);
+  background-color: var(--homey-color-mono-100);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  min-width: 2px;
+  border-radius: var(--homey-border-radius-small);
+  background-color: var(--homey-color-green);
+  transition: width 0.25s ease;
+}
+
+/* Loading, empty and error messages */
+.state {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: var(--homey-su-5);
+  text-align: center;
+  color: var(--homey-text-color-light);
+}
+
+.state.error {
+  color: var(--homey-text-color-danger);
+}

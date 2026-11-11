@@ -22,6 +22,25 @@ export interface AppData {
   id: string;
   testBuildUpdatedAt?: string;
   liveBuildUpdatedAt?: string;
+  // Set by getApps for apps that belong to a Developer Organization.
+  organization?: OrganizationRef;
+}
+
+export interface OrganizationRef {
+  id: string;
+  name: string;
+}
+
+export interface OrganizationData {
+  id: string;
+  name?: string;
+  apps?: Array<string | Partial<AppData>>;
+}
+
+export interface AppsResult {
+  apps: AppData[];
+  /** Organizations or organization apps that could not be loaded. */
+  failures: string[];
 }
 
 interface BuildData {
@@ -128,8 +147,77 @@ export class AthomApi {
     this.delegatedJWTExpiresAt = undefined;
   }
 
+  /**
+   * The apps of the account itself plus the apps of every Developer
+   * Organization the account belongs to. An organization that can't be
+   * loaded is skipped, so it never hides the account's own apps.
+   */
   public async getApps(): Promise<AppData[]> {
-    return JSON.parse(await this.authedGet('/api/v1/app/me')) as AppData[];
+    return (await this.getAppsWithFailures()).apps;
+  }
+
+  /**
+   * Like getApps, but also reports what could not be loaded, so callers can
+   * tell a complete list from a partial one.
+   */
+  public async getAppsWithFailures(): Promise<AppsResult> {
+    const ownApps = JSON.parse(await this.authedGet('/api/v1/app/me')) as AppData[];
+    const apps = new Map<string, AppData>(ownApps.map((app) => [app.id, app]));
+    const failures: string[] = [];
+
+    let organizations: OrganizationData[] = [];
+    try {
+      organizations = await this.getOrganizations();
+    } catch (error) {
+      return {apps: ownApps, failures: [`organizations: ${(error as Error).message}`]};
+    }
+
+    for (const organization of organizations) {
+      try {
+        for (const app of await this.getOrganizationApps(organization.id, new Set(apps.keys()), failures)) {
+          apps.set(app.id, app);
+        }
+      } catch (error) {
+        // Skip this organization; the others and the account's own apps still load.
+        failures.push(`organization ${organization.id}: ${(error as Error).message}`);
+      }
+    }
+
+    return {apps: Array.from(apps.values()), failures};
+  }
+
+  public async getOrganizations(): Promise<OrganizationData[]> {
+    const organizations = JSON.parse(await this.authedGet('/api/v1/org')) as OrganizationData[];
+    return Array.isArray(organizations) ? organizations : [];
+  }
+
+  private async getOrganizationApps(
+      organizationId: string,
+      knownAppIds: Set<string>,
+      failures: string[],
+  ): Promise<AppData[]> {
+    const organization = JSON.parse(
+        await this.authedGet(`/api/v1/org/${encodeURIComponent(organizationId)}`),
+    ) as OrganizationData;
+    const ref: OrganizationRef = {id: organization.id ?? organizationId, name: organization.name ?? organizationId};
+
+    const apps: AppData[] = [];
+    for (const entry of Array.isArray(organization.apps) ? organization.apps : []) {
+      const appId = typeof entry === 'string' ? entry : entry?.id;
+      if (!appId || knownAppIds.has(appId)) continue;
+
+      // The organization lists either full app objects or only their ids.
+      try {
+        const app = typeof entry === 'object' && typeof entry.installs === 'number'
+            ? entry as AppData
+            : JSON.parse(await this.authedGet(`/api/v1/app/${encodeURIComponent(appId)}`)) as AppData;
+        apps.push({...app, organization: ref});
+      } catch (error) {
+        // Skip this app; the other apps of the organization still load.
+        failures.push(`app ${appId}: ${(error as Error).message}`);
+      }
+    }
+    return apps;
   }
 
   public async getUserInfo(): Promise<UserInfo> {

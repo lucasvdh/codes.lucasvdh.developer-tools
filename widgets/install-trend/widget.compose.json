@@ -1,0 +1,94 @@
+{
+  "name": {
+    "en": "Install Trend",
+    "nl": "Installatietrend",
+    "de": "Installationstrend",
+    "fr": "Tendance des installations",
+    "it": "Andamento installazioni",
+    "sv": "Installationstrend",
+    "no": "Installasjonstrend",
+    "es": "Tendencia de instalaciones",
+    "da": "Installationstrend",
+    "pl": "Trend instalacji"
+  },
+  "height": 360,
+  "api": {
+    "getData": {
+      "method": "GET",
+      "path": "/"
+    }
+  },
+  "devices": {
+    "type": "app",
+    "singular": true,
+    "filter": {
+      "capabilities": "app_count"
+    }
+  },
+  "settings": [
+    {
+      "id": "range",
+      "type": "dropdown",
+      "title": {
+        "en": "Period",
+        "nl": "Periode",
+        "de": "Zeitraum",
+        "fr": "Période",
+        "it": "Periodo",
+        "sv": "Period",
+        "no": "Periode",
+        "es": "Periodo",
+        "da": "Periode",
+        "pl": "Okres"
+      },
+      "value": "7d",
+      "values": [
+        {
+          "id": "24h",
+          "title": {
+            "en": "24 hours",
+            "nl": "24 uur",
+            "de": "24 Stunden",
+            "fr": "24 heures",
+            "it": "24 ore",
+            "sv": "24 timmar",
+            "no": "24 timer",
+            "es": "24 horas",
+            "da": "24 timer",
+            "pl": "24 godziny"
+          }
+        },
+        {
+          "id": "7d",
+          "title": {
+            "en": "7 days",
+            "nl": "7 dagen",
+            "de": "7 Tage",
+            "fr": "7 jours",
+            "it": "7 giorni",
+            "sv": "7 dagar",
+            "no": "7 dager",
+            "es": "7 días",
+            "da": "7 dage",
+            "pl": "7 dni"
+          }
+        },
+        {
+          "id": "30d",
+          "title": {
+            "en": "30 days",
+            "nl": "30 dagen",
+            "de": "30 Tage",
+            "fr": "30 jours",
+            "it": "30 giorni",
+            "sv": "30 dagar",
+            "no": "30 dager",
+            "es": "30 días",
+            "da": "30 dage",
+            "pl": "30 dni"
+          }
+        }
+      ]
+    }
+  ]
+}

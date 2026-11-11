@@ -1,0 +1,22 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Apps",
+    "nl": "Apps",
+    "de": "Apps",
+    "fr": "Apps",
+    "it": "App",
+    "sv": "Appar",
+    "no": "Apper",
+    "es": "Apps",
+    "da": "Apps",
+    "pl": "Aplikacje"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "uiQuickAction": false,
+  "icon": "assets/capabilities/package.svg",
+  "insights": true,
+  "decimals": 0
+}

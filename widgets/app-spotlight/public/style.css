@@ -1,0 +1,170 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--homey-su-3);
+  height: 100%;
+  min-height: 0;
+}
+
+.truncate {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* App name, owner and total installs */
+.hero {
+  display: flex;
+  align-items: center;
+  gap: var(--homey-su-3);
+}
+
+.app-icon {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  padding: var(--homey-su-1);
+  border-radius: var(--homey-border-radius-small);
+  background-color: var(--homey-color-mono-050);
+  object-fit: contain;
+}
+
+.app-name {
+  flex: 1;
+  min-width: 0;
+}
+
+.installs {
+  flex: none;
+  text-align: right;
+}
+
+.installs-value {
+  display: block;
+  font-size: var(--homey-font-size-xlarge);
+  line-height: var(--homey-line-height-xlarge);
+  font-weight: var(--homey-font-weight-bold);
+  color: var(--homey-text-color);
+}
+
+/* Two rows of four key figures */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--homey-su-2);
+  padding: var(--homey-su-2) 0;
+  border-top: 1px solid var(--homey-line-color-light);
+  border-bottom: 1px solid var(--homey-line-color-light);
+}
+
+.stat {
+  min-width: 0;
+}
+
+.stat-value {
+  font-size: var(--homey-font-size-default);
+  line-height: var(--homey-line-height-default);
+  font-weight: var(--homey-font-weight-medium);
+  color: var(--homey-text-color);
+}
+
+.stat-value.detail {
+  font-size: var(--homey-font-size-small);
+  line-height: var(--homey-line-height-small);
+}
+
+.positive {
+  color: var(--homey-text-color-success);
+}
+
+.negative {
+  color: var(--homey-text-color-danger);
+}
+
+/* Install history chart */
+.chart {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.chart-head {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--homey-su-2);
+}
+
+.growths {
+  display: flex;
+  flex: none;
+  gap: var(--homey-su-2);
+}
+
+.growths b {
+  font-weight: var(--homey-font-weight-medium);
+}
+
+#spark {
+  display: block;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+}
+
+.grid {
+  stroke: var(--homey-line-color-light);
+  stroke-width: 1;
+}
+
+.actual {
+  fill: none;
+  stroke: var(--homey-color-blue);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.area {
+  fill: var(--homey-color-blue);
+  opacity: 0.08;
+}
+
+.dot {
+  fill: var(--homey-color-blue);
+}
+
+.hint {
+  position: absolute;
+  inset: var(--homey-su-6) 0 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+/* Loading and error messages */
+.state {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: var(--homey-su-5);
+  text-align: center;
+  color: var(--homey-text-color-light);
+}
+
+.state.error {
+  color: var(--homey-text-color-danger);
+}

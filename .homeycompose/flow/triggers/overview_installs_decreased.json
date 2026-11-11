@@ -1,0 +1,142 @@
+{
+  "title": {
+    "en": "App installs decreased",
+    "nl": "App-installaties afgenomen",
+    "de": "App-Installationen gesunken",
+    "fr": "Les installations de l'app ont diminué",
+    "it": "Le installazioni dell'app sono diminuite",
+    "sv": "Appinstallationer minskade",
+    "no": "App-installasjoner sank",
+    "es": "Las instalaciones de la app disminuyeron",
+    "da": "App-installationer faldt",
+    "pl": "Liczba instalacji aplikacji spadła"
+  },
+  "tokens": [
+    {
+      "name": "app",
+      "type": "string",
+      "title": {
+        "en": "App",
+        "nl": "App",
+        "de": "App",
+        "fr": "App",
+        "it": "App",
+        "sv": "App",
+        "no": "App",
+        "es": "App",
+        "da": "App",
+        "pl": "Aplikacja"
+      },
+      "example": "Flow Checker"
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "title": {
+        "en": "App ID",
+        "nl": "App-ID",
+        "de": "App-ID",
+        "fr": "ID de l'app",
+        "it": "ID app",
+        "sv": "App-ID",
+        "no": "App-ID",
+        "es": "ID de la app",
+        "da": "App-ID",
+        "pl": "ID aplikacji"
+      },
+      "example": "com.athom.flowchecker"
+    },
+    {
+      "name": "installs",
+      "type": "number",
+      "title": {
+        "en": "Installs",
+        "nl": "Installaties",
+        "de": "Installationen",
+        "fr": "Installations",
+        "it": "Installazioni",
+        "sv": "Installationer",
+        "no": "Installasjoner",
+        "es": "Instalaciones",
+        "da": "Installationer",
+        "pl": "Instalacje"
+      },
+      "example": 1000
+    },
+    {
+      "name": "cloud",
+      "type": "number",
+      "title": {
+        "en": "Cloud installs",
+        "nl": "Cloud-installaties",
+        "de": "Installationen in der Cloud",
+        "fr": "Installations dans le cloud",
+        "it": "Installazioni cloud",
+        "sv": "Molninstallationer",
+        "no": "Skyinstallasjoner",
+        "es": "Instalaciones en la nube",
+        "da": "Cloud-installationer",
+        "pl": "Instalacje w chmurze"
+      },
+      "example": 100
+    },
+    {
+      "name": "local",
+      "type": "number",
+      "title": {
+        "en": "Local installs",
+        "nl": "Lokale installaties",
+        "de": "Lokale Installationen",
+        "fr": "Installations locales",
+        "it": "Installazioni locali",
+        "sv": "Lokala installationer",
+        "no": "Lokale installasjoner",
+        "es": "Instalaciones locales",
+        "da": "Lokale installationer",
+        "pl": "Instalacje lokalne"
+      },
+      "example": 900
+    },
+    {
+      "name": "rating",
+      "type": "number",
+      "title": {
+        "en": "Rating",
+        "nl": "Beoordeling",
+        "de": "Bewertung",
+        "fr": "Note",
+        "it": "Valutazione",
+        "sv": "Betyg",
+        "no": "Vurdering",
+        "es": "Valoración",
+        "da": "Bedømmelse",
+        "pl": "Ocena"
+      },
+      "example": 4.5
+    },
+    {
+      "name": "installs_delta",
+      "type": "number",
+      "title": {
+        "en": "Difference",
+        "nl": "Verschil",
+        "de": "Differenz",
+        "fr": "Différence",
+        "it": "Differenza",
+        "sv": "Skillnad",
+        "no": "Differanse",
+        "es": "Diferencia",
+        "da": "Forskel",
+        "pl": "Różnica"
+      },
+      "example": 5
+    }
+  ],
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=overview"
+    }
+  ]
+}

@@ -215,6 +215,14 @@
         <input class="homey-form-input" id="polling_frequency" type="number" min="1" value="15"/>
       </div>
 
+      <div class="homey-form-group">
+        <label class="homey-form-checkbox">
+          <input class="homey-form-checkbox-input" id="include_organization_apps" type="checkbox" checked/>
+          <span class="homey-form-checkbox-checkmark"></span>
+          <span class="homey-form-checkbox-text" data-i18n="settings.include_organization_apps">Include Developer Organization apps in the totals and app-wide Flow cards</span>
+        </label>
+      </div>
+
       <div class="button-row">
         <button id="save-polling-button" class="homey-button-primary-full" type="button" data-i18n="settings.save"></button>
       </div>
@@ -243,6 +251,7 @@
   const addNewButton = document.getElementById('add-new-button');
   const addStatusEl = document.getElementById('add-status-message');
   const pollingInput = document.getElementById('polling_frequency');
+  const includeOrganizationAppsInput = document.getElementById('include_organization_apps');
   const savePollingButton = document.getElementById('save-polling-button');
   const statusEl = document.getElementById('status-message');
 
@@ -388,6 +397,9 @@
     Homey.get('polling_frequency', function (err, value) {
       if (!err && value) pollingInput.value = value;
     });
+    Homey.get('include_organization_apps', function (err, value) {
+      if (!err) includeOrganizationAppsInput.checked = value !== false;
+    });
 
     refreshTokens(Homey);
 
@@ -441,7 +453,7 @@
       hideStatus(statusEl);
       savePollingButton.classList.add('is-loading');
       const polling = parseInt(pollingInput.value, 10);
-      Homey.set('polling_frequency', isNaN(polling) ? 15 : Math.max(1, polling), function (err) {
+      const done = function (err) {
         savePollingButton.classList.remove('is-loading');
         if (err) {
           console.error(err);
@@ -449,6 +461,10 @@
         } else {
           showStatus(statusEl, 'success', Homey.__('settings.save_success'));
         }
+      };
+      Homey.set('include_organization_apps', includeOrganizationAppsInput.checked, function (err) {
+        if (err) return done(err);
+        Homey.set('polling_frequency', isNaN(polling) ? 15 : Math.max(1, polling), done);
       });
     });
 

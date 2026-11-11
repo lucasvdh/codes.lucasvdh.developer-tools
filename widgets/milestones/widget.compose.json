@@ -1,0 +1,94 @@
+{
+  "name": {
+    "en": "Milestones",
+    "nl": "Mijlpalen",
+    "de": "Meilensteine",
+    "fr": "Jalons",
+    "it": "Traguardi",
+    "sv": "Milstolpar",
+    "no": "Milepæler",
+    "es": "Hitos",
+    "da": "Milepæle",
+    "pl": "Kamienie milowe"
+  },
+  "height": 360,
+  "api": {
+    "getData": {
+      "method": "GET",
+      "path": "/"
+    }
+  },
+  "devices": {
+    "type": "app",
+    "singular": true,
+    "filter": {
+      "capabilities": "app_count"
+    }
+  },
+  "settings": [
+    {
+      "id": "count",
+      "type": "dropdown",
+      "title": {
+        "en": "Apps shown",
+        "nl": "Aantal apps",
+        "de": "Angezeigte Apps",
+        "fr": "Apps affichées",
+        "it": "App mostrate",
+        "sv": "Visade appar",
+        "no": "Viste apper",
+        "es": "Apps mostradas",
+        "da": "Viste apps",
+        "pl": "Wyświetlane aplikacje"
+      },
+      "value": "6",
+      "values": [
+        {
+          "id": "4",
+          "title": {
+            "en": "4 apps",
+            "nl": "4 apps",
+            "de": "4 Apps",
+            "fr": "4 apps",
+            "it": "4 app",
+            "sv": "4 appar",
+            "no": "4 apper",
+            "es": "4 apps",
+            "da": "4 apps",
+            "pl": "4 aplikacji"
+          }
+        },
+        {
+          "id": "6",
+          "title": {
+            "en": "6 apps",
+            "nl": "6 apps",
+            "de": "6 Apps",
+            "fr": "6 apps",
+            "it": "6 app",
+            "sv": "6 appar",
+            "no": "6 apper",
+            "es": "6 apps",
+            "da": "6 apps",
+            "pl": "6 aplikacji"
+          }
+        },
+        {
+          "id": "8",
+          "title": {
+            "en": "8 apps",
+            "nl": "8 apps",
+            "de": "8 Apps",
+            "fr": "8 apps",
+            "it": "8 app",
+            "sv": "8 appar",
+            "no": "8 apper",
+            "es": "8 apps",
+            "da": "8 apps",
+            "pl": "8 aplikacji"
+          }
+        }
+      ]
+    }
+  ]
+}

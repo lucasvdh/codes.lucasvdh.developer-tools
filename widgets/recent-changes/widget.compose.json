@@ -1,0 +1,173 @@
+{
+  "name": {
+    "en": "Recent Changes",
+    "nl": "Recente wijzigingen",
+    "de": "Letzte Änderungen",
+    "fr": "Changements récents",
+    "it": "Modifiche recenti",
+    "sv": "Senaste ändringar",
+    "no": "Siste endringer",
+    "es": "Cambios recientes",
+    "da": "Seneste ændringer",
+    "pl": "Ostatnie zmiany"
+  },
+  "height": 360,
+  "api": {
+    "getData": {
+      "method": "GET",
+      "path": "/"
+    }
+  },
+  "devices": {
+    "type": "app",
+    "singular": true,
+    "filter": {
+      "capabilities": "app_count"
+    }
+  },
+  "settings": [
+    {
+      "id": "range",
+      "type": "dropdown",
+      "title": {
+        "en": "Period",
+        "nl": "Periode",
+        "de": "Zeitraum",
+        "fr": "Période",
+        "it": "Periodo",
+        "sv": "Period",
+        "no": "Periode",
+        "es": "Periodo",
+        "da": "Periode",
+        "pl": "Okres"
+      },
+      "value": "7d",
+      "values": [
+        {
+          "id": "24h",
+          "title": {
+            "en": "24 hours",
+            "nl": "24 uur",
+            "de": "24 Stunden",
+            "fr": "24 heures",
+            "it": "24 ore",
+            "sv": "24 timmar",
+            "no": "24 timer",
+            "es": "24 horas",
+            "da": "24 timer",
+            "pl": "24 godziny"
+          }
+        },
+        {
+          "id": "7d",
+          "title": {
+            "en": "7 days",
+            "nl": "7 dagen",
+            "de": "7 Tage",
+            "fr": "7 jours",
+            "it": "7 giorni",
+            "sv": "7 dagar",
+            "no": "7 dager",
+            "es": "7 días",
+            "da": "7 dage",
+            "pl": "7 dni"
+          }
+        },
+        {
+          "id": "30d",
+          "title": {
+            "en": "30 days",
+            "nl": "30 dagen",
+            "de": "30 Tage",
+            "fr": "30 jours",
+            "it": "30 giorni",
+            "sv": "30 dagar",
+            "no": "30 dager",
+            "es": "30 días",
+            "da": "30 dage",
+            "pl": "30 dni"
+          }
+        }
+      ]
+    },
+    {
+      "id": "filter",
+      "type": "dropdown",
+      "title": {
+        "en": "Activity type",
+        "nl": "Type activiteit",
+        "de": "Aktivitätstyp",
+        "fr": "Type d'activité",
+        "it": "Tipo di attività",
+        "sv": "Aktivitetstyp",
+        "no": "Aktivitetstype",
+        "es": "Tipo de actividad",
+        "da": "Aktivitetstype",
+        "pl": "Typ aktywności"
+      },
+      "value": "all",
+      "values": [
+        {
+          "id": "all",
+          "title": {
+            "en": "All activity",
+            "nl": "Alle activiteiten",
+            "de": "Alle Aktivitäten",
+            "fr": "Toute activité",
+            "it": "Tutte le attività",
+            "sv": "All aktivitet",
+            "no": "All aktivitet",
+            "es": "Toda la actividad",
+            "da": "Al aktivitet",
+            "pl": "Cała aktywność"
+          }
+        },
+        {
+          "id": "installs",
+          "title": {
+            "en": "Installs only",
+            "nl": "Alleen installaties",
+            "de": "Nur Installationen",
+            "fr": "Installations uniquement",
+            "it": "Solo installazioni",
+            "sv": "Endast installationer",
+            "no": "Bare installasjoner",
+            "es": "Solo instalaciones",
+            "da": "Kun installationer",
+            "pl": "Tylko instalacje"
+          }
+        },
+        {
+          "id": "releases",
+          "title": {
+            "en": "Releases & reviews",
+            "nl": "Releases & reviews",
+            "de": "Releases & Prüfungen",
+            "fr": "Versions & revues",
+            "it": "Rilasci e revisioni",
+            "sv": "Releaser & granskningar",
+            "no": "Utgivelser & gjennomganger",
+            "es": "Versiones y revisiones",
+            "da": "Udgivelser & gennemgange",
+            "pl": "Wydania i recenzje"
+          }
+        },
+        {
+          "id": "activity",
+          "title": {
+            "en": "Rating, suggestions & devices",
+            "nl": "Beoordeling, suggesties & apparaten",
+            "de": "Bewertung, Vorschläge & Geräte",
+            "fr": "Note, suggestions & appareils",
+            "it": "Valutazione, suggerimenti e dispositivi",
+            "sv": "Betyg, förslag & enheter",
+            "no": "Vurdering, forslag & enheter",
+            "es": "Valoración, sugerencias y dispositivos",
+            "da": "Bedømmelse, forslag & enheder",
+            "pl": "Ocena, sugestie i urządzenia"
+          }
+        }
+      ]
+    }
+  ]
+}

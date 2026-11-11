@@ -1,0 +1,158 @@
+{
+  "name": {
+    "en": "App Installs",
+    "nl": "App-installaties",
+    "de": "App-Installationen",
+    "fr": "Installations des apps",
+    "it": "Installazioni app",
+    "sv": "Appinstallationer",
+    "no": "App-installasjoner",
+    "es": "Instalaciones de apps",
+    "da": "App-installationer",
+    "pl": "Instalacje aplikacji"
+  },
+  "height": 400,
+  "api": {
+    "getData": {
+      "method": "GET",
+      "path": "/"
+    }
+  },
+  "devices": {
+    "type": "app",
+    "singular": true,
+    "filter": {
+      "capabilities": "app_count"
+    }
+  },
+  "settings": [
+    {
+      "id": "sort",
+      "type": "dropdown",
+      "title": {
+        "en": "Sort apps by",
+        "nl": "Sorteer apps op",
+        "de": "Apps sortieren nach",
+        "fr": "Trier les apps par",
+        "it": "Ordina le app per",
+        "sv": "Sortera appar efter",
+        "no": "Sorter apper etter",
+        "es": "Ordenar apps por",
+        "da": "Sortér apps efter",
+        "pl": "Sortuj aplikacje według"
+      },
+      "value": "installs",
+      "values": [
+        {
+          "id": "installs",
+          "title": {
+            "en": "Installs",
+            "nl": "Installaties",
+            "de": "Installationen",
+            "fr": "Installations",
+            "it": "Installazioni",
+            "sv": "Installationer",
+            "no": "Installasjoner",
+            "es": "Instalaciones",
+            "da": "Installationer",
+            "pl": "Instalacje"
+          }
+        },
+        {
+          "id": "growth",
+          "title": {
+            "en": "7-day growth",
+            "nl": "7-daagse groei",
+            "de": "Wachstum 7 Tage",
+            "fr": "Croissance sur 7 jours",
+            "it": "Crescita a 7 giorni",
+            "sv": "Tillväxt 7 dagar",
+            "no": "Vekst 7 dager",
+            "es": "Crecimiento a 7 días",
+            "da": "Vækst 7 dage",
+            "pl": "Wzrost 7 dni"
+          }
+        },
+        {
+          "id": "name",
+          "title": {
+            "en": "App name",
+            "nl": "Appnaam",
+            "de": "App-Name",
+            "fr": "Nom de l'app",
+            "it": "Nome dell'app",
+            "sv": "Appnamn",
+            "no": "Appnavn",
+            "es": "Nombre de la app",
+            "da": "Appnavn",
+            "pl": "Nazwa aplikacji"
+          }
+        }
+      ]
+    },
+    {
+      "id": "limit",
+      "type": "dropdown",
+      "title": {
+        "en": "Apps shown",
+        "nl": "Aantal apps",
+        "de": "Angezeigte Apps",
+        "fr": "Apps affichées",
+        "it": "App mostrate",
+        "sv": "Visade appar",
+        "no": "Viste apper",
+        "es": "Apps mostradas",
+        "da": "Viste apps",
+        "pl": "Wyświetlane aplikacje"
+      },
+      "value": "8",
+      "values": [
+        {
+          "id": "5",
+          "title": {
+            "en": "5 apps",
+            "nl": "5 apps",
+            "de": "5 Apps",
+            "fr": "5 apps",
+            "it": "5 app",
+            "sv": "5 appar",
+            "no": "5 apper",
+            "es": "5 apps",
+            "da": "5 apps",
+            "pl": "5 aplikacji"
+          }
+        },
+        {
+          "id": "8",
+          "title": {
+            "en": "8 apps",
+            "nl": "8 apps",
+            "de": "8 Apps",
+            "fr": "8 apps",
+            "it": "8 app",
+            "sv": "8 appar",
+            "no": "8 apper",
+            "es": "8 apps",
+            "da": "8 apps",
+            "pl": "8 aplikacji"
+          }
+        },
+        {
+          "id": "12",
+          "title": {
+            "en": "12 apps",
+            "nl": "12 apps",
+            "de": "12 Apps",
+            "fr": "12 apps",
+            "it": "12 app",
+            "sv": "12 appar",
+            "no": "12 apper",
+            "es": "12 apps",
+            "da": "12 apps",
+            "pl": "12 aplikacji"
+          }
+        }
+      ]
+    }
+  ]
+}
